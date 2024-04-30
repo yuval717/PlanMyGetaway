@@ -1,0 +1,159 @@
+﻿body {
+}
+/*בלוק מתחת לתפריט*/
+#nav-block_UnderneathNavigation {
+    height: 282.5px; /* Height of the navy blue block */
+    background-color: #003366; /* Navy blue color */
+}
+
+.AgeDiv {
+    background-color: blue; /* White background */
+}
+
+/*פקדי בר הזמנה*/
+.Controls {
+    width: 310px; /* Increased width */
+    height: 55px; /* Increased height */
+    background-color: white; /* White background */
+    border-radius: 7px; /* Rounded edges */
+    border: 1px solid #ccc; /* Add a light border for better visibility */
+    font-size: 16px; /* Larger font size for better readability */
+}
+/*כפתור צור בבר הזמנה*/
+.Create {
+    width: 124px; /* Increased width */
+    height: 55px; /* Increased height */
+    background-color: yellow; /* White background */
+    border-radius: 10px; /* Rounded edges */
+    border: 1px solid #ccc; /* Add a light border for better visibility */
+    font-size: 16px; /* Larger font size for better readability */
+}
+
+/*בר הזמנה*/
+.Order {
+    width: 1080px;
+    border-radius: 7px; /* Makes the border corners rounded */
+    padding: 0px; /* Adds space between the border and the content inside the div */
+    background-color: #b3e0ff; /* Optional: sets a background color for the div */
+    margin-top: 100px; /* Adds space above the div */
+    right: 21.9%; /* Moves container to 80% from the left of the parent */
+    position: relative; /* Adds relative positioning */
+}
+
+/* כותרות - כחולות*/
+ .label-style-navy {
+    font-weight: bold; /* Makes the text bold */
+    font-size: 35px; /* Sets the size of the font */
+    color: #003366; /* Sets the text color to navy blue */
+    text-align: center; /* Centers the text horizontally */
+    display: block; /* Changes the label from inline to block to take up the full width */
+    line-height: 1.5; /* Adjusts the space between lines to help split the text into two rows if it wraps */
+    white-space: normal; /* Ensures text wraps to the next line if needed */
+    background-color: transparent; /* Ensures no background color */
+    padding: 10px 0; /* Adds some padding above and below the text for better spacing */
+    margin: 0 auto; /* Centers the block element in the container, horizontally */
+    max-width: 90%; /* Restricts the maximum width to help with text wrapping */
+}
+
+/*כותרות - לבן */
+.label-style-White-Title {
+    font-weight: bold; /* Makes the text bold */
+    font-size: 50px; /* Sets the size of the font */
+    color: #FFFFFF; /* Sets the text color to navy blue */
+    display: block; /* Changes the label from inline to block to take up the full width */
+    line-height: 1.5; /* Adjusts the space between lines to help split the text into two rows if it wraps */
+    white-space: normal; /* Ensures text wraps to the next line if needed */
+    background-color: transparent; /* Ensures no background color */
+    padding: 10px 0; /* Adds some padding above and below the text for better spacing */
+    max-width: 90%; /* Restricts the maximum width to help with text wrapping */
+    text-align: left; /* Aligns the inline children (like buttons) to the left */
+    position: relative; /* Context for absolute positioning */
+    left: 43.9%; /* Moves container to 80% from the left of the parent */
+
+}
+
+/*הסבר - לבן*/
+.label-style-White-Description {
+
+    font-size: 20px; /* Sets the size of the font */
+    color: #FFFFFF; /* Sets the text color to navy blue */
+    display: block; /* Changes the label from inline to block to take up the full width */
+    line-height: 1.5; /* Adjusts the space between lines to help split the text into two rows if it wraps */
+    white-space: normal; /* Ensures text wraps to the next line if needed */
+    background-color: transparent; /* Ensures no background color */
+    padding: 10px 0; /* Adds some padding above and below the text for better spacing */
+    max-width: 90%; /* Restricts the maximum width to help with text wrapping */
+    text-align: left; /* Aligns the inline children (like buttons) to the left */
+    position: relative; /* Context for absolute positioning */
+    left: 60.7%; /* Moves container to 80% from the left of the parent */
+}
+
+
+ /*דאטא ליסט אטרקציות*/
+.container {
+    display: flex; /* Uses flexbox to align child elements */
+    overflow-x: auto; /* Enables horizontal scrolling if content overflows */
+    white-space: nowrap; /* Keeps all child elements on the same line */
+    margin-bottom: 20px; /* Adds space below the container */
+    justify-content: center; /* Centers children horizontally within the container */
+    align-items: center; /* Optional: Centers children vertically if they have different heights */
+}
+
+.item {
+    flex: 0 0 auto; /* Flex item does not grow or shrink but can be aligned with auto margins */
+    width: 270px; /* Sets a fixed width for each item */
+    height: 270px; /* Sets a fixed height for each item */
+    margin-right: 40px; /* Adds right margin to space out items, consider removing or reducing the right margin of the last item */
+    border: 1px solid #ccc; /* Adds a light gray border */
+    border-radius: 13px; /* Rounds the corners of the border */
+    background-color: #f9f9f9; /* Sets a light grey background color */
+}
+
+
+    .item table {
+        width: 100%; /* Table width is the full width of its container */
+        border-collapse: collapse; /* Collapses border so they become one */
+    }
+
+        .item table tr td.ImageButton_Row,
+        .item table tr td.AttractionName_Row,
+        .item table tr td.PriceOrKilometers_Row {
+            text-align: center; /* Centers text horizontally in cell */
+            padding: 5px; /* Adds padding inside the cell */
+        }
+
+        .item table tr td.PriceOrKilometers_Row {
+            font-size: 0.8em; /* Sets font size relative to the parent element's font size */
+            color: #666; /* Sets text color to dark grey */
+        }
+
+/*דאטאליסט הזמנות*/
+.item_Order {
+    flex: 0 0 auto;
+    width: 270px;
+    height: 150px;
+    margin-right: 40px;
+    border: 1px solid #ccc;
+    border-radius: 13px;
+    background-color: #f9f9f9;
+}
+
+    /* Corrected class selectors */
+    .item_Order .table_Order {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .item_Order .table_Order tr td.OrderName_Row,
+        .item_Order .table_Order tr td.DaysNum_Row,
+        .item_Order .table_Order tr td.Image_Row {
+            text-align: center;
+            padding: 5px;
+        }
+
+/*בלוק רווח */
+.Space {
+    height: 100px; /* Height of the navy blue block */
+
+}
+

@@ -1,0 +1,38 @@
+﻿/* Setting height of html and body to 100% to occupy full height of the viewport */
+html, body {
+    height: 100%;
+    /* Using Arial font with fallback to sans-serif */
+    font-family: 'Arial', sans-serif;
+    margin: 0; /* Removing default margin */
+    padding: 0; /* Removing default padding */
+    background-color: #f4f4f4; /* Setting background color to light gray */
+    direction: rtl; /* Applying right-to-left layout */
+}
+
+/* Styling for navigation bar */
+#navigation {
+    display: flex; /* Using flexbox layout */
+    align-items: center; /* Aligning items vertically */
+    padding: 10px; /* Adding padding */
+    background-color: #003366; /* Navy Blue background color */
+    color: #FFFFFF; /* White text color */
+    height: 60px; /* Setting height of navigation bar */
+    justify-content: flex-start; /* Aligning items to the start */
+}
+
+/* Styling for navigation labels */
+.nav-label {
+    margin: 0 20px; /* Adding margin around labels */
+    cursor: pointer; /* Showing pointer cursor on hover */
+    text-decoration: none; /* Removing underline from text */
+    color: #FFFFFF; /* White text color */
+    font-size: 20px; /* Setting font size */
+    font-weight: bold; /* Making text bold */
+    transition: color 0.3s; /* Adding transition effect for color change */
+}
+
+    /* Styling for navigation labels on hover */
+    .nav-label:hover {
+        color: #87CEEB; /* Changing text color to Sky Blue on hover */
+    }
+

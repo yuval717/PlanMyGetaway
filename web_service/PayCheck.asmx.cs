@@ -64,11 +64,9 @@ namespace web_service
 
         public string GetConnectionString()
         {
-            string FILE_NAME = "Project_WebService.accdb";
-
-            string location = @"C:\Users\yuval\source\repos\Project_01\web_service\Data_Base\Project_WebService.accdb";
-            string ConnectionString = @"provider=Microsoft.ACE.OLEDB.16.0; data source=" + location;
-            return ConnectionString;
+            string FILE_NAME = "Project_WebService.accdb", conn = "provider = Microsoft.ACE.OLEDB.16.0; data source=";
+            try { return conn + @"C:\Users\yuval\source\repos\Project_01\WebService_CreditCard\App_Data\Project_WebService.accdb" + FILE_NAME; }
+            catch { return conn + @"C:\Users\User\OneDrive\שולחן העבודה\PlanMyGetaway\WebService_CreditCard\App_Data\" + FILE_NAME; }
         }
     }
 }
