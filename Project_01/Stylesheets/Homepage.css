@@ -6,9 +6,56 @@
     background-color: #003366; /* Navy blue color */
 }
 
-.AgeDiv {
-    background-color: blue; /* White background */
+/*הסתרת דיב הגילאים*/
+.hidden-div {
+    visibility: hidden; /* Makes the div invisible */
 }
+
+/*דיב גילאים*/
+.AgeDiv {
+    flex: 0 0 auto; /* Flex item does not grow or shrink but can be aligned with auto margins */
+    width: 213.5px; /* Sets a fixed width for each item */
+    height: 276px; /* Sets a fixed height for each item */
+    border: 1px solid #ccc; /* Adds a light gray border */
+    background-color: white; /* Sets a light grey background color */
+    border-radius: 1.5px; /* Rounded edges */
+    text-align: center; /* Aligns the inline children (like buttons) to the left */
+    position: absolute; /* Or 'fixed' if you want it to stay in a fixed position on the screen */ /*מאפשר לדרוס אלמנטים אחרים במסך*/
+    top: 385px; /* Specify the vertical position */ /*מזיז את האלמנט מעלה מטה*/
+    left: 632px; /* Specify the horizontal position */ /*מזיז את האלמנט ימינה שמאלה*/
+    box-shadow: 0 0px 9px 2.5px rgba(0, 0, 0, 0.23); /*צל*/
+}
+
+/*כיתוב שחור -גילאים*/
+.label-style-black {
+    font-size: 12px; /* Font size for all controls */
+    font-weight: bold
+}
+/*טקסטבוקז גילאים*/
+.Textbox-style-black {
+    padding: 5px; /* Padding inside the input boxes */
+    border: 1px solid #454545; /* Border for inputs */
+    border-radius: 4px; /* Rounded corners for inputs */
+    color: black;
+    background-color: #f4f4f4;
+}
+
+/*כפתור אישור - גילאים*/
+.button-style {
+    background-color: white; /* grey background for button */
+    color: #003366; /* White text color for button */
+    border: 2px solid #003366;
+    font-weight: bold;
+    padding: 10px; /* Padding inside the button */
+    border-radius: 4px; /* Rounded corners for button */
+    cursor: pointer; /* Pointer cursor when hovering over the button */
+    width: 183px
+}
+/*שינוי צבע בעת עליה עליו - כפתור אישור*/
+    .button-style:hover {
+        background-color: #b3e0ff; /* Darker green on hover */
+    }
+
 
 /*פקדי בר הזמנה*/
 .Controls {
@@ -18,7 +65,9 @@
     border-radius: 7px; /* Rounded edges */
     border: 1px solid #ccc; /* Add a light border for better visibility */
     font-size: 16px; /* Larger font size for better readability */
+    cursor: pointer; /* Pointer cursor when hovering over the button */
 }
+
 /*כפתור צור בבר הזמנה*/
 .Create {
     width: 124px; /* Increased width */
@@ -27,7 +76,13 @@
     border-radius: 10px; /* Rounded edges */
     border: 1px solid #ccc; /* Add a light border for better visibility */
     font-size: 16px; /* Larger font size for better readability */
+    cursor: pointer; /* Pointer cursor when hovering over the button */
 }
+
+/*שינוי צבע בעת עליה עליו - כפתור אישור*/
+    .Create:hover {
+        background-color: #FFD700; /* Darker green on hover */
+    }
 
 /*בר הזמנה*/
 .Order {
@@ -107,6 +162,7 @@
     border: 1px solid #ccc; /* Adds a light gray border */
     border-radius: 13px; /* Rounds the corners of the border */
     background-color: #f9f9f9; /* Sets a light grey background color */
+
 }
 
 
@@ -115,11 +171,17 @@
         border-collapse: collapse; /* Collapses border so they become one */
     }
 
-        .item table tr td.ImageButton_Row,
+        
         .item table tr td.AttractionName_Row,
         .item table tr td.PriceOrKilometers_Row {
             text-align: center; /* Centers text horizontally in cell */
             padding: 5px; /* Adds padding inside the cell */
+        }
+
+        .item table tr td.ImageButton_Row {
+            text-align: center; /* Centers text horizontally in cell */
+            padding: 5px; /* Adds padding inside the cell */
+            cursor: pointer; /* Pointer cursor when hovering over the button */
         }
 
         .item table tr td.PriceOrKilometers_Row {

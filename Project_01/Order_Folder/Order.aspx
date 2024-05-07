@@ -34,14 +34,48 @@
                 </ItemTemplate>
             </asp:DataList>--%>
 
-            <asp:Label ID="Label1" runat="server" Text="כתובת התחלת מסלול"></asp:Label>
-            <asp:TextBox ID="StartPlace" runat="server"></asp:TextBox> 
-            <br/>
-            <asp:Label ID="Label2" runat="server" Text="שעת תחילת היום"></asp:Label>
-            <asp:TextBox ID="StartDayTime" runat="server"></asp:TextBox> 
-            <br/>
-            <asp:Label ID="Label3" runat="server" Text="שעת סיום היום"></asp:Label>
-            <asp:TextBox ID="EndDayTime" runat="server"></asp:TextBox> 
+            <asp:DataList ID="DayPreferences" runat="server" RepeatDirection="Horizontal" RepeatColumns="5" CellSpacing="30" OnItemDataBound="DayPreferences_ItemDataBound">
+                <ItemTemplate>
+                    <table>
+                        <tr>
+                            <td >
+                                <asp:Label ID="DayDate_Lable" runat="server" Text=""></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <asp:Label ID="StartPlace_Lable" runat="server" Text="כתובת התחלת מסלול"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <asp:TextBox ID="StartPlace" runat="server"></asp:TextBox>
+                            </td>
+                        </tr>
+                            <tr>
+                            <td >
+                                <asp:Label ID="StartDayTime_Lable" runat="server" Text="שעת תחילת היום"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <asp:TextBox ID="StartDayTime" TextMode="Time" runat="server"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <asp:Label ID="EndDayTime_Lable" runat="server" Text="שעת סיום היום"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <asp:TextBox ID="EndDayTime" TextMode="Time" runat="server"></asp:TextBox>
+                            </td>
+                        </tr>
+                    </table>
+                </ItemTemplate>
+            </asp:DataList>
+
             <br/>
             <br/>
             <asp:DataList ID="DataList1" runat="server" OnItemDataBound="DataList1_ItemDataBound" Visible ="false">

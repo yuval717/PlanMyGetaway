@@ -9,7 +9,7 @@
             <asp:Label ID="OrderDescription" CssClass="label-style-White-Description" runat="server" Text="צרו חופשה בקליק"></asp:Label>
 
         <div class="Order">
-            <asp:DataList ID="OrderMenu" runat="server">
+            <asp:DataList ID="OrderMenu" runat="server" OnItemCommand="OrderMenu_ItemCommand">
                 <ItemTemplate>
                 <div >
                 <table >
@@ -21,10 +21,10 @@
                             <asp:TextBox ID="ToDate" CssClass="Controls" TextMode="Date" runat="server"></asp:TextBox>
                         </td>
                         <td>
-                            <asp:Button ID="Ages" CssClass="Controls" runat="server" Text="גילאים" />
+                            <asp:Button ID="Ages" CssClass="Controls" runat="server" Text="גילאים" CommandName="DoShow" />           
                         </td>
                         <td>
-                            <asp:Button ID="Create" CssClass="Create" runat="server" Text="צור" />
+                            <asp:Button ID="Create" CssClass="Create" runat="server" Text="צור" CommandName="create" />
                         </td>
                     </tr>
                 </table>
@@ -32,23 +32,32 @@
         </ItemTemplate>
             </asp:DataList>
         </div>
+        <asp:Label ID="Label6" runat="server" Text="מתאריך" style=" position: absolute; top: 333px; left: 1442px; font-size: 12px;" ></asp:Label> <%--יותר קטן = שמאלה יותר קטן = מעלה--%>
+        <asp:Label ID="Label7" runat="server" Text="לתאריך" style=" position: absolute; top: 333px; left: 1126.5px; font-size: 12px;" ></asp:Label>
+
+        <div id="Age" class ="AgeDiv" style="display: none;" runat="server" >
+            <br/>
+         <br/>
+        <asp:Label ID="MinAgeLabel" cssclass="label-style-black" runat="server" Text="גיל נופש מינימלי" ></asp:Label>
+            <asp:TextBox ID="MinAgeTextBox" cssclass="Textbox-style-black" runat="server" ></asp:TextBox>
+            <br/>
+            <br/>
+            <asp:Label ID="MaxAgeLabel" cssclass="label-style-black" runat="server" Text="גיל נופש מקסימלי"></asp:Label>
+            <asp:TextBox ID="MaxAgeTextBox" cssclass="Textbox-style-black" runat="server"></asp:TextBox>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <asp:Button ID="Done" cssclass="button-style" runat="server" Text="אישור" OnClick="Button10_Click" />
+
+        </div>
+
+
 
     </div> <!-- This is the block beneath the menu -->
     <div class ="Space" ></div>
 
-    <div class="Ages" visible="false"> 
-        <asp:Label ID="MinAgeLabel" runat="server" Text="גיל נופש מינימלי"></asp:Label>
-            <asp:TextBox ID="MinAgeTextBox" runat="server"></asp:TextBox>
-
-            <br/>
-            <asp:Label ID="MaxAgeLabel" runat="server" Text="גיל נופש מקסימלי"></asp:Label>
-            <asp:TextBox ID="MaxAgeTextBox" runat="server"></asp:TextBox>
-            <br/>
-            <asp:Button ID="Done" runat="server" Text="אישור" />
-    </div>
-            
-
-    <asp:Label ID="Label3" CssClass=" label-style-navy " runat="server" Text="הועלה לאחרונה"></asp:Label>
+    <asp:Label ID="Label3" CssClass=" label-style-navy " runat="server" Text="הועלו מאז הכניסה האחרונה"></asp:Label>
     <div class="container">
     <asp:DataList ID="NewAttractionsSinceLastEntrance" runat="server" RepeatDirection="Horizontal" RepeatColumns="5" CellSpacing="3" OnItemDataBound="DataList1_ItemDataBound" OnItemCommand="DataList1_ItemCommand1">
         <ItemTemplate>

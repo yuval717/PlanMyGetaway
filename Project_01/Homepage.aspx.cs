@@ -146,6 +146,31 @@ namespace Project_01
             Label days = (Label)e.Item.FindControl("Label2");
             days.Text += " ימים";
         }
+        protected void OrderMenu_ItemCommand(object source, DataListCommandEventArgs e) // העברת נתוני ההזמנה לעמוד הזמנה
+        {
+            //Move to another page to show the product
+            if (e.CommandName == "create")
+            {
+                ArrayList orderarr = new ArrayList();
+                orderarr.Add(((TextBox)e.Item.FindControl("FromDate")).Text); //מתאריך
+                orderarr.Add(((TextBox)e.Item.FindControl("ToDate")).Text); // לתאריך
+                orderarr.Add(MinAgeTextBox.Text); // גיל מינימלי
+                orderarr.Add(MaxAgeTextBox.Text);// גיל מקסימלי
+                Session["orderarr"] = orderarr;
+            }
+            if (e.CommandName == "DoShow")
+            {
+                Age.Style["display"] = "block";
+            }
+        }
+
+        protected void Button10_Click(object sender, EventArgs e)
+        {
+            Age.Style["display"] = "none";
+            MinAgeTextBox.Text = MinAgeTextBox.Text;
+            MaxAgeTextBox.Text = MaxAgeTextBox.Text;
+        }
+
 
         protected void DataList1_ItemCommand1(object source, DataListCommandEventArgs e)
         {
@@ -249,6 +274,8 @@ namespace Project_01
                 }
             }
         }
+
+
 
         protected void Button2_Click(object sender, EventArgs e)
         {
