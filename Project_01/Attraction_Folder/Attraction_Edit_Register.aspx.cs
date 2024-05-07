@@ -34,7 +34,7 @@ namespace Project_01
                 Attraction_MinAge.Text = a.Attraction_MinAge;//
                 Attraction_MaxAge.Text = a.Attraction_MaxAge;//
                 Attraction_Price.Text = a.Attraction_Price;//
-                Attraction_Duration.Text = a.Attraction_Duration;//
+                Attraction_Duration.Text = a.Attraction_Duration.ToString();//
                 Attraction_Address.Text = a.Attraction_Address;//
                 Attraction_Gmail.Text = a.Attraction_Gmail;//
                 Attraction_PhonNumber.Text = a.Attraction_PhonNumber;//

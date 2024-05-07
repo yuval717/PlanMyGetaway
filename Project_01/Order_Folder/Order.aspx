@@ -18,18 +18,65 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <asp:Calendar ID="Calendar1" runat="server"></asp:Calendar>
+
+<%--            <asp:DataList ID="AttractionTypePreference" runat="server">
+                <ItemTemplate>
+                    <table>
+                        <tr>
+                            <td >
+                                <asp:Button ID="NameType" runat="server" Text='<%# Bind("AttractionType_Type") %>' CommandName="VacationType_Button" />
+                            </td>
+                             <td >
+                                 <asp:Image ID="TypeIcon" ImageUrl='<%# Bind("AttractionType_Logo") %>' runat="server" />
+                            </td>
+                        </tr>
+                    </table>
+                </ItemTemplate>
+            </asp:DataList>--%>
+
+            <asp:DataList ID="DayPreferences" runat="server" RepeatDirection="Horizontal" RepeatColumns="5" CellSpacing="30" OnItemDataBound="DayPreferences_ItemDataBound">
+                <ItemTemplate>
+                    <table>
+                        <tr>
+                            <td >
+                                <asp:Label ID="DayDate_Lable" runat="server" Text=""></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <asp:Label ID="StartPlace_Lable" runat="server" Text="כתובת התחלת מסלול"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <asp:TextBox ID="StartPlace" runat="server"></asp:TextBox>
+                            </td>
+                        </tr>
+                            <tr>
+                            <td >
+                                <asp:Label ID="StartDayTime_Lable" runat="server" Text="שעת תחילת היום"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <asp:TextBox ID="StartDayTime" TextMode="Time" runat="server"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <asp:Label ID="EndDayTime_Lable" runat="server" Text="שעת סיום היום"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <asp:TextBox ID="EndDayTime" TextMode="Time" runat="server"></asp:TextBox>
+                            </td>
+                        </tr>
+                    </table>
+                </ItemTemplate>
+            </asp:DataList>
+
             <br/>
-            <asp:Label ID="Label1" runat="server" Text="כתובת התחלת מסלול"></asp:Label>
-            <asp:TextBox ID="StartPlace" runat="server"></asp:TextBox> 
-            <br/>
-            <asp:Label ID="Label2" runat="server" Text="שעת תחילת היום"></asp:Label>
-            <asp:TextBox ID="StartDayTime" runat="server"></asp:TextBox> 
-            <br/>
-            <asp:Label ID="Label3" runat="server" Text="שעת סיום היום"></asp:Label>
-            <asp:TextBox ID="EndDayTime" runat="server"></asp:TextBox> 
-            <br/>
-            <asp:Button ID="Button2" runat="server" Text="Button" OnClick="Button2_Click" />
             <br/>
             <asp:DataList ID="DataList1" runat="server" OnItemDataBound="DataList1_ItemDataBound" Visible ="false">
                 <ItemTemplate>
@@ -48,10 +95,12 @@
                     </table>
                 </ItemTemplate>
             </asp:DataList>
+
+            <asp:CheckBoxList ID="AttractionTypePreference" runat="server"></asp:CheckBoxList>
+            <br/>
             <asp:Button ID="Create" runat="server" Text="Create" OnClick="Create_Click" Visible ="false"/>
             <br/>
-            <asp:Button ID="Button3" runat="server" Text="Button" OnClick="Button3_Click" Visible ="false"/>
-            <%--<asp:TextBox ID="TextBox1" runat="server" TextMode="Date" ></asp:TextBox>--%>
+            
         </div>
     </form>
 </body>

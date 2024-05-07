@@ -13,5 +13,10 @@ namespace Project_01
         {
 
         }
+
+        protected void Menu_Click(object sender, EventArgs e) //sender is which element caused the event
+        { //Both ImageButton and LinkButton implement IButtonControl
+            Response.Redirect(((IButtonControl)sender).CommandName + ".aspx");
+        }
     }
 }

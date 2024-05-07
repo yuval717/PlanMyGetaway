@@ -14,7 +14,7 @@ namespace Project_01
         public string Attraction_MinAge { get; set; }
         public string Attraction_MaxAge { get; set; }
         public string Attraction_Price { get; set; }
-        public string Attraction_Duration { get; set; }
+        public int Attraction_Duration { get; set; }
         public string Attraction_Address { get; set; }
         public string Attraction_Gmail { get; set; }
         public string Attraction_PhonNumber { get; set; }
@@ -42,7 +42,7 @@ namespace Project_01
         }
 
         public Attraction (string Attraction_Name, string Attraction_TypeID, string Attraction_TypeName,
-            string Attraction_MinAge,string Attraction_MaxAge, string Attraction_Price, string Attraction_Duration,
+            string Attraction_MinAge,string Attraction_MaxAge, string Attraction_Price, int Attraction_Duration,
             string Attraction_Address, string Attraction_Gmail, string Attraction_PhonNumber, string Attraction_recommendedMonth, 
             string Attraction_FreeEntry, string Attraction_Text, string Attraction_Photo)
         {
@@ -63,7 +63,7 @@ namespace Project_01
         }
 
         public Attraction(string Attraction_Name, string Attraction_TypeID, string Attraction_TypeName,
-            string Attraction_MinAge, string Attraction_MaxAge, string Attraction_Price, string Attraction_Duration,
+            string Attraction_MinAge, string Attraction_MaxAge, string Attraction_Price, int Attraction_Duration,
             string Attraction_Address, string Attraction_Gmail, string Attraction_PhonNumber, string Attraction_recommendedMonth,
             string Attraction_FreeEntry, string Attraction_Text, string Attraction_Photo, double Attraction_Latitude, double Attraction_Longitude, int Attraction_PathOrder)
         {

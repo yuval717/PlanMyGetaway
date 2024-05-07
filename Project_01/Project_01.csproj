@@ -89,9 +89,11 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Homepage.aspx" />
     <Content Include="Order_Folder\Order.aspx" />
     <Content Include="Pay.aspx" />
-    <Content Include="SmartPage.aspx" />
+    <Content Include="Stylesheets\Homepage.css" />
+    <Content Include="Stylesheets\Master.css" />
     <Content Include="User_Display.aspx" />
     <Content Include="User_Folder\User_Login.aspx" />
     <Content Include="User_Folder\User_Register.aspx" />
@@ -146,6 +148,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Homepage.aspx.cs">
+      <DependentUpon>Homepage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Homepage.aspx.designer.cs">
+      <DependentUpon>Homepage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Order_Folder\Order.aspx.cs">
       <DependentUpon>Order.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -169,13 +178,6 @@
     </Compile>
     <Compile Include="Site.Master.designer.cs">
       <DependentUpon>Site.Master</DependentUpon>
-    </Compile>
-    <Compile Include="SmartPage.aspx.cs">
-      <DependentUpon>SmartPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SmartPage.aspx.designer.cs">
-      <DependentUpon>SmartPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="User_Display.aspx.cs">
       <DependentUpon>User_Display.aspx</DependentUpon>

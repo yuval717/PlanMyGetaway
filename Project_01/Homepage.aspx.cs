@@ -11,7 +11,7 @@ using System.Collections;
 
 namespace Project_01
 {
-    public partial class SmartPage : System.Web.UI.Page
+    public partial class Homepage : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -20,6 +20,10 @@ namespace Project_01
 
             if (!Page.IsPostBack)
             {
+                DataSet k = Connect.Connect_DataSet("SELECT TOP 1 * FROM Attraction ", "Try"); // הבר חופשה
+                OrderMenu.DataSource = k;
+                OrderMenu.DataBind();
+
                 //חמש האטרציות אחרונות שהועלו מאז הכניסה האחרונה 
                 if (Session["LastCreatedAttractions"] == null)
                 {
@@ -31,7 +35,7 @@ namespace Project_01
                 }
                 else
                     ds = (DataSet)Session["LastCreatedAttractions"];
-                DataList1.DataSource = ds;
+                NewAttractionsSinceLastEntrance.DataSource = ds;
 
                 ArrayList arr_DSO = new ArrayList();
                 arr_DSO.Add(new DS_Object("SELECT * FROM Attraction INNER JOIN OwnedAttraction ON Attraction.Attraction_ID = OwnedAttraction.Attraction_ID  ", "OwnedAttraction"));
@@ -39,7 +43,7 @@ namespace Project_01
                 DataSet innerds = Connect.Connect_MultipleDataSet(arr_DSO);
                 Session["FullAttractions"] = innerds;
 
-                DataList1.DataBind();
+                NewAttractionsSinceLastEntrance.DataBind();
 
 
                 // חמש ההזמנות האחרונות של משתמש מחובר - ממויין מחדש לישן
@@ -50,7 +54,7 @@ namespace Project_01
                     Session["UserOrders"] = ds;
                 }
                 else
-                    ds = (DataSet)Session["UserOrders"]; 
+                    ds = (DataSet)Session["UserOrders"];
                 DataList2.DataSource = ds;
                 DataList2.DataBind();
 
@@ -142,6 +146,31 @@ namespace Project_01
             Label days = (Label)e.Item.FindControl("Label2");
             days.Text += " ימים";
         }
+        protected void OrderMenu_ItemCommand(object source, DataListCommandEventArgs e) // העברת נתוני ההזמנה לעמוד הזמנה
+        {
+            //Move to another page to show the product
+            if (e.CommandName == "create")
+            {
+                ArrayList orderarr = new ArrayList();
+                orderarr.Add(((TextBox)e.Item.FindControl("FromDate")).Text); //מתאריך
+                orderarr.Add(((TextBox)e.Item.FindControl("ToDate")).Text); // לתאריך
+                orderarr.Add(MinAgeTextBox.Text); // גיל מינימלי
+                orderarr.Add(MaxAgeTextBox.Text);// גיל מקסימלי
+                Session["orderarr"] = orderarr;
+            }
+            if (e.CommandName == "DoShow")
+            {
+                Age.Style["display"] = "block";
+            }
+        }
+
+        protected void Button10_Click(object sender, EventArgs e)
+        {
+            Age.Style["display"] = "none";
+            MinAgeTextBox.Text = MinAgeTextBox.Text;
+            MaxAgeTextBox.Text = MaxAgeTextBox.Text;
+        }
+
 
         protected void DataList1_ItemCommand1(object source, DataListCommandEventArgs e)
         {
@@ -151,7 +180,7 @@ namespace Project_01
                 Session["AttractionID_ForAttractionPage"] = Convert.ToInt32(((Label)e.Item.FindControl("Attraction_ID")).Text);
             }
             Session["from"] = "SmartPage.aspx";
-            Response.Redirect("Attraction_Page.aspx");
+            Response.Redirect("Attraction_Folder/Attraction_Page.aspx");
         }
 
         protected void DataList2_ItemCommand(object source, DataListCommandEventArgs e)
@@ -166,8 +195,8 @@ namespace Project_01
             {
                 Session["AttractionID_ForAttractionPage"] = Convert.ToInt32(((Label)e.Item.FindControl("Attraction_ID")).Text);
             }
-            Session["from"] = "SmartPage.aspx";
-            Response.Redirect("Attraction_Page.aspx");
+            Session["from"] = "Project_01/Homepage.aspx";
+            Response.Redirect("Attraction_Folder/Attraction_Page.aspx");
         }
 
         protected void DataList1_ItemDataBound(object sender, DataListItemEventArgs e)
@@ -182,7 +211,14 @@ namespace Project_01
                     {
                         if ((int)row["Attraction.Attraction_ID"] == IdNum)
                         {
-                            ((Label)e.Item.FindControl("PriceOrKilometers")).Text = "שח" + row["OwnedAttraction_Price"].ToString();
+                            if (row["OwnedAttraction_Price"].ToString() == "0")
+                            {
+                                ((Label)e.Item.FindControl("PriceOrKilometers")).Text = "חינם";
+                            }
+                            else
+                            {
+                                ((Label)e.Item.FindControl("PriceOrKilometers")).Text = row["OwnedAttraction_Price"].ToString() + " שח";
+                            }
                             break;
                         }
                     }
@@ -193,7 +229,7 @@ namespace Project_01
                     {
                         if ((int)row["Attraction.Attraction_ID"] == IdNum)
                         {
-                            ((Label)e.Item.FindControl("PriceOrKilometers")).Text = "קילומטר" + row["NatureAttraction_KilometersNumber"].ToString();
+                            ((Label)e.Item.FindControl("PriceOrKilometers")).Text = row["NatureAttraction_KilometersNumber"].ToString() + " קילומטר";
                             break;
                         }
                     }
@@ -213,7 +249,14 @@ namespace Project_01
                     {
                         if ((int)row["Attraction.Attraction_ID"] == IdNum)
                         {
-                            ((Label)e.Item.FindControl("PriceOrKilometers")).Text = "שח" + row["OwnedAttraction_Price"].ToString();
+                            if (row["OwnedAttraction_Price"].ToString() == "0")
+                            {
+                                ((Label)e.Item.FindControl("PriceOrKilometers")).Text = "חינם";
+                            }
+                            else
+                            {
+                                ((Label)e.Item.FindControl("PriceOrKilometers")).Text = row["OwnedAttraction_Price"].ToString() + " שח";
+                            }
                             break;
                         }
                     }
@@ -224,13 +267,15 @@ namespace Project_01
                     {
                         if ((int)row["Attraction.Attraction_ID"] == IdNum)
                         {
-                            ((Label)e.Item.FindControl("PriceOrKilometers")).Text = "קילומטר" + row["NatureAttraction_KilometersNumber"].ToString();
+                            ((Label)e.Item.FindControl("PriceOrKilometers")).Text = row["NatureAttraction_KilometersNumber"].ToString() + " קילומטר";
                             break;
                         }
                     }
                 }
             }
         }
+
+
 
         protected void Button2_Click(object sender, EventArgs e)
         {
