@@ -11,12 +11,12 @@ using System.Data.OleDb;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace Project_01
 {
     public partial class Order : System.Web.UI.Page
     {
-
         public int totalDays; // לצורך שימוש במספר פעולות
         public ArrayList orderarr; // לצורך שימוש במספר פעולות
         public string DaysDate = "";// לצורך שימוש במספר פעולות
@@ -151,8 +151,8 @@ namespace Project_01
         {
             // יצירת הזמנה
             Connect.Connect_ExecuteNonQuery("INSERT INTO Orders (Order_DaysNumber, Order_StratDate, Order_MinAge, Order_MaxAge, Order_Name," +
-                " Order_UserName, Order_AddDate )VALUES(" + "מספר הימים" + ", " + "תאריך התחלה" + ", " + " גיל מינמלי" + ", " + "גיל מקסימלי" +
-                ", " + ", " + "שם הזמנה" + ", " + "מפתח ראשי מתשמש" + ", " + DateTime.Now + "); ");
+                " Order_UserName, Order_AddDate )VALUES(" + totalDays + ", " + (string)orderarr[0] + ", " + (string)orderarr[2] + ", " + (string)orderarr[3] +
+                ", " + ", " + "OrderName" + ", " + ((User)Session["user"]).User_Name + ", " + DateTime.Now + "); "); //גילאים ותאריך לצורך סינון בדף חופשות
             int OrderCode = (int)Connect.Connect_ExecuteScalar("Select Max(Order_ID) From Orders"); // שליפת הערך האחרון של המפתח רץ - קוד ההזמנה שיצרנו
 
             DataSet ds = (DataSet)Session["PreferneceDS"]; // לקיחת הסשן
@@ -179,16 +179,15 @@ namespace Project_01
             s = s.Substring(0, s.Length - 21);// החסרת "OR Attraction_Type= "
 
 
-            string OrderDate = "";//לפי תאריך המסלול - לוקחים מבדאטא ליסט
+            string OrderDate = "";//לפי תאריך הלולאה
             // מסלול יומי - לולאה
 
             string StartDayTime = ((TextBox)DayPreferences.Items[1].FindControl("StartDayTime")).Text;
             string EndDayTime=((TextBox) DayPreferences.Items[1].FindControl("EndDayTime")).Text;
 
-            Connect.Connect_ExecuteNonQuery("INSERT INTO Day (Day_StartHour, Day_EndHour, Order_ID, Day_Date ...) VALUES( " + StartDayTime + ", " + EndDayTime + ", " + OrderCode + ", " + OrderDate + "); ");// יצירת יום
+            Connect.Connect_ExecuteNonQuery("INSERT INTO Day (Day_StartHour, Day_EndHour, Order_ID, Day_Date ...) " +
+                "VALUES( " + StartDayTime + ", " + EndDayTime + ", " + OrderCode + ", " + OrderDate + "); ");// יצירת יום
             int DayCode = (int)Connect.Connect_ExecuteScalar("Select Max(Day_ID) From Day"); // שליפת הערך האחרון של המפתח רץ - קוד היום שיצרנו
-
-            ;
 
             // חישוב הזמן בדקות של הזמן שהוכנס משעה עד שעה
             string time1 = EndDayTime; // "12:30"

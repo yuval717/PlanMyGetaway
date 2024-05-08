@@ -33,7 +33,9 @@
                     </table>
                 </ItemTemplate>
             </asp:DataList>--%>
-
+            <asp:Label ID="OrderName_Lable" runat="server" Text="שם הזמנה"></asp:Label>
+            <asp:TextBox ID="OrderName" runat="server"></asp:TextBox>
+            <br />
             <asp:DataList ID="DayPreferences" runat="server" RepeatDirection="Horizontal" RepeatColumns="5" CellSpacing="30" OnItemDataBound="DayPreferences_ItemDataBound">
                 <ItemTemplate>
                     <table>

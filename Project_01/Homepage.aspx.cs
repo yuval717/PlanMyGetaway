@@ -38,7 +38,7 @@ namespace Project_01
                 NewAttractionsSinceLastEntrance.DataSource = ds;
 
                 ArrayList arr_DSO = new ArrayList();
-                arr_DSO.Add(new DS_Object("SELECT * FROM Attraction INNER JOIN OwnedAttraction ON Attraction.Attraction_ID = OwnedAttraction.Attraction_ID  ", "OwnedAttraction"));
+                arr_DSO.Add(new DS_Object("SELECT * FROM Attraction", "Attraction"));
                 arr_DSO.Add(new DS_Object("SELECT * FROM Attraction INNER JOIN NatureAttraction ON Attraction.Attraction_ID = NatureAttraction.Attraction_ID  ", "NatureAttraction"));
                 DataSet innerds = Connect.Connect_MultipleDataSet(arr_DSO);
                 Session["FullAttractions"] = innerds;
@@ -207,17 +207,17 @@ namespace Project_01
                 int TypeNum = Convert.ToInt32(((Label)e.Item.FindControl("Attraction_VacationType_ID")).Text);
                 if (TypeNum != 3)
                 {
-                    foreach (DataRow row in ((DataSet)Session["FullAttractions"]).Tables["OwnedAttraction"].Rows)
+                    foreach (DataRow row in ((DataSet)Session["FullAttractions"]).Tables["Attraction"].Rows)
                     {
-                        if ((int)row["Attraction.Attraction_ID"] == IdNum)
+                        if ((int)row["Attraction_ID"] == IdNum)
                         {
-                            if (row["OwnedAttraction_Price"].ToString() == "0")
+                            if (row["Attraction_Price"].ToString() == "0")
                             {
                                 ((Label)e.Item.FindControl("PriceOrKilometers")).Text = "חינם";
                             }
                             else
                             {
-                                ((Label)e.Item.FindControl("PriceOrKilometers")).Text = row["OwnedAttraction_Price"].ToString() + " שח";
+                                ((Label)e.Item.FindControl("PriceOrKilometers")).Text = row["Attraction_Price"].ToString() + " שח";
                             }
                             break;
                         }
@@ -245,17 +245,17 @@ namespace Project_01
                 int TypeNum = Convert.ToInt32(((Label)e.Item.FindControl("Attraction_VacationType_ID")).Text);
                 if (TypeNum != 3)
                 {
-                    foreach (DataRow row in ((DataSet)Session["FullAttractions"]).Tables["OwnedAttraction"].Rows)
+                    foreach (DataRow row in ((DataSet)Session["FullAttractions"]).Tables["Attraction"].Rows)
                     {
-                        if ((int)row["Attraction.Attraction_ID"] == IdNum)
+                        if ((int)row["Attraction_ID"] == IdNum)
                         {
-                            if (row["OwnedAttraction_Price"].ToString() == "0")
+                            if (row["Attraction_Price"].ToString() == "0")
                             {
                                 ((Label)e.Item.FindControl("PriceOrKilometers")).Text = "חינם";
                             }
                             else
                             {
-                                ((Label)e.Item.FindControl("PriceOrKilometers")).Text = row["OwnedAttraction_Price"].ToString() + " שח";
+                                ((Label)e.Item.FindControl("PriceOrKilometers")).Text = row["Attraction_Price"].ToString() + " שח";
                             }
                             break;
                         }
