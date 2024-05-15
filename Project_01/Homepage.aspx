@@ -4,11 +4,15 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <%--בלוק כחול מתחת לתפריט--%>
     <div id="nav-block_UnderneathNavigation">
+        <%-- כותרות-לבן-בתוך הבלוק --%>
             <asp:Label ID="OrderTitle" CssClass="label-style-White-Title" runat="server" Text="רק תארזו, אנחנו נתכנן"></asp:Label>
             <asp:Label ID="OrderDescription" CssClass="label-style-White-Description" runat="server" Text="צרו חופשה בקליק"></asp:Label>
 
+        <%-- בר הזמנה --%>
         <div class="Order">
+            <%-- כפתורי בר הזמנה- בתוך דאטאליסט --%>
             <asp:DataList ID="OrderMenu" runat="server" OnItemCommand="OrderMenu_ItemCommand">
                 <ItemTemplate>
                 <div >
@@ -32,13 +36,17 @@
         </ItemTemplate>
             </asp:DataList>
         </div>
+
+        <%-- כיתוב-מ\ל תאריך-בתוך כפתורי בר הזמנה --%>
         <asp:Label ID="Label6" runat="server" Text="מתאריך" style=" position: absolute; top: 333px; left: 1442px; font-size: 12px;" ></asp:Label> <%--יותר קטן = שמאלה יותר קטן = מעלה--%>
         <asp:Label ID="Label7" runat="server" Text="לתאריך" style=" position: absolute; top: 333px; left: 1126.5px; font-size: 12px;" ></asp:Label>
 
+        <%-- חלונית גילאים-נפתח בעת לחיצה על כפתור בר ההזמנה - גילאים --%>
         <div id="Age" class ="AgeDiv" style="display: none;" runat="server" >
+            <%-- כפתורי חלון נפתח --%>
             <br/>
-         <br/>
-        <asp:Label ID="MinAgeLabel" cssclass="label-style-black" runat="server" Text="גיל נופש מינימלי" ></asp:Label>
+            <br/>
+            <asp:Label ID="MinAgeLabel" cssclass="label-style-black" runat="server" Text="גיל נופש מינימלי" ></asp:Label>
             <asp:TextBox ID="MinAgeTextBox" cssclass="Textbox-style-black" runat="server" ></asp:TextBox>
             <br/>
             <br/>
@@ -53,11 +61,13 @@
         </div>
 
 
+    <%-- בלוק רווח מתחת לבר הזמנה --%>
+    </div> <div class ="Space" ></div>
 
-    </div> <!-- This is the block beneath the menu -->
-    <div class ="Space" ></div>
-
+    <%-- כותרת - כחולות --%>
     <asp:Label ID="Label3" CssClass=" label-style-navy " runat="server" Text="הועלו מאז הכניסה האחרונה"></asp:Label>
+
+    <%-- דאטא ליסט אטרקציות - הועלו מאז הכניסה האחרונה --%>
     <div class="container">
     <asp:DataList ID="NewAttractionsSinceLastEntrance" runat="server" RepeatDirection="Horizontal" RepeatColumns="5" CellSpacing="3" OnItemDataBound="DataList1_ItemDataBound" OnItemCommand="DataList1_ItemCommand1">
         <ItemTemplate>
@@ -77,6 +87,11 @@
                     </tr>
                     <tr>
                         <td class="PriceOrKilometers_Row">
+                            <asp:Label ID="AttractionType_Type" runat="server" Text='<%# Bind("AttractionType_Type") %>'></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="PriceOrKilometers_Row">
                             <asp:Label ID="PriceOrKilometers" runat="server"></asp:Label>
                         </td>
                     </tr>
@@ -84,10 +99,13 @@
             </div>
         </ItemTemplate>
     </asp:DataList>
-</div>
+    </div>
 
-            <br/>
-            <asp:Label ID="Label4" CssClass=" label-style-navy " runat="server" Text="החופשות שלי"></asp:Label>
+    <br/>
+    <%-- כותרת - כחולות --%>
+    <asp:Label ID="Label4" CssClass=" label-style-navy " runat="server" Text="החופשות שלי"></asp:Label>
+
+    <%-- דאטא ליסט חופשות - החופשות שלי --%>
     <div class="container">
             <asp:DataList ID="DataList2" runat="server" RepeatDirection="Horizontal" RepeatColumns="5" CellSpacing="3" OnItemDataBound="DataList2_ItemDataBound" OnItemCommand="DataList2_ItemCommand">
                 <ItemTemplate>
@@ -113,13 +131,16 @@
                     </div>
                 </ItemTemplate>
             </asp:DataList>
-        </div>
+    </div>
             
-            <br/>
-            <br/>
-            <asp:Label ID="Label5" CssClass=" label-style-navy " runat="server" Text="אטרקציות מומלצות לפי הזמנות קודמות"></asp:Label>
+    <br/>
+    <br/>
+    <%-- כותרת - כחולות --%>
+    <asp:Label ID="Label5" CssClass=" label-style-navy " runat="server" Text="אטרקציות מומלצות לפי הזמנות קודמות"></asp:Label>
+
+    <%-- דאטא ליסט אטרקציות - מומלצות לפי הזמנות קודמות --%>
     <div class="container">
-            <asp:DataList ID="DataList3" runat="server" RepeatDirection="Horizontal" RepeatColumns="5" CellSpacing="3" OnItemDataBound="DataList3_ItemDataBound" OnItemCommand="DataList3_ItemCommand">
+            <asp:DataList ID="DataList3" runat="server" RepeatDirection="Horizontal" RepeatColumns="5" CellSpacing="3" OnItemDataBound="DataList1_ItemDataBound" OnItemCommand="DataList1_ItemCommand1">
                 <ItemTemplate>
                     <div class="item">
                         <table class="table">
@@ -144,8 +165,11 @@
                 </div>
              </ItemTemplate>
          </asp:DataList>
-    </div/>
-    <div class ="Space" ></div>
+   </div/>
+
+    <%-- בלוק רווח- מרווח את סוף העמוד --%>
+   <div class ="Space" ></div>
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="FooterContent" runat="server">
 </asp:Content>

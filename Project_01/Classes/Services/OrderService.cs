@@ -22,9 +22,11 @@ namespace Project_01
 
             foreach (DataRow row in attractionTable.Rows)
             {
-                string attractionID = (row["Attraction_ID"]).ToString();
+                int attractionID = Convert.ToInt32(row["Attraction_ID"]);
                 double attractionLat = Convert.ToDouble(row["Attraction_Latitude"]);
                 double attractionLng = Convert.ToDouble(row["Attraction_Longitude"]);
+                int AttractionDuration = Convert.ToInt32(row["Attraction_Duration"]);
+                int AttractionPathOrder = Convert.ToInt32(row["Attraction_PathOrder"]);
 
                 // Calculate distance between the target attraction and the attraction in the DataSet
                 double distance = CalculateDistance(targetAttraction.Attraction_Latitude, targetAttraction.Attraction_Longitude, attractionLat, attractionLng);
@@ -33,7 +35,7 @@ namespace Project_01
                 if (distance < minDistance)
                 {
                     minDistance = distance;
-                    closestAttraction = new Attraction(attractionID, attractionLat, attractionLng);
+                    closestAttraction = new Attraction(attractionID, attractionLat, attractionLng, AttractionDuration, AttractionPathOrder);
                 }
             }
             return closestAttraction;
@@ -74,7 +76,7 @@ namespace Project_01
                     }
                 }
             }
-            return (new Transportation(FromAttraction, ToAttraction, MinTravleTime, MinTravleTimeType));
+            return (new Transportation(FromAttraction, ToAttraction, (int)(MinTravleTime/60), MinTravleTimeType));
         }
 
     }

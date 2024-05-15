@@ -19,20 +19,7 @@
     <form id="form1" runat="server">
         <div>
 
-<%--            <asp:DataList ID="AttractionTypePreference" runat="server">
-                <ItemTemplate>
-                    <table>
-                        <tr>
-                            <td >
-                                <asp:Button ID="NameType" runat="server" Text='<%# Bind("AttractionType_Type") %>' CommandName="VacationType_Button" />
-                            </td>
-                             <td >
-                                 <asp:Image ID="TypeIcon" ImageUrl='<%# Bind("AttractionType_Logo") %>' runat="server" />
-                            </td>
-                        </tr>
-                    </table>
-                </ItemTemplate>
-            </asp:DataList>--%>
+
             <asp:Label ID="OrderName_Lable" runat="server" Text="שם הזמנה"></asp:Label>
             <asp:TextBox ID="OrderName" runat="server"></asp:TextBox>
             <br />
@@ -80,27 +67,10 @@
 
             <br/>
             <br/>
-            <asp:DataList ID="DataList1" runat="server" OnItemDataBound="DataList1_ItemDataBound" Visible ="false">
-                <ItemTemplate>
-                    <table class="auto-style2" align="center">
-                        <tr>
-                            <td class="auto-style3">
-                                <asp:Button ID="Button1" runat="server" Text='<%# Bind("VacationType_Type") %>' CommandName="VacationType_Button" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="auto-style4">
-                                <asp:CheckBoxList ID="CheckBoxList1" runat="server">
-                                </asp:CheckBoxList>
-                            </td>
-                        </tr>
-                    </table>
-                </ItemTemplate>
-            </asp:DataList>
 
-            <asp:CheckBoxList ID="AttractionTypePreference" runat="server"></asp:CheckBoxList>
+            <asp:CheckBoxList ID="AttractionTypePreference" runat="server" AutoPostBack ="true"></asp:CheckBoxList>
             <br/>
-            <asp:Button ID="Create" runat="server" Text="Create" OnClick="Create_Click" Visible ="false"/>
+            <asp:Button ID="Create" runat="server" Text="Create" OnClick="Create_Click" />
             <br/>
             
         </div>

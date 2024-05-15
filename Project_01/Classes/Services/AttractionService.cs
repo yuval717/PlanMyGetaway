@@ -67,7 +67,7 @@ namespace Project_01
             if (reader.Read())
             {
                 a = new Attraction();
-                a.Attraction_ID = reader["Attraction_ID"].ToString();
+                a.Attraction_ID = (int)reader["Attraction_ID"];
                 a.Attraction_Name = reader["Attraction_Name"].ToString();
                 a.Attraction_TypeID = reader["AttractionType_ID"].ToString();
                 a.Attraction_TypeName = reader["AttractionType_Type"].ToString();
@@ -170,8 +170,7 @@ namespace Project_01
             OleDbDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                Attraction a = new Attraction(reader["Attraction_ID"].ToString() , Convert.ToDouble(reader["Attraction_Latitude"]),
-                    Convert.ToDouble(reader["Attraction_Longitude"]));
+                Attraction a = new Attraction((int)reader["Attraction_ID"] , Convert.ToDouble(reader["Attraction_Latitude"]),Convert.ToDouble(reader["Attraction_Longitude"]), (int)reader["Attraction_Duration"], (int)reader["Attraction_PathOrder"]);
                 attractions.Add(a);
             }
             Conn.Close();

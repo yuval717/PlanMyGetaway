@@ -17,9 +17,9 @@ namespace Project_01
 {
     public partial class Order : System.Web.UI.Page
     {
-        public int totalDays; // לצורך שימוש במספר פעולות
-        public ArrayList orderarr; // לצורך שימוש במספר פעולות
-        public string DaysDate = "";// לצורך שימוש במספר פעולות
+        public static int totalDays; // לצורך שימוש במספר פעולות
+        public static ArrayList orderarr; // לצורך שימוש במספר פעולות
+        public static string DaysDate = "";// לצורך שימוש במספר פעולות
         protected void Page_Load(object sender, EventArgs e)
         {
             DataSet ds = null; //יצירת  דאטאסט ריק לצרכים שונים
@@ -32,7 +32,7 @@ namespace Project_01
                     ArrayList arr = new ArrayList();
                     arr.Add(new DS_Object("SELECT * FROM VacationType", "VacationType")); // סןג חופשה
                     arr.Add(new DS_Object("SELECT * FROM AttractionType", "AttractionType"));//סוג אטרקציה
-                    arr.Add(new DS_Object("SELECT * FROM Attraction", "Attraction")); // אטרקציות
+                    arr.Add(new DS_Object("SELECT * FROM Attraction WHERE Attraction_ID <> "+67+ "", "Attraction")); // אטרקציות
                     arr.Add(new DS_Object("SELECT * FROM Day_Attraction", "Day_Attraction")); // יום אטרקציה
                     ds = Connect.Connect_MultipleDataSet(arr);// יצירת דטאסט המכיל כמה טבלאות
                     Session["PreferneceDS"] = ds; // שמירה בסשן - במידה ולא שמור
@@ -62,10 +62,10 @@ namespace Project_01
 
                 //בדיקת מספר ימי הטיול- לפי ערכי הזמנה ראשוניים
                 // המרת ערכי תאריך מסרינג  לצורך בדיקת מספק הימים
-                //DateTime startDate = Convert.ToDateTime(orderarr[0]);//מתאריך
-                //DateTime endDate = Convert.ToDateTime(orderarr[1]);//לתאריך
-                //totalDays = (endDate - startDate).Days + 1; // מספר ימי המסלול
-                totalDays = 4; // מספר ימי המסלול
+                DateTime startDate = Convert.ToDateTime(orderarr[0]);//מתאריך
+                DateTime endDate = Convert.ToDateTime(orderarr[1]);//לתאריך
+                totalDays = (endDate - startDate).Days + 1; // מספר ימי המסלול
+                //totalDays = 4; // מספר ימי המסלול
                 DataTable t = ((DataSet)Session["FakeDataset"]).Tables["FakeDataset"];
                 // Populate the DataTable with totalDays rows
                 for (int i = 1; i <= totalDays; i++)
@@ -96,10 +96,6 @@ namespace Project_01
 
                 if (DaysDate == "") // בדיקה האם זה היום הראשון במסלול
                 {
-                    //***
-                    ArrayList orderarr = new ArrayList();//רק לבדיקה
-                    orderarr.Add("2024-05-10");
-                    //***
 
                     //השמת היום הראשון בדאטאליסט ושמירת תאריך נוכחי
                     string dateString = (string)orderarr[0]; //תאריך יום ראשון מסשן ערכי ההזמנה הראשוניים
@@ -121,51 +117,27 @@ namespace Project_01
         }
 
 
-        //הוספת ערכים לצקבוקסלסט לפי סוג חופשה
-        protected void DataList1_ItemDataBound(object sender, DataListItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                //DataSet על כל איבר(אייטם-שורה מהטייבל) שנוצר ב -Bind רץ כל פעם שמתבצע DataBind ה 
-
-                // כשיהיה שדה ואליד לשנות לספירת אלה שואליד וירוץ גם על אלה שואליד
-                //סוג חופשה שנלחץ ID הוספת אטרציות לפי
-                DataSet ds = (DataSet)Session["PreferneceDS"]; // טבלת סוגי חופשה
-                int code = (int)ds.Tables[0].Rows[e.Item.ItemIndex]["VacationType_ID"]; //מתבצע עבור כל שורה - כל סוג חופשה- DataList- סוג חופשה - לפי ריצה על השורות  ID שמירת ה
-                foreach (DataRow row in ds.Tables["AttractionType"].Rows)// ריצה על טבלת סוגי אטרקציות
-                {
-                    if ((int)row["VacationType_ID"] == code) //של סוג החופשה ID של האטרציה זהה ל ID בדיקה האם ה
-                    {
-                        //משלו המכיךל ערכים לפי סוג החופשה שלו CheckBoxList , Item לכל -  CheckBoxList הוספת איבר ל
-                        ((CheckBoxList)e.Item.FindControl("CheckBoxList1")).Items.Add(new ListItem(row["AttractionType_Type"].ToString(), row["AttractionType_ID"].ToString()));
-                        //((CheckBoxList)DataList1.Items[e.Item.ItemIndex].FindControl("CheckBoxList1")).Items.Add(new ListItem(row1["AttractionType_Type"].ToString(), row1["AttractionType_ID"].ToString()));
-                    }
-                }
-            }
-        }
-
 
         // להוסיף כפתור אישור לבחירת ההעדפות - לוודא שנבחר לפחות העדפה אחת********** או לוודא בכפתור יצירה ולפסול
 
         protected async void Create_Click(object sender, EventArgs e)
         {
-            // יצירת הזמנה
-            Connect.Connect_ExecuteNonQuery("INSERT INTO Orders (Order_DaysNumber, Order_StratDate, Order_MinAge, Order_MaxAge, Order_Name," +
-                " Order_UserName, Order_AddDate )VALUES(" + totalDays + ", " + (string)orderarr[0] + ", " + (string)orderarr[2] + ", " + (string)orderarr[3] +
-                ", " + ", " + "OrderName" + ", " + ((User)Session["user"]).User_Name + ", " + DateTime.Now + "); "); //גילאים ותאריך לצורך סינון בדף חופשות
+            //*** עבור כל הימים
+            // יצירת הזמנה במסד נתונים
+            Connect.Connect_ExecuteNonQuery("INSERT INTO Orders (Order_DaysNumber, Order_StartDate, Order_MinAge, Order_MaxAge, Order_Name, Order_UserName, Order_AddDate) " +
+               "VALUES (" + totalDays + ", #" + orderarr[0] + "#, " + orderarr[2] + ", " + orderarr[3] +
+               ", '" + OrderName.Text + "', 'ofer', #" + DateTime.Now.ToString("yyyy-MM-dd") + "#);"); //גילאים ותאריך לצורך סינון בדף חופשות
             int OrderCode = (int)Connect.Connect_ExecuteScalar("Select Max(Order_ID) From Orders"); // שליפת הערך האחרון של המפתח רץ - קוד ההזמנה שיצרנו
 
             DataSet ds = (DataSet)Session["PreferneceDS"]; // לקיחת הסשן
 
             //  מחרוזת בחירות העדפות משתמש + הוספה לארייליסט 
-            string s = "SELECT Attraction_ID, Attraction_Type, Attraction_MinAge, Attraction_MaxAge, Attraction_Latitude, Attraction_Longitude," +
-                " Attraction_PathOrder, Attraction_Duration FROM Attraction WHERE Attraction_Type = ";
+            string s = "(Attraction_Type = ";
             ArrayList selectedItems = new ArrayList();
-            for (int i = 0; i < DataList1.Items.Count; i++)
-            {
-                if (AttractionTypePreference != null)// לא יקרה כי נוודא בכפתור אישור בחירת העדפות - אבל בכל זאת
+            if (AttractionTypePreference.Items.Count != 0)// לא יקרה כי נוודא בכפתור אישור בחירת העדפות - אבל בכל זאת
                 {
-                    foreach (ListItem item in AttractionTypePreference.Items)
+                // כשיהיה שדה ואליד לשנות לספירת אלה שואליד וירוץ גם על אלה שואליד
+                foreach (ListItem item in AttractionTypePreference.Items)
                     {
                         // If the item is selected, add it to the ArrayList
                         if (item.Selected)
@@ -175,84 +147,214 @@ namespace Project_01
                         }
                     }
                 }
-            }
             s = s.Substring(0, s.Length - 21);// החסרת "OR Attraction_Type= "
+            s += ")";// סוגר שני לקדימות בשאילתה
 
+            DataTable AttractionTable = ds.Tables["Attraction"];// טבלת אטרקציות עליה מתבצעים הסינונים ומוחסרות אטרקציות אשר נכנסות למסלול - אטרקציות שהחוסרו לא יופיעו שוב בכל הימים
 
-            string OrderDate = "";//לפי תאריך הלולאה
-            // מסלול יומי - לולאה
-
-            string StartDayTime = ((TextBox)DayPreferences.Items[1].FindControl("StartDayTime")).Text;
-            string EndDayTime=((TextBox) DayPreferences.Items[1].FindControl("EndDayTime")).Text;
-
-            Connect.Connect_ExecuteNonQuery("INSERT INTO Day (Day_StartHour, Day_EndHour, Order_ID, Day_Date ...) " +
-                "VALUES( " + StartDayTime + ", " + EndDayTime + ", " + OrderCode + ", " + OrderDate + "); ");// יצירת יום
-            int DayCode = (int)Connect.Connect_ExecuteScalar("Select Max(Day_ID) From Day"); // שליפת הערך האחרון של המפתח רץ - קוד היום שיצרנו
-
-            // חישוב הזמן בדקות של הזמן שהוכנס משעה עד שעה
-            string time1 = EndDayTime; // "12:30"
-            string time2 = StartDayTime; // "10:15"
-
-            // Parse times into TimeSpan objects
-            TimeSpan t1 = TimeSpan.Parse(time1);
-            TimeSpan t2 = TimeSpan.Parse(time2);
-
-            // Subtract times
-            TimeSpan difference = t1 - t2;
-
-            // Get the total difference in minutes
-            int totalMinutes = (int)difference.TotalMinutes;
-
-            string FilteringStr = s + "AND Attraction_Duration <= " + totalMinutes + "AND Attraction.Attraction_ID NOT IN( SELECT Attraction_ID FROM Day_Attraction WHERE Day_Attraction.Day_ID " + // כל מה שכבר לא מופיע בהזמנה קיימת
-                    "IN(SELECT Day_ID FROM Day WHERE Order_ID = " + OrderCode + ")) "; //  לפני ביצוע סינון totalMinutes צריך להתשנות לאחר כל הוספה למסלול - לחסר את
-
-            DataTable filteredAttractionTable; // סינון דאטא ליסט אטרקציות
-            try // מניעת שגיאה במקרה והסינון לא מחזיר כלום
+            //עבור כל יום
+            for (int i = 0; i < totalDays; i++)
             {
-                filteredAttractionTable = ds.Tables["Attraction"].Select(s).CopyToDataTable();
+                //תאריך היום במסלול 
+                DateTime date = DateTime.Parse((string)orderarr[0]); // המרת תאריך היום הראשון 
+                DateTime newDate = date.AddDays(i);// הוספת מספר משתנה של ימים לתאריך
+                string OrderDate = newDate.ToString("yyyy-MM-dd"); // המרה חזרה לסטרינג
+
+                string StartDayTime = ((TextBox)DayPreferences.Items[i].FindControl("StartDayTime")).Text;//שעת התחלת היום
+                string EndDayTime = ((TextBox)DayPreferences.Items[i].FindControl("EndDayTime")).Text;// שעת סיום היום
+                string StartAddress = ((TextBox)DayPreferences.Items[i].FindControl("StartPlace")).Text;//כתובת תחילת היום
+
+                // יצירת יום במסד נתונים
+                Connect.Connect_ExecuteNonQuery("INSERT INTO Days (Day_StartHour, Day_EndHour, Order_ID, Day_Date) " +
+                    "VALUES( '" + DateTime.Parse(StartDayTime).ToString("HH:mm:ss") + "', '" + DateTime.Parse(EndDayTime).ToString("HH:mm:ss") +
+                    "', " + OrderCode + ", #" + OrderDate + "#)");
+
+                int DayCode = (int)Connect.Connect_ExecuteScalar("Select Max(Day_ID) From Days"); // שליפת הערך האחרון של המפתח רץ - קוד היום שיצרנו
+
+                // חישוב הזמן בדקות של הזמן שהוכנס משעה עד שעה
+                // Parse times into TimeSpan objects
+                TimeSpan t1 = TimeSpan.Parse(EndDayTime);// "12:30"
+                TimeSpan t2 = TimeSpan.Parse(StartDayTime);// "10:15"
+                TimeSpan difference = t1 - t2;// Subtract times
+                // Get the total difference in minutes
+                int CurrenttotalMinutes = (int)difference.TotalMinutes; // מספר דקות היום - משתנה לאחר חיסור כל זמן אטרקציה וזמן הגעה 
+                int DaytotalMinutes = CurrenttotalMinutes;// סך מספר דקות היום - לא משתנה 
+
+                //הוספת המיקום ההתחלתי האטרקציה הראשונה וזמן ההגעה אליה לדאטא בייס - במידה ואין אטרקציות התואמות את הסינונים יוצא מהלולאה
+                DataTable filteredAttractionTable; // סינון דאטא ליסט אטרקציות
+                DateTime CurrentHour = (DateTime.Parse(StartDayTime)).AddMinutes(DaytotalMinutes - CurrenttotalMinutes);//זמן textmode השעה הנוכחית ב
+
+                //הסינון - הוספת הפרש הזמנים בין שעת הסגירה והשעה הנוכחית - לבדוק אם חיובי  וניתן לשבץ - אם משך האטרקציה תואם את הזמן שנשאר בין הזמן הנוכחי ושעת הסגירה
+                // Add a new column to store the difference in minutes
+                AttractionTable.Columns.Add("TimeDiffMinutes", typeof(int));
+                foreach (DataRow row in AttractionTable.Rows)
+                {
+                    if (row.RowState != DataRowState.Deleted) // אם השורה לא נמחקה = שובצה במסלול
+                    {
+                        // Calculate the difference in minutes
+                        row["TimeDiffMinutes"] =  ((Convert.ToDateTime(row["Attraction_ClosingHour"])) - CurrentHour).TotalMinutes;
+                    }
+                }
+
+                //שאילתת הסינון
+                string FilterStr = s + " AND Attraction_Duration <= " + CurrenttotalMinutes + " AND Attraction_OpeningHour <= #" + (DateTime.Parse(StartDayTime)).AddMinutes(DaytotalMinutes - CurrenttotalMinutes).ToString("yyyy-MM-dd HH:mm:ss") + "#"//שעת פתיחה קטנה מהזמן כרגע
+                + " AND (TimeDiffMinutes) >= Attraction_Duration ";// בדיקה אם עומד בשעת סגירה
+                ErrorHandler:
+                try // מניעת שגיאה במקרה והסינון לא מחזיר כלום
+                {
+                        filteredAttractionTable = AttractionTable.Select(FilterStr).CopyToDataTable(); // סינון על טבלת אטרקציות
+                }
+                catch (InvalidOperationException e2)// אם אין אטרקציות התואמות את הסינונים = נגמר המסלול
+                {
+                    while ((DateTime.Parse(StartDayTime)).AddMinutes(60) < DateTime.Parse(EndDayTime))
+                    {
+                        StartDayTime = ((DateTime.Parse(StartDayTime)).AddMinutes(60)).ToString();
+                        DaytotalMinutes -= 60;
+                        CurrenttotalMinutes -= 60;
+                        CurrentHour = (DateTime.Parse(StartDayTime)).AddMinutes(DaytotalMinutes - CurrenttotalMinutes);//זמן textmode השעה הנוכחית ב
+                        foreach (DataRow row in AttractionTable.Rows)
+                        {
+                            if (row.RowState != DataRowState.Deleted) // אם השורה לא נמחקה = שובצה במסלול
+                            {
+                                // Calculate the difference in minutes
+                                row["TimeDiffMinutes"] = ((Convert.ToDateTime(row["Attraction_ClosingHour"])) - CurrentHour).TotalMinutes;
+                            }
+                        }
+                        FilterStr = s + " AND Attraction_Duration <= " + CurrenttotalMinutes + " AND Attraction_OpeningHour <= #" + (DateTime.Parse(StartDayTime)).AddMinutes(DaytotalMinutes - CurrenttotalMinutes).ToString("yyyy-MM-dd HH:mm:ss") + "#"//שעת פתיחה קטנה מהזמן כרגע
+                            + " AND (TimeDiffMinutes) >= Attraction_Duration ";// בדיקה אם עומד בשעת סגירה
+                        goto ErrorHandler; // סינון על טבלת אטרקציות
+                    }
+                    break;// יציאה מלולאת היום
+                }
+
+                //הוספת הנתונים הראשונים למסלול
+                ArrayList Path = new ArrayList();// יצירת עצם מסלול - אליו יכנסו זמני ההדעה והאטרקציות
+                Connect.Connect_ExecuteNonQuery("INSERT INTO Day_Attraction (Day_ID , StartLocation_Address, Attraction_ID, StartHour, EndHour) VALUES(" + DayCode + " , '" + /*StartPlace*/StartAddress + "', "+67+", '"+ DateTime.Parse(StartDayTime).ToString("HH:mm:ss") + "', '" + DateTime.Parse(StartDayTime).ToString("HH:mm:ss") + "'); ");// הוספת המיקום ההתחלתי למסד
+                ArrayList StratLocationcoordinates = await BingMapsGeocoder.GetCoordinatesByAddressAsync("'"+/*StartPlace.Text*/StartAddress+"'"); // הפיכת כתובת ההתחלה לקורדינאטות
+                Attraction StratLocation = new Attraction(67, Convert.ToDouble(StratLocationcoordinates[0]), Convert.ToDouble(StratLocationcoordinates[1])); //  יצירת עצם אטרקציה שמכיל את המיקום ההתחלתי של המסלול - המקום ממנו יוצאים למסלול לטובת מציאת האטרקציה הראשונה
+                Attraction closestAttraction = OrderService.FindClosestAttraction(filteredAttractionTable, StratLocation); // מציאת האטרציה הקרובה ביותר למיקום ההתחלתי - האטרקציה הראשונה במסלול - לפי מחרוזת שמקבל
+                foreach (DataRow row in AttractionTable.Rows)// הסרת האטרקציה מדאטאסט אטרקציות
+                {
+                    if (row.RowState != DataRowState.Deleted) //בדיקה אם השורה קיימת בדאטאסט או שנמחקה כבר - ואז יחזיר שגיאה
+                    {
+                        if ((int)row["Attraction_ID"] == (closestAttraction.Attraction_ID))
+                            row.Delete();
+                    }
+                }
+
+                // המיקום ההתחלתי של היום הוסף ישירות למסד - חלק המסלול הראשון במסלול - הזמן בין נק התחלה לאטרקציה ראשונה
+                Path.Add(await OrderService.Transport(StratLocation, closestAttraction)); // זמן הגעה מנקודת ההתחלה לאטרקציה הראשונה - OrderService.Transport(FromAttraction, ToAttraction));
+                Path.Add(closestAttraction);// האטרקציה הראשונה
+                CurrenttotalMinutes -= (int)((Transportation)Path[0]).TravelTime; // חיסור זמן האטרקציה וזמן ההגעה אליה מנק היציאה  - עוגל לדקות
+                CurrenttotalMinutes -= ((Attraction)Path[1]).Attraction_Duration; // חיסור משך האטרקציה
+                //***
+                int pathcount = 1; // מיקום האיברים הבאים במסלול - משומש בהוספה למערך
+                while (CurrenttotalMinutes != 0)// במידה ואכשיהו מתאפס אחלה - כנראה שלא יקרה = יהיה ברייק ברגע שלא יעמוד בתנאים
+                {
+                    pathcount++; //נכנס ללואה = איבר חדש - אם לאחר סינון איןם תוצאות יוצא - אז לא משנה שהוסף
+                    //***סינוני אטרקציות מסלול
+                    //בדיקה אם משך האטרציה לא גדול מהזמן שנשאר למסלול
+                    //בדיקה אם שעת הפתיחה קטנה שווה לשעה כרגע = אם עומד בשעת פתיחה
+                    // בדיקה אם שעת סיום פחות השעה כרגע((זמן תחילת היום + (סך דקות היום פחות הזמן שנשאר)) = הזמן שנוצל ) גדול שווה למשך האטרקציה = אם עומד בשעת סיום
+                    // בדיקה אם האטרציה לא שובצה כבר בהזמנה
+
+                    CurrentHour = (DateTime.Parse(StartDayTime)).AddMinutes(DaytotalMinutes - CurrenttotalMinutes);//זמן textmode השעה הנוכחית ב
+
+                    //הסינון - הוספת הפרש הזמנים בין שעת הסגירה והשעה הנוכחית - לבדוק אם חיובי  וניתן לשבץ - אם משך האטרקציה תואם את הזמן שנשאר בין הזמן הנוכחי ושעת הסגירה
+                    foreach (DataRow row in AttractionTable.Rows)
+                    {
+                        if (row.RowState != DataRowState.Deleted) // אם השורה לא נמחקה - שובצה במסלול
+                        {
+                            // Calculate the difference in minutes
+                            row["TimeDiffMinutes"] = ((Convert.ToDateTime(row["Attraction_ClosingHour"])) - CurrentHour).TotalMinutes;
+                        }
+                    }
+
+                    //שאילתת הסינון - מחושבת שוב ושוב כי ערכי הזמים משתנים בהתאם להוספה למסלול
+                    FilterStr = s + " AND Attraction_Duration <= " + CurrenttotalMinutes + " AND Attraction_OpeningHour <= #" + (DateTime.Parse(StartDayTime)).AddMinutes(DaytotalMinutes - CurrenttotalMinutes).ToString("yyyy-MM-dd HH:mm:ss") + "#"//שעת פתיחה קטנה מהזמן כרגע
+                        + " AND (TimeDiffMinutes) >= Attraction_Duration ";
+                    try // מניעת שגיאה במקרה והסינון לא מחזיר כלום
+                    {
+                        filteredAttractionTable = AttractionTable.Select(FilterStr).CopyToDataTable(); // סינון על טבלת אטרקציות
+                    }
+                    catch (InvalidOperationException e2)// אם אין אטרקציות התואמות את הסינונים = נגמר המסלול
+                    {
+                        break;// יציאה מלולאת היום
+                    }
+
+                    //סידור האטרקציות לפי האטרקציה הקרובה ביותר לפי מסלול האטרקציות לאטרקציה הקודמת במסלול - אם יש תיקו בוחר אחד
+                    filteredAttractionTable.Columns.Add("AbsValue", typeof(int)); // הוספת עמודה לאכסון תוצאות חיסור מיקום האטרקציה ממיקום האטרקציה הקודמת
+                    foreach (DataRow row in filteredAttractionTable.Rows) // השמת תוצאות החיסור בעמודה שהוספה בדאטאסט
+                    {
+                        if (row.RowState != DataRowState.Deleted)
+                        {
+                            row["AbsValue"] = Math.Abs((int)row["Attraction_PathOrder"] - (int)(((Attraction)Path[(Path.Count) - 1]).Attraction_PathOrder));
+                        }
+                    }
+                    DataView dataviewfilter = new DataView(filteredAttractionTable);//יצירת העצם המסנן
+                    // Set the sort by the AbsValue column
+                    dataviewfilter.Sort = "AbsValue ASC";  // סידור מהקטן לגדול - כלומר מהכי קרוב לרחוק 
+                    DataRow Nextattraction_row = ((DataRowView)dataviewfilter[0]).Row; // Accessing the first row of the DataView +Converting DataRowView to DataRow האטרקציה הנבחרת - ראושנה בסידור
+
+                    Attraction Nextattractioninpath = new Attraction(Convert.ToInt32(Nextattraction_row["Attraction_ID"]), Convert.ToDouble(Nextattraction_row["Attraction_Latitude"]),
+                        Convert.ToDouble(Nextattraction_row["Attraction_Longitude"]), Convert.ToInt32(Nextattraction_row["Attraction_Duration"]), Convert.ToInt32(Nextattraction_row["Attraction_PathOrder"])); // יצירת עצם האטרקציה הבאה במסלול
+
+                    foreach (DataRow row in AttractionTable.Rows) // מחיקת האטרקציה שהוספה למסלול מדאטאסט אטרקציות
+                    {
+                        if (row.RowState != DataRowState.Deleted)
+                        {
+                            if ((int)row["Attraction_ID"] == (Nextattractioninpath.Attraction_ID))
+                                row.Delete();
+                        }
+                    }
+
+                    Path.Add(await OrderService.Transport((Attraction)Path[(Path.Count) - 1], Nextattractioninpath)); // זמן הגעה מנקודת האטרקציה הקודמת לאטרקציה החדשה - OrderService.Transport(FromAttraction, ToAttraction));
+                    Path.Add(Nextattractioninpath);// האטרקציה הבאה במסלול
+                    CurrenttotalMinutes -= (int)((Transportation)Path[pathcount]).TravelTime; // חיסור זמן האטרקציה וזמן ההגעה אליה מנק היציאה  - עוגל לדקות
+                    pathcount++;
+                    CurrenttotalMinutes -= ((Attraction)Path[pathcount]).Attraction_Duration; // חיסור משך האטרקציה
+                }
+
+                //העברה למסד נתונים
+                int MinutesFromBeginningDay = 0;// מספר הדקות מתחילת היום - לכל איבר - לאחר כל איבר שהוספה למסד מתעדכן
+                for (int k = 0; k < Path.Count; k++)
+                {
+                    if (Path[k] is Transportation)//זמן הגעה
+                    {
+                        int Transportationtraveltime = (int)(((Transportation)Path[k]).TravelTime); //משך הנסיעה
+                        Connect.Connect_ExecuteNonQuery("INSERT INTO Day_Attraction (Day_ID, StartHour, EndHour, FromLocation, ToLocation, TravelType, Attraction_ID) " +
+                            "VALUES (" + DayCode + ", '" + DateTime.Parse(StartDayTime).AddMinutes(MinutesFromBeginningDay).ToString("yyyy-MM-dd HH:mm:ss") +
+                            "', '" +DateTime.Parse(StartDayTime).AddMinutes(MinutesFromBeginningDay + Transportationtraveltime).ToString("yyyy-MM-dd HH:mm:ss") + "', '" +
+                            ((Transportation)Path[k]).FromAttraction.Attraction_ID + "', '" + ((Transportation)Path[k]).ToAttraction.Attraction_ID + "', '" + ((Transportation)Path[k]).TravelWay + "', " + 67 + ")");
+                        MinutesFromBeginningDay += Transportationtraveltime;
+                    }
+                    else//אטרקציה
+                    {
+                        int AttractionDuration = (int)(((Attraction)Path[k]).Attraction_Duration); // משך האטרקציה
+                        Connect.Connect_ExecuteNonQuery("INSERT INTO Day_Attraction (Day_ID, StartHour, EndHour, Attraction_ID )" +
+                            " VALUES (" + DayCode + ", '" + (DateTime.Parse(StartDayTime)).AddMinutes(MinutesFromBeginningDay) + "', '" +
+                            (DateTime.Parse(StartDayTime)).AddMinutes(MinutesFromBeginningDay + AttractionDuration) + "', " + (int)(((Attraction)Path[k]).Attraction_ID) +" )");
+                        MinutesFromBeginningDay += AttractionDuration;
+                    }
+                }
             }
-            catch (InvalidOperationException e2)
-            {
-                filteredAttractionTable = null;
-            }
-
-            if (filteredAttractionTable == null) // אם אין אטרקציות התואמות את הסינונים = נגמר המסלול
-            {
-                //break;// יציאה מלולאת 
-            }
-
-            ArrayList Path = new ArrayList();
-            Connect.Connect_ExecuteNonQuery("INSERT INTO Day_Attraction (Day_ID , IsTransportation , StartLocation_Address, ...) VALUES(" + DayCode + " , FALSE, " + /*StartPlace*/"" + "); ");// הוספת המיקום ההתחלתי למסד
-            ArrayList StratLocationcoordinates = await BingMapsGeocoder.GetCoordinatesByAddressAsync(/*StartPlace.Text*/""); // הפיכת כתובת ההתחלה לקורדינאטות
-            Attraction StratLocation = new Attraction(Convert.ToDouble(StratLocationcoordinates[0]), Convert.ToDouble(StratLocationcoordinates[1])); //  יצירת עצם אטרקציה שמכיל את המיקום ההתחלתי של המסלול - המקום ממנו יוצאים למסלול לטובת מציאת האטרקציה הראשונה
-            Attraction closestAttraction = OrderService.FindClosestAttraction(filteredAttractionTable, StratLocation); // מציאת האטרציה הקרובה ביותר למיקום ההתחלתי - האטרקציה הראשונה במסלול - לפי מחרוזת שמקבל
-
-            // המיקום ההתחלתי של היום מוסף ישירות למסד - חלק המסלול הראשון במסלול - הזמן בין נק התחלה לאטרקציה ראשונה
-            Path.Add(await OrderService.Transport(StratLocation, closestAttraction)); // זמן הגעה מנקודת ההתחלה לאטרקציה הראשונה - OrderService.Transport(FromAttraction, ToAttraction));
-            Path.Add(closestAttraction);// האטרקציה הראשונה
-            totalMinutes -= (int)((Transportation)Path[1]).TravelTime; // חיסור זמן האטרקציה וזמן ההגעה אליה מנק היציאה  - עוגל לדקות
-            totalMinutes -= ((Attraction)Path[2]).Attraction_Duration; // חיסור משך האטרקציה
 
 
-            ////הצגת כל האטרקציות שלא נמצאות כבר במסלול
-            //SELECT*
-            //FROM Attraction
-            //WHERE Attraction_ID NOT IN(SELECT Attraction_ID FROM Day_Attraction)
-            //ORDER BY Attraction_PathOrder ASC;
 
-            ////הצגת האטרקציה הקרובה ביותר לאטרקציה הראשונה במסלול - שינוי המספר 1 לפי הסדר בתור
+
+
+
+            //To find the closest number to a specified number in an Access query, you can use the Abs() function in a SQL query to compute
+            //the absolute difference between each number in your data and the target number, and then find the smallest of these differences.
+            //האטרקציה הקרובה ביותר לאטרקציה אחרת במסלול
+            // מחשב את הערך המוחלט של כל סדר מסלול אטרקציה ממיקום סדר האטרקציה הקודמת 
             //SELECT TOP 1 *
             //FROM Attraction
             //WHERE NOT Attraction_PathOrder = 1
-            //ORDER BY ABS(Attraction_PathOrder - 1)
+            //ORDER BY ABS(Attraction_PathOrder - 1) ASC
 
 
-            //שילוב של שניהם:
-            //SELECT TOP 1 *
-            //FROM Attraction
-            //WHERE Attraction_ID NOT IN(SELECT Attraction_ID FROM Day_Attraction)
-            //AND NOT Attraction_PathOrder = 1
-            //ORDER BY ABS(Attraction_PathOrder - 1);
+
 
             DataTable OriginalTable = ds.Tables["Attraction"];
             int j = 2;

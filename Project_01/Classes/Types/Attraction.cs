@@ -7,7 +7,7 @@ namespace Project_01
 {
     public class Attraction
     {
-        public string Attraction_ID { get; set; }
+        public int Attraction_ID { get; set; }
         public string Attraction_Name { get; set; }
         public string Attraction_TypeID { get; set; }
         public string Attraction_TypeName { get; set; }
@@ -29,14 +29,18 @@ namespace Project_01
 
         public Attraction() { }
 
-        public Attraction(string Attraction_ID, double Attraction_Latitude, double Attraction_Longitude)
+        public Attraction(int Attraction_ID, double Attraction_Latitude, double Attraction_Longitude, int Attraction_Duration, int Attraction_PathOrder)
         {
             this.Attraction_ID = Attraction_ID;
             this.Attraction_Latitude = Attraction_Latitude;
             this.Attraction_Longitude = Attraction_Longitude;
+            this.Attraction_Duration = Attraction_Duration;
+            this.Attraction_PathOrder = Attraction_PathOrder;
         }
-        public Attraction(double Attraction_Latitude, double Attraction_Longitude)
+
+        public Attraction(int Attraction_ID, double Attraction_Latitude, double Attraction_Longitude)
         {
+            this.Attraction_ID = Attraction_ID;
             this.Attraction_Latitude = Attraction_Latitude;
             this.Attraction_Longitude = Attraction_Longitude;
         }
