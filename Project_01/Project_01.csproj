@@ -94,6 +94,7 @@
     <Content Include="Pay.aspx" />
     <Content Include="Stylesheets\Homepage.css" />
     <Content Include="Stylesheets\Master.css" />
+    <Content Include="Stylesheets\Order.css" />
     <Content Include="User_Display.aspx" />
     <Content Include="User_Folder\User_Login.aspx" />
     <Content Include="User_Folder\User_Register.aspx" />

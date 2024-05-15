@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Order.aspx.cs" Inherits="Project_01.Order" Async="true" %>
+<link rel="stylesheet" href="Stylesheets/Order.css" />
 
 <!DOCTYPE html>
 
@@ -19,10 +20,15 @@
     <form id="form1" runat="server">
         <div>
 
+            <%-- כותרת עמוד - יצירת הזמנה --%>
+            <asp:Label ID="CreatVacation_Lable" runat="server" Text="יצירת חופשה"></asp:Label>
 
+            <%-- פרטי הזמנה - שם הזמנה --%>
             <asp:Label ID="OrderName_Lable" runat="server" Text="שם הזמנה"></asp:Label>
             <asp:TextBox ID="OrderName" runat="server"></asp:TextBox>
             <br />
+
+            <%-- כפתורי פרטי חופשה - בתוך דאטאליסט --%>
             <asp:DataList ID="DayPreferences" runat="server" RepeatDirection="Horizontal" RepeatColumns="5" CellSpacing="30" OnItemDataBound="DayPreferences_ItemDataBound">
                 <ItemTemplate>
                     <table>
@@ -67,9 +73,10 @@
 
             <br/>
             <br/>
-
+            <%-- צקבוקסליסט סוגי אטרקציות --%>
             <asp:CheckBoxList ID="AttractionTypePreference" runat="server" AutoPostBack ="true"></asp:CheckBoxList>
             <br/>
+            <%-- כפתור יצירת חופשה אוטומטית --%>
             <asp:Button ID="Create" runat="server" Text="Create" OnClick="Create_Click" />
             <br/>
             

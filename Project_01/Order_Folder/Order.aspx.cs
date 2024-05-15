@@ -151,7 +151,7 @@ namespace Project_01
             s += ")";// סוגר שני לקדימות בשאילתה
 
             DataTable AttractionTable = ds.Tables["Attraction"];// טבלת אטרקציות עליה מתבצעים הסינונים ומוחסרות אטרקציות אשר נכנסות למסלול - אטרקציות שהחוסרו לא יופיעו שוב בכל הימים
-
+            AttractionTable.Columns.Add("TimeDiffMinutes", typeof(int));
             //עבור כל יום
             for (int i = 0; i < totalDays; i++)
             {
@@ -165,9 +165,9 @@ namespace Project_01
                 string StartAddress = ((TextBox)DayPreferences.Items[i].FindControl("StartPlace")).Text;//כתובת תחילת היום
 
                 // יצירת יום במסד נתונים
-                Connect.Connect_ExecuteNonQuery("INSERT INTO Days (Day_StartHour, Day_EndHour, Order_ID, Day_Date) " +
+                Connect.Connect_ExecuteNonQuery("INSERT INTO Days (Day_StartHour, Day_EndHour, Order_ID, Day_Date, Day_StartLocationAddress) " +
                     "VALUES( '" + DateTime.Parse(StartDayTime).ToString("HH:mm:ss") + "', '" + DateTime.Parse(EndDayTime).ToString("HH:mm:ss") +
-                    "', " + OrderCode + ", #" + OrderDate + "#)");
+                    "', " + OrderCode + ", #" + OrderDate + "#, '"+ StartAddress + "')");
 
                 int DayCode = (int)Connect.Connect_ExecuteScalar("Select Max(Day_ID) From Days"); // שליפת הערך האחרון של המפתח רץ - קוד היום שיצרנו
 
@@ -186,7 +186,6 @@ namespace Project_01
 
                 //הסינון - הוספת הפרש הזמנים בין שעת הסגירה והשעה הנוכחית - לבדוק אם חיובי  וניתן לשבץ - אם משך האטרקציה תואם את הזמן שנשאר בין הזמן הנוכחי ושעת הסגירה
                 // Add a new column to store the difference in minutes
-                AttractionTable.Columns.Add("TimeDiffMinutes", typeof(int));
                 foreach (DataRow row in AttractionTable.Rows)
                 {
                     if (row.RowState != DataRowState.Deleted) // אם השורה לא נמחקה = שובצה במסלול
@@ -229,7 +228,7 @@ namespace Project_01
 
                 //הוספת הנתונים הראשונים למסלול
                 ArrayList Path = new ArrayList();// יצירת עצם מסלול - אליו יכנסו זמני ההדעה והאטרקציות
-                Connect.Connect_ExecuteNonQuery("INSERT INTO Day_Attraction (Day_ID , StartLocation_Address, Attraction_ID, StartHour, EndHour) VALUES(" + DayCode + " , '" + /*StartPlace*/StartAddress + "', "+67+", '"+ DateTime.Parse(StartDayTime).ToString("HH:mm:ss") + "', '" + DateTime.Parse(StartDayTime).ToString("HH:mm:ss") + "'); ");// הוספת המיקום ההתחלתי למסד
+                // הוספת המיקום ההתחלתי למסד נוסף ביצירת היום
                 ArrayList StratLocationcoordinates = await BingMapsGeocoder.GetCoordinatesByAddressAsync("'"+/*StartPlace.Text*/StartAddress+"'"); // הפיכת כתובת ההתחלה לקורדינאטות
                 Attraction StratLocation = new Attraction(67, Convert.ToDouble(StratLocationcoordinates[0]), Convert.ToDouble(StratLocationcoordinates[1])); //  יצירת עצם אטרקציה שמכיל את המיקום ההתחלתי של המסלול - המקום ממנו יוצאים למסלול לטובת מציאת האטרקציה הראשונה
                 Attraction closestAttraction = OrderService.FindClosestAttraction(filteredAttractionTable, StratLocation); // מציאת האטרציה הקרובה ביותר למיקום ההתחלתי - האטרקציה הראשונה במסלול - לפי מחרוזת שמקבל
@@ -322,10 +321,10 @@ namespace Project_01
                     if (Path[k] is Transportation)//זמן הגעה
                     {
                         int Transportationtraveltime = (int)(((Transportation)Path[k]).TravelTime); //משך הנסיעה
-                        Connect.Connect_ExecuteNonQuery("INSERT INTO Day_Attraction (Day_ID, StartHour, EndHour, FromLocation, ToLocation, TravelType, Attraction_ID) " +
+                        Connect.Connect_ExecuteNonQuery("INSERT INTO Day_Transportation (Day_ID, StartHour, EndHour, FromAttraction, ToAttraction, TravelType) " +
                             "VALUES (" + DayCode + ", '" + DateTime.Parse(StartDayTime).AddMinutes(MinutesFromBeginningDay).ToString("yyyy-MM-dd HH:mm:ss") +
                             "', '" +DateTime.Parse(StartDayTime).AddMinutes(MinutesFromBeginningDay + Transportationtraveltime).ToString("yyyy-MM-dd HH:mm:ss") + "', '" +
-                            ((Transportation)Path[k]).FromAttraction.Attraction_ID + "', '" + ((Transportation)Path[k]).ToAttraction.Attraction_ID + "', '" + ((Transportation)Path[k]).TravelWay + "', " + 67 + ")");
+                            ((Transportation)Path[k]).FromAttraction.Attraction_ID + "', '" + ((Transportation)Path[k]).ToAttraction.Attraction_ID + "', '" + ((Transportation)Path[k]).TravelWay + "')");
                         MinutesFromBeginningDay += Transportationtraveltime;
                     }
                     else//אטרקציה
