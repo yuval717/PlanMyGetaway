@@ -1,0 +1,129 @@
+﻿body {
+}
+
+/* כותרות - כחולות*/
+.label-style-navy {
+    font-weight: bold; /* Makes the text bold */
+    font-size: 35px; /* Sets the size of the font */
+    color: #003366; /* Sets the text color to navy blue */
+    text-align: center; /* Centers the text horizontally */
+    display: block; /* Changes the label from inline to block to take up the full width */
+    line-height: 1.5; /* Adjusts the space between lines to help split the text into two rows if it wraps */
+    white-space: normal; /* Ensures text wraps to the next line if needed */
+    background-color: transparent; /* Ensures no background color */
+    padding: 10px 0; /* Adds some padding above and below the text for better spacing */
+    margin: 0 auto; /* Centers the block element in the container, horizontally */
+    max-width: 90%; /* Restricts the maximum width to help with text wrapping */
+}
+
+/*טקסטבוקס - פרטי אטרקציה*/
+.Textbox-style-navy {
+    width: 35%; /* Adjust the width as needed */
+    height: 30px; /* Adjust the height as needed */
+    margin: 0 auto; /* Center the textbox horizontally */
+    display: block; /* Ensure the margin auto works */
+    border-radius: 15px; /* Rounded edges */
+    border: 1px solid #003366; /* Navy border */
+    padding: 10px; /* Inner padding for better appearance */
+    font-size: 25px; /* Adjust the font size as needed */
+    text-align: center;
+}
+
+/*כפתור אישור - תמונות נוספות*/
+.button-style {
+    background-color: white; /* grey background for button */
+    color: #003366; /* White text color for button */
+    border: 1px solid #003366;
+    font-weight: bold;
+    padding: 10px; /* Padding inside the button */
+    border-radius: 15px; /* Rounded corners for button */
+    cursor: pointer; /* Pointer cursor when hovering over the button */
+    width: 383px;
+    height: 50px;
+    font-size:20px;
+}
+    /*שינוי צבע בעת עליה עליו - כפתור אישור תמונות נוספות*/
+    .button-style:hover {
+        background-color: #b3e0ff; /* Darker green on hover */
+    }
+
+.center-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Adjust this if needed */
+}
+
+
+/*עבור הדאטאליסט*/
+.container {
+    display: flex; /* Uses flexbox to align child elements */
+    overflow-x: auto; /* Enables horizontal scrolling if content overflows */
+    white-space: nowrap; /* Keeps all child elements on the same line */
+    margin-bottom: 20px; /* Adds space below the container */
+    justify-content: center; /* Centers children horizontally within the container */
+    align-items: center; /* Optional: Centers children vertically if they have different heights */
+}
+
+/*עבור כל איבר*/
+.item {
+    flex: 0 0 auto; /* Flex item does not grow or shrink but can be aligned with auto margins */
+    width: 270px; /* Sets a fixed width for each item */
+    height: 270px; /* Sets a fixed height for each item */
+    margin-right: 40px; /* Adds right margin to space out items, consider removing or reducing the right margin of the last item */
+    border: 1px solid #ccc; /* Adds a light gray border */
+    border-radius: 13px; /* Rounds the corners of the border */
+    background-color: #f9f9f9; /* Sets a light grey background color */
+}
+
+    /* עבור טבלה - בתוך האיבר */
+    .item table {
+        width: 100%; /* Table width is the full width of its container */
+        border-collapse: collapse; /* Collapses border so they become one */
+    }
+
+        /* עבור כל שורה */
+        .item table tr td {
+            padding: 5px; /* Adds padding inside the cell */
+            text-align: center; /* Centers text horizontally in cell */
+        }
+
+            /*עבור כפתורי האיבר*/
+            .item table tr td label {
+                font-size: 0.9em; /* Sets font size relative to the parent element's font size */
+                color: #666; /* Sets text color to dark grey */
+                align-items: center;
+            }
+
+/* Centering the remove button */
+.Button_Row {
+    text-align: center; /* Centers the button horizontally within the cell */
+}
+
+/*כפתור צור */
+.Create {
+    width: 400px; /* Increased width */
+    height: 50px; /* Increased height */
+    background-color: yellow; /* White background */
+    border-radius: 29px; /* Rounded edges */
+    font-weight: bold; /* Makes the text bold */
+    border: 0.1px solid #003366; /* Add a navy border for better visibility */
+    font-size: 20px; /* Larger font size for better readability */
+    color: #003366; /*navy*/
+    cursor: pointer; /* Pointer cursor when hovering over the button */
+    padding: 10px;
+    text-align: center;
+    display: flex; /* Flexbox for centering text */
+    justify-content: center;
+    align-items: center;
+    position: absolute; /* Absolute positioning */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust position to be centered */
+}
+
+    /*שינוי צבע בעת עליה עליו - כפתור צור*/
+    .Create:hover {
+        background-color: #FFD700; /* gold on hover */
+    }
+
+

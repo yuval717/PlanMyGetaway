@@ -1,0 +1,33 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Project_01.Site" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Master Page</title>
+    <link rel="stylesheet" href="Master.css" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div id="navigation">
+            <asp:ImageButton ID="MasterPage_Logo" runat="server" OnClick="Menu_Click" ImageUrl="~/pictures/logo.png" CommandName="Homepage" Width="100px" Height="100px" />
+            <asp:LinkButton ID="MasterPage_sign_Up_Out" runat="server" OnClick="MasterPage_sign_Up_Out_Click" Text="התנתק" CommandName="" CssClass="nav-label"></asp:LinkButton>
+            <asp:LinkButton ID="MasterPage_About" runat="server" OnClick="Menu_Click" Text="אודות" CommandName="About" CssClass="nav-label"></asp:LinkButton>
+            <asp:LinkButton ID="MasterPage_Orders" runat="server" OnClick="Menu_Click" Text="החופשות שלי" CommandName="User_Folder/UsersOrders" CssClass="nav-label"></asp:LinkButton>
+            <asp:LinkButton ID="MasterPage_NewOrder" runat="server" OnClick="Menu_Click" Text="אטרקציות" CommandName="Attraction_Folder/Attractions_Display" CssClass="nav-label"></asp:LinkButton>
+        </div>
+        <div>
+            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <div>
+           <asp:ContentPlaceHolder ID="FooterContent" runat="server">
+           </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>
+

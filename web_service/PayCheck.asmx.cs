@@ -21,10 +21,9 @@ namespace web_service
     {
 
         [WebMethod]
-        public bool Pay(string Number, string Owner_ID, string Provider, string CVV, string DateOfExpiration, string Cost, int Company)
+        public string Pay(string Number, string Owner_ID, string Provider, string CVV, string DateOfExpiration, string Cost, int Company)
         {
             CreditCard card = null;
-
             OleDbConnection Conn = new OleDbConnection();
             Conn.ConnectionString = GetConnectionString();
             string s = "SELECT DateOfExpiration, Balance FROM Credit_Card WHERE Number = '" + Number + "' AND Owner_ID = '"
@@ -39,17 +38,17 @@ namespace web_service
             Conn.Close();
 
             if (card == null) // האם קיים כרטיס במסד
-                return false;
+                return "פרטי כרטיס שגויים";
             if (DateTime.Today > DateTime.Parse(DateOfExpiration))// אם תאריך הכרטיס תקף
-                return false;
+                return "פרטי כרטיס שגויים";
             if (Convert.ToInt32(card.Balance) < Convert.ToInt32(Cost))// אם יש כסף בחשבון
-                return false;
+                return "אין יתרה מספקת";
 
             Connect_ExecuteNonQuery("INSERT INTO Purchase ( [Number] , [Cost], [DateOfPurchase], [Company]) values"  +
                 "('" + Number + "', '" + Cost + "', #" + DateTime.Today.ToShortDateString() + "#, " + Company + ")") ;// הוספת עסקה למסד
             Connect_ExecuteNonQuery(" UPDATE Credit_Card SET Balance = '" +
                 (Convert.ToInt32(card.Balance) - Convert.ToInt32(Cost)).ToString() + "' WHERE Number = '" + Number + "'"); // עדכון יתרה
-            return true;
+            return "שולם";
         }
 
         public void Connect_ExecuteNonQuery(string s) // ExecuteNonQuery -  הפעלת פעולה במסד הנתונים
@@ -64,9 +63,14 @@ namespace web_service
 
         public string GetConnectionString()
         {
-            string FILE_NAME = "Project_WebService.accdb", conn = "provider = Microsoft.ACE.OLEDB.16.0; data source=";
-            try { return conn + @"C:\Users\yuval\source\repos\Project_01\WebService_CreditCard\App_Data\Project_WebService.accdb" + FILE_NAME; }
-            catch { return conn + @"C:\Users\User\OneDrive\שולחן העבודה\PlanMyGetaway\WebService_CreditCard\App_Data\" + FILE_NAME; }
+            string FILE_NAME = "web_service.accdb";
+
+            //string location = @"C:\Users\User\OneDrive\שולחן העבודה\PlanMyGetaway\web_service\Data_Base\" + FILE_NAME;
+            string location = HttpContext.Current.Server.MapPath("~/Data_Base/" + FILE_NAME);
+            string ConnectionString = @"provider=Microsoft.ACE.OLEDB.16.0; data source=" + location;
+            return @"provider=Microsoft.ACE.OLEDB.16.0; data source=C:\Users\User\OneDrive\שולחן העבודה\PlanMyGetaway\web_service\Data_Base\Project_WebService.accdb";
+            // לשנות את הריטרן למסלול בלפטופ
+            //provider=Microsoft.ACE.OLEDB.16.0; data source=C:\Users\User\OneDrive\שולחן העבודה\PlanMyGetaway\web_service\Data_Base\Project_WebService.accdb
         }
     }
 }

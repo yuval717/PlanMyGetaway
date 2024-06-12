@@ -1,0 +1,52 @@
+﻿body {
+}
+
+/* כותרות - כחולות*/
+.label-style-navy {
+    font-weight: bold; /* Makes the text bold */
+    font-size: 35px; /* Sets the size of the font */
+    color: #003366; /* Sets the text color to navy blue */
+    text-align: center; /* Centers the text horizontally */
+    display: block; /* Changes the label from inline to block to take up the full width */
+    line-height: 1.5; /* Adjusts the space between lines to help split the text into two rows if it wraps */
+    white-space: normal; /* Ensures text wraps to the next line if needed */
+    background-color: transparent; /* Ensures no background color */
+    padding: 10px 0; /* Adds some padding above and below the text for better spacing */
+    margin: 0 auto; /* Centers the block element in the container, horizontally */
+    max-width: 90%; /* Restricts the maximum width to help with text wrapping */
+}
+
+
+/*דאטא ליסט אטרקציות*/
+.container {
+    display: flex; /* Uses flexbox to align child elements */
+    overflow-x: auto; /* Enables horizontal scrolling if content overflows */
+    white-space: nowrap; /* Keeps all child elements on the same line */
+    margin-bottom: 20px; /* Adds space below the container */
+    justify-content: center; /* Centers children horizontally within the container */
+    align-items: center; /* Optional: Centers children vertically if they have different heights */
+}
+
+/*דאטאליסט הזמנות*/
+.item_Order {
+    flex: 0 0 auto;
+    width: 270px;
+    height: 170px;
+    margin-right: 40px;
+    border: 1px solid #ccc;
+    border-radius: 13px;
+    background-color: #f9f9f9;
+}
+
+    /* Corrected class selectors */
+    .item_Order .table_Order {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .item_Order .table_Order tr td.OrderName_Row,
+        .item_Order .table_Order tr td.DaysNum_Row,
+        .item_Order .table_Order tr td.Image_Row {
+            text-align: center;
+            padding: 5px;
+        }

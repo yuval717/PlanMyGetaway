@@ -1,0 +1,121 @@
+﻿body {
+    background-color: #003366;
+}
+
+
+/* כותרות - כחול נייבי */
+.label-style-navy {
+    font-weight: bold; /* Makes the text bold */
+    font-size: 35px; /* Sets the size of the font */
+    color: #003366; /* Sets the text color to navy blue */
+    text-align: center; /* Centers the text horizontally */
+    display: block; /* Changes the label from inline to block to take up the full width */
+    line-height: 1.5; /* Adjusts the space between lines to help split the text into two rows if it wraps */
+    white-space: normal; /* Ensures text wraps to the next line if needed */
+    background-color: transparent; /* Ensures no background color */
+    padding: 10px 0; /* Adds some padding above and below the text for better spacing */
+    margin: 0 auto; /* Centers the block element in the container, horizontally */
+    max-width: 90%; /* Restricts the maximum width to help with text wrapping */
+}
+
+
+/* דיב - לוגין, רגיסטר */
+.container {
+    width: 350px;
+    height: 450px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    justify-content: center;
+}
+
+    /* טקסטבוקס */
+    .container input[type="text"],
+    .container input[type="password"],
+    #User_Gmail, #DateOfExpiration, #Forgot_Gmail {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        text-align: right;
+        height: 45px; /* Adjust this value to increase the height */
+    }
+
+/*כפתור הרשמה*/
+    .container #DoRegister, #Forgot_Register, #PayNumber {
+        border: none; /* Removes the border */
+        background: none; /* Removes the default background */
+        outline: none; /* Removes the outline on focus */
+        font-weight: bold; /* Makes the text bold */
+        font-size: 18px; /* Sets the size of the font */
+        color: #b3e0ff; /* Sets the text color to navy blue */
+        cursor: pointer; /* Pointer cursor when hovering over the button */
+    }
+
+#ForgotPassword {
+    border: none; /* Removes the border */
+    background: none; /* Removes the default background */
+    outline: none; /* Removes the outline on focus */
+    font-weight: bold; /* Makes the text bold */
+    font-size: 18px; /* Sets the size of the font */
+    color: #b3e0ff; /* Sets the text color to navy blue */
+    cursor: pointer; /* Pointer cursor when hovering over the button */
+}
+/*כותרת - האם נרשם */
+.container #DoRegister_Lable, #Label3 {
+    border: none; /* Removes the border */
+    background: none; /* Removes the default background */
+    outline: none; /* Removes the outline on focus */
+    font-size: 18px; /* Sets the size of the font */
+    color: #003366; /* Sets the text color to navy blue */
+}
+    /*כותרת תשובה לכניסה - נכנס/לא קיים */
+.container #Result_LogIn, #Result_Register, #Result_Payment, #Forgot_Result {
+    border: none; /* Removes the border */
+    background: none; /* Removes the default background */
+    outline: none; /* Removes the outline on focus */
+    font-size: 15px; /* Sets the size of the font */
+    color: orangered; /* Sets the text color to navy blue */
+}
+
+/*כפתורים - כניסה, המשך, הרשמה*/
+.container #Login, #Register, #enter, #ForgotPassWord_Button {
+    background-color: #b3e0ff; /* grey background for button */
+    color: #003366; /* White text color for button */
+    border: 2px solid #003366;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px; /* Padding inside the button */
+    border-radius: 4px; /* Rounded corners for button */
+    cursor: pointer; /* Pointer cursor when hovering over the button */
+    width: 183px
+}
+
+
+
+/* דרופדאון ליסט - מגדר,ספק אשראי */
+.form-group select,
+#User_Gender, #Provider {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    text-align: right;
+    height: 45px; /* Adjust this value to increase the height */
+    appearance: none; /* Removes default dropdown arrow */
+    color: dimgrey; /* Change this to your desired dropdown text color */
+    background-color: white; /* Change this to your desired dropdown background color */
+}
+
+
+
+
+

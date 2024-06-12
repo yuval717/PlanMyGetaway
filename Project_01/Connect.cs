@@ -58,6 +58,21 @@ namespace Project_01
             return ds;
         }
 
+        public static DataTable Connect_DataTable(string s, string TableName)//  מחזיר טבלה *אחת* שנקראת בשם מסוים ושנבחרה לפי פקודה מסויימת
+        {
+            OleDbConnection Conn = new OleDbConnection();
+            Conn.ConnectionString = Connect.GetConnectionString();
+            OleDbCommand command = new OleDbCommand(s, Conn);
+            DataTable dt = new DataTable(TableName);
+            OleDbDataAdapter adapter = new OleDbDataAdapter(command);
+
+            Conn.Open();
+            adapter.Fill(dt);
+            Conn.Close();
+
+            return dt;
+        }
+
         public static DataSet Connect_MultipleDataSet(ArrayList arr_DSO)//בעלי שאילתה ושם טבלה - מחזיר דאטאסט המכיל טבלה אחת *לפחות* שנקראת בשם מסויים ושנבחרה לפי פקודה מסויימת DS_Object המכיל עצמי ArrayList מקבל
         {
             OleDbConnection Conn = new OleDbConnection(); 
@@ -92,5 +107,7 @@ namespace Project_01
             }
             return arr;
         }
+        //Attraction_Type.Items.Add(new ListItem("ok","1"));// ok = הטקסט המוצג 
+        //Attraction_Type.Items.Add(new ListItem("hi", "2"));// המשך - 1 = הערך , אם אין ערך הטקסט המוצג הוא הערך כבררית מחדל
     }
 }

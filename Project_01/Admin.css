@@ -1,0 +1,89 @@
+﻿body {
+}
+
+/* כותרות - כחולות*/
+.label-style-navy {
+    font-weight: bold; /* Makes the text bold */
+    font-size: 35px; /* Sets the size of the font */
+    color: #003366; /* Sets the text color to navy blue */
+    text-align: center; /* Centers the text horizontally */
+    display: block; /* Changes the label from inline to block to take up the full width */
+    line-height: 1.5; /* Adjusts the space between lines to help split the text into two rows if it wraps */
+    white-space: normal; /* Ensures text wraps to the next line if needed */
+    background-color: transparent; /* Ensures no background color */
+    padding: 10px 0; /* Adds some padding above and below the text for better spacing */
+    margin: 0 auto; /* Centers the block element in the container, horizontally */
+    max-width: 90%; /* Restricts the maximum width to help with text wrapping */
+}
+
+/*טקסטבוקס - שם הזמנה*/
+.Textbox-style-navy {
+    width: 40%; /* Adjust the width as needed */
+    height: 50px; /* Adjust the height as needed */
+    margin: 0 auto; /* Center the textbox horizontally */
+    display: block; /* Ensure the margin auto works */
+    border-radius: 15px; /* Rounded edges */
+    border: 1px solid #003366; /* Navy border */
+    padding: 10px; /* Inner padding for better appearance */
+    font-size: 25px; /* Adjust the font size as needed */
+    text-align: center;
+}
+
+/*טקסטבוקס - שם הזמנה*/
+.Textbox-Typs {
+    width: 20%; /* Adjust the width as needed */
+    height: 30px; /* Adjust the height as needed */
+    border-radius: 15px; /* Rounded edges */
+    border: 1px solid #003366; /* Navy border */
+    font-size: 25px; /* Adjust the font size as needed */
+    text-align: center;
+}
+
+/*טקסטבוקס - שם הזמנה*/
+.Button-Typs {
+    width: 5%; /* Adjust the width as needed */
+    height: 32px; /* Adjust the height as needed */
+    border-radius: 15px; /* Rounded edges */
+    border: 1px solid #003366; /* Navy border */
+    font-size: 25px; /* Adjust the font size as needed */
+    text-align: center;
+    background-color: #b3e0ff;
+}
+
+/*דיב - משמתמשים*/
+.datalist-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+/*דאטאליסט - משתמשים*/
+.custom-datalist {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 13px;
+    padding: 10px;
+}
+/*דאטאליסט - טבלה*/
+    .custom-datalist table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+/*דאטאליסט - שורות*/
+    .custom-datalist td {
+        padding: 8px;
+        border: none;
+    }
+/*שם משתמש*/
+.name-label {
+    font-weight: bold;
+}
+/*כפתורי חסימה/שחרור חסימה + חופשות המשתמש/האטרקציות שלו*/
+.block-button {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold
+}
+
