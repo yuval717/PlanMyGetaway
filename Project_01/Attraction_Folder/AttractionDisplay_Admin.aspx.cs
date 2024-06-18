@@ -19,6 +19,7 @@ namespace Project_01
         {
             if (!Page.IsPostBack)
             {
+                MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
                 //מאסטר פייג
                 Site master = (Site)this.Master;
                 master.MasterPageSignUpOut.Text = "התנתק";
@@ -45,7 +46,14 @@ namespace Project_01
                 FilterMenu.DataSource = t;// בר החופשה
                 FilterMenu.DataBind();
 
+                ArrayList AttractionTypeArr = Connect.FillArrayListForDropDownList("SELECT AttractionType_ID, AttractionType_Type FROM AttractionType WHERE IsValid = " + true, "AttractionType_Type", "AttractionType_ID");
+                for (int i = 0; i < AttractionTypeArr.Count; i++)
+                {
+                    AttractionType.Items.Add((ListItem)AttractionTypeArr[i]);
+                }
+
                 DataSet ds;
+                Session["Attraction_AdminAttDis"] = null;
                 if (Session["Attraction_AdminAttDis"] == null)
                 {
                     ds = Connect.Connect_DataSet("SELECT * FROM Attraction INNER JOIN AttractionType ON Attraction.Attraction_Type" +
@@ -70,14 +78,46 @@ namespace Project_01
                     ds = (DataSet)Session["Attraction_AdminAttDis"];
                 }
 
-                AttractaionDisplay.DataSource = ds.Tables["Attraction"];
-                AttractaionDisplay.DataBind();
-
-                ArrayList AttractionTypeArr = Connect.FillArrayListForDropDownList("SELECT AttractionType_ID, AttractionType_Type FROM AttractionType WHERE IsValid = "+true, "AttractionType_Type", "AttractionType_ID");
-                for (int i = 0; i < AttractionTypeArr.Count; i++)
+                if (Session["filterdAttractionsForAttractoinPage"] != null) // אם חזר מתצוגת דף אטרקציה עם דאטאסט מסונן
                 {
-                    AttractionType.Items.Add((ListItem)AttractionTypeArr[i]);
+                    ArrayList filteredAttractions = (ArrayList)Session["filterdAttractionsForAttractoinPage"];
+                    (((TextBox)(((DataList)FilterMenu).Items[0].FindControl("Duration")))).Text = filteredAttractions[1].ToString();
+                    (((TextBox)(((DataList)FilterMenu).Items[0].FindControl("Price")))).Text = filteredAttractions[2].ToString();
+                    Min_Age.Text = filteredAttractions[3].ToString();
+                    Max_Age.Text = filteredAttractions[4].ToString();
+                    if (filteredAttractions[6].ToString() != "")
+                    {
+                        OpeningHour.Text = (DateTime.Parse(filteredAttractions[6].ToString())).ToString("HH:mm");
+                    }
+                    if (filteredAttractions[7].ToString() != "")
+                    {
+                        ClosingHour.Text = (DateTime.Parse(filteredAttractions[7].ToString())).ToString("HH:mm");
+                    }
+                    CheckBoxList sourceCheckBoxList = (CheckBoxList)filteredAttractions[5];
+                    // Iterate over the items in the source CheckBoxList
+                    for (int i = 0; i < sourceCheckBoxList.Items.Count; i++)
+                    {
+                        // Check if the current item is selected
+                        if (sourceCheckBoxList.Items[i].Selected)
+                        {
+                            // Select the corresponding item in the AttractionType CheckBoxList
+                            AttractionType.Items[i].Selected = true;
+                        }
+                    }
+
+                    DataTable attractionTable = (DataTable)filteredAttractions[0]; // הוספת הטבלה המסוננת לדאטאסט
+                    attractionTable.TableName = "Attraction";
+
+                    AttractaionDisplay.DataSource = attractionTable;
+
+                    Session["filterdAttractionsForAttractoinPage"] = null;// איפוס הסשן - יתמלא שוב לאותו דבר אם המשתמש לוחץ על עוד אטרקציה באותו סינון
                 }
+                else //אם  לא חזר מתצוגת דף אטרקציה עם דאטאסט מסונן
+                {
+                    AttractaionDisplay.DataSource = ds.Tables["Attraction"];
+                }
+
+                AttractaionDisplay.DataBind();
 
                 //שינוי צבע הכפתור - "הכל" לנבחר
             }
@@ -191,6 +231,7 @@ namespace Project_01
             //Move to another page to show the product
             if (e.CommandName == "All")
             {
+                Attractions_Display.filterdTableForAttractoinPage = null;
                 Min_Age.Text = "";
                 Max_Age.Text = "";
                 ((TextBox)e.Item.FindControl("Price")).Text = "";
@@ -327,7 +368,7 @@ namespace Project_01
                     try
                     {
                         AttractaionDisplay.DataSource = ((DataSet)Session["Attraction_AdminAttDis"]).Tables["Attraction"].Select(s).CopyToDataTable();
-
+                        Attractions_Display.filterdTableForAttractoinPage = (DataTable)AttractaionDisplay.DataSource; // שמירת מצב הסינון הנוכחי של האטרקציות
                     }
                     catch (Exception)
                     {
@@ -374,8 +415,8 @@ namespace Project_01
             AttractionType.Items[0].Selected = false;
             AttractionFilter.Style["display"] = "none";
             Age.Style["display"] = "none";
-
-            try // הצגת משתמש
+            Attractions_Display.filterdTableForAttractoinPage = null;
+            try 
             {
                 AttractaionDisplay.DataSource = ((DataSet)Session["Attraction_AdminAttDis"]).Tables["Attraction"].Select("Attraction_Name = '" + txtFilter.Text + "'").CopyToDataTable();
                 NoResult_Lable.Visible = false;// כותרת לא נמצאו תוצאות - נעלמת
@@ -394,6 +435,20 @@ namespace Project_01
             //מעבר לעמוד אטרקציה
             if (e.CommandName == "DoShow")
             {
+                if (Attractions_Display.filterdTableForAttractoinPage != null) // אם התכונה לא ריקה - אם סונן - התכונה מתאפסת אם לוץ על כפתור אטרקציות בתפריט
+                {
+                    ArrayList arr = new ArrayList();
+                    arr.Add(Attractions_Display.filterdTableForAttractoinPage);//דאטאסט סינון
+                    arr.Add((((TextBox)(((DataList)FilterMenu).Items[0].FindControl("Duration")))).Text); // משך
+                    arr.Add(((TextBox)(((DataList)FilterMenu).Items[0].FindControl("Price"))).Text); //מחיר
+                    arr.Add(Min_Age.Text);//גיל מינימלי
+                    arr.Add(Max_Age.Text);//גיל מקסימלי
+                    arr.Add(AttractionType);//סוגי אטרקציות
+                    CheckBoxList c = AttractionType;
+                    arr.Add(OpeningHour.Text);//שעת פתיחה
+                    arr.Add(ClosingHour.Text);//שעת סגירה
+                    Session["filterdAttractionsForAttractoinPage"] = arr;
+                }
                 Session["AttractionID_ForAttractionPage"] = ((Label)e.Item.FindControl("Attraction_ID")).Text;
                 Session["from"] = "AttractionDisplay_Admin.aspx";
                 Response.Redirect("Attraction_Page.aspx");

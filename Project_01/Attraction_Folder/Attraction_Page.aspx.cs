@@ -14,6 +14,7 @@ namespace Project_01
 {
     public partial class AttractionPage : System.Web.UI.Page
     {
+        public static ArrayList filterdAttractionsForAttractoinPage; // תוכן הארייליסט של סשן סינון אטרקציות - תצוגת אטרקציות
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -31,17 +32,19 @@ namespace Project_01
                 }
                 else if (((User)Session["User"]).User_Type == "בעל עסק")//בעל עסק
                 {
+                    MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
                     //מאסטר פייג
                     Site master = (Site)this.Master;
                     master.MasterPageSignUpOut.Text = "התנתק";
                     master.MasterPageOrders.Visible = false;
-                    master.MasterPageSignUpOut.CommandName = "/Attraction_Folder/Attraction_Owner"; //התנתקות
+                    master.MasterPageSignUpOut.CommandName = "/HomePage"; //התנתקות
                     master.MasterPageNewOrder.CommandName = "/Attraction_Folder/Attractions_Display";
                     master.MasterPageAbout.CommandName = "/About";
                     master.MasterPageLogo.CommandName = "/Attraction_Folder/Attraction_Owner";
                 }
                 else if(((User)Session["User"]).User_Type == "אדמין")//אדמין
                 {
+                    MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
                     //מאסטר פייג
                     Site master = (Site)this.Master;
                     master.MasterPageSignUpOut.Text = "התנתק";
@@ -53,6 +56,7 @@ namespace Project_01
                 }
                 else//משתמש רשום
                 {
+                    MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
                     //מאסטר פייג
                     Site master = (Site)this.Master;
                     master.MasterPageSignUpOut.Text = "התנתק";
@@ -63,6 +67,14 @@ namespace Project_01
                     master.MasterPageAbout.CommandName = "/About";
                     master.MasterPageLogo.CommandName = "/Homepage";
                 }
+
+                filterdAttractionsForAttractoinPage = null; // איפוס התכונה
+                if (Session["filterdAttractionsForAttractoinPage"] != null) // אם סשן הסינון קיים 
+                {
+                    filterdAttractionsForAttractoinPage = (ArrayList)Session["filterdAttractionsForAttractoinPage"]; // אכלוס התכונה
+                }
+                Session["filterdAttractionsForAttractoinPage"] = null;//איפוס הסשן למקרה ובו המשתמש יצא מהעמוד בעזרת התפריט ולא כפתור החזרה לתצוגה ואז יהיו בעיות
+
 
                 //לעדכן בפעולה בונה אטרקציה מחיר, משך, טלפון, אימייל
                 Attraction a = AttractionService.FillAttraction("SELECT * FROM Attraction INNER JOIN AttractionType ON Attraction.Attraction_Type = AttractionType.AttractionType_ID WHERE Attraction.Attraction_ID =" + Session["AttractionID_ForAttractionPage"].ToString());
@@ -102,6 +114,10 @@ namespace Project_01
         //כפתור חזרה
         protected void BackTo_Click(object sender, EventArgs e)
         {
+            if (filterdAttractionsForAttractoinPage != null)// אם קיים סשן סינון - לתצוגת סינון בדף תצוגת אטרקציות
+            {
+                Session["filterdAttractionsForAttractoinPage"] = filterdAttractionsForAttractoinPage; //אכלוס הסשן
+            }
             string s = Session["from"].ToString();
             Response.Redirect(s);
         }

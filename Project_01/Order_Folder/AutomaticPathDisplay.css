@@ -138,6 +138,73 @@
     height: 100%;
 }
 
+/*דאטאליסט - תצוגת כל הימים*/
+/* Container for the DataList */
+.datalist-container {
+    width: 100%;
+}
+
+/* Individual DataList items */
+.datalist-item {
+    margin-bottom: 10px;
+}
+
+/* Styling the table */
+.datalist-table {
+    width: 750px;
+    border-collapse: collapse;
+    background-color: #f8f9fa; /* Light grey background for the table */
+}
+
+    /* Table cells styling */
+    .datalist-table td {
+        padding: 10px;
+        border: 3px solid #003366; /* Grey border */
+        border-radius: 13px;
+    }
+
+/* Date Label styling */
+.datalist-date asp\\:Label {
+    font-weight: bold;
+    color: #003366;
+    font-size: 1.4em;
+}
+
+/* Attraction Name styling */
+.datalist-name asp\\:Label {
+    color: navy;
+    font-size: 1.1em;
+}
+
+/* Attraction Start and End Hour styling */
+.datalist-time asp\\:Label {
+    color: grey;
+    font-size: 1em;
+}
+
+/* Table header styling (if applicable) */
+.datalist-table th {
+    background-color: navy;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+
+/*כפתורים */
+.Create-EditUser {
+    width: 400px; /* Increased width */
+    height: 50px; /* Increased height */
+    background-color: yellow; /* White background */
+    border-radius: 29px; /* Rounded edges */
+    font-weight: bold; /* Makes the text bold */
+    border: 0.1px solid #003366; /* Add a navy border for better visibility */
+    font-size: 20px; /* Larger font size for better readability */
+    color: #003366; /*navy*/
+    cursor: pointer; /* Pointer cursor when hovering over the button */
+    padding: 10px;
+    margin: 20px;
+}
 
 
 

@@ -3,6 +3,9 @@
     <link rel="stylesheet" href="Admin.css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    <%-- תצוגת שם משתמש --%>
+    <asp:Label ID="MasterPage_UserName" runat="server" Text="" Style="position:absolute; top:30px; left:15px; margin: 0 20px; text-decoration: none; color: #FFFFFF; font-size: 20px; font-weight: bold; transition: color 0.3s;"></asp:Label>
 <asp:Label ID="AdminPage_Lable" runat="server" Text="דף מנהל" CssClass="label-style-navy" Style="font-size:60px" ></asp:Label>
     <br/>
 <asp:Label ID="User_Search" runat="server" Text="חפש משתמש" CssClass="label-style-navy" ></asp:Label>
@@ -80,6 +83,7 @@
                         <asp:Label ID="User_LastEntrance" runat="server" Text='<%# Bind("User_LastEntrance") %>'></asp:Label>
                     </td>
                     <td>
+                        <asp:Label ID="User_Type" runat="server" Text='<%# Bind("User_IsAttractionOwner") %>' Visible="false"></asp:Label>
                         <asp:Button ID="User_VacationsOrAttractions" runat="server" Text="חופשות המשתמש" CssClass="block-button" Style="background-color:#b3e0ff;" CommandName="Move" />
                     </td>
                     <td>
@@ -153,6 +157,10 @@
         <asp:TextBox ID="VacationType_ToEdit" runat="server" placeholder="שם  סוג אטרקציה חדש" CssClass="Textbox-Typs"></asp:TextBox>
         <asp:Button ID="VacationEditAdd_Button" runat="server" Text="עריכה" CssClass="Button-Typs" OnClick="VacationEditAdd_Button_Click"/>
     </div>
+
+    <br />
+    <asp:Label ID="Result_Att" runat="server" Text="" CssClass="label-style-navy" Style="font-size:20px; color:red;"></asp:Label>
+    <br />
 
     <%-- רווח --%>
     <div style="height:100px;"></div>

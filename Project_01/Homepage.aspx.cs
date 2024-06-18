@@ -22,6 +22,8 @@ namespace Project_01
 
             if (!Page.IsPostBack)
             {
+                
+
                 //בר הזמנה
                 DataSet dataSet = new DataSet();// Create a new DataSet
                 DataTable table = new DataTable("FakeDataset");// Create a new DataTable
@@ -41,12 +43,15 @@ namespace Project_01
 
                 if (Session["User"] != null) // אם משתמש רשום
                 {
+                    MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
                     //מאסטר פייג
                     Site master = (Site)this.Master;
                     master.MasterPageSignUpOut.Text = "התנתק";
                     master.MasterPageOrders.Visible = true;
                     master.MasterPageOrders.CommandName = "User_Folder/UsersOrders";
                     master.MasterPageSignUpOut.CommandName = "Homepage"; //התנתקות
+                    master.MasterPageNewOrder.CommandName = "/Attraction_Folder/Attractions_Display";
+                    master.MasterPageAbout.CommandName = "/About";
 
                     User_Name = ((User)Session["User"]).User_Name; //שם משתמש
 
@@ -86,7 +91,7 @@ namespace Project_01
                     Session["UserOrders"] = null;//עדכון בכל פעם שנכנס לתצוגה
                     if (Session["UserOrders"] == null)
                     {
-                        ds = Connect.Connect_DataSet("SELECT TOP 4 * FROM Orders WHERE Order_UserName = '"
+                        ds = Connect.Connect_DataSet("SELECT TOP 4 * FROM Orders WHERE NotValid = " +false+" AND Order_UserName = '"
                             + User_Name + "'  ORDER BY Order_AddDate DESC", "Orders");
                         Session["UserOrders"] = ds;
                     }
@@ -113,7 +118,7 @@ namespace Project_01
                             INNER JOIN [Day_Attraction] ON [Attraction].[Attraction_ID] = [Day_Attraction].[Attraction_ID]) 
                             INNER JOIN [Days] ON [Day_Attraction].[Day_ID] = [Days].[Day_ID]) 
                             INNER JOIN [Orders] ON [Days].[Order_ID] = [Orders].[Order_ID]) 
-                            WHERE [Orders].[Order_UserName] = '" + User_Name + "' AND [Attraction].[Attraction_ID] <> 67;";
+                            WHERE [Orders].[NotValid] = " + false+" AND [Orders].[Order_UserName] = '" + User_Name + "' AND [Attraction].[Attraction_ID] <> 67;";
                         ds = Connect.Connect_DataSet(queryString, "AttractionTypeByPreviousOrders");
 
                         ArrayList arr = new ArrayList();
@@ -171,6 +176,8 @@ namespace Project_01
                     master.MasterPageSignUpOut.Text = "התחבר";
                     master.MasterPageOrders.Visible = false;
                     master.MasterPageSignUpOut.CommandName = "User_Folder/User_Login_Register";
+                    master.MasterPageNewOrder.CommandName = "/Attraction_Folder/Attractions_Display";
+                    master.MasterPageAbout.CommandName = "/About";
 
                     //***ארבע האטרציות  
                     if (Session["LastCreatedAttractions"] == null)
@@ -274,6 +281,13 @@ namespace Project_01
         {
             Label days = (Label)e.Item.FindControl("Label2");
             days.Text += " ימים";
+
+            if (DateTime.Parse((((Label)e.Item.FindControl("Datesituation")).Text).Substring(0, 10)) < DateTime.Now)
+            {
+                ((Label)e.Item.FindControl("Datesituation")).Text = "התקיימה";
+            }
+            else
+                ((Label)e.Item.FindControl("Datesituation")).Text = "עתידה להתקיים";
         }
 
         //כפתור יצירת הזמנה/גילאים

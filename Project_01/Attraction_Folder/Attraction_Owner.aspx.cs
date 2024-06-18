@@ -19,13 +19,8 @@ namespace Project_01
 
             if (!Page.IsPostBack)
             {
-                if (((User)Session["User"]).User_Type == "אדמין")//אם נכנס כאדמין
-                {
-                    User_Edit.Visible = false;
-                    AddAttraction.Visible = false;
-                }
-
-                    if (((User)Session["User"]).User_Type != "אדמין")//בעל עסק
+                MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
+                if (((User)Session["User"]).User_Type == "בעל עסק")//בעל עסק
                 {
                     //מאסטר פייג
                     Site master = (Site)this.Master;
@@ -46,6 +41,9 @@ namespace Project_01
                     master.MasterPageNewOrder.CommandName = "/Attraction_Folder/AttractionDisplay_Admin";
                     master.MasterPageAbout.CommandName = "/About";
                     master.MasterPageLogo.CommandName = "/admin";
+
+                    User_Edit.Visible = false;
+                    AddAttraction.Visible = false;
                 }
 
                     //אם נכנס לעמוד כאדמין שצופה במשתמש או כמשתמש
@@ -67,6 +65,11 @@ namespace Project_01
 
                 Attractions.DataSource = ds;
                 Attractions.DataBind();
+                NoResult_Lable.Visible = false; // איפוס לתצוגה
+                if (((DataSet)Attractions.DataSource).Tables["Attraction"].Rows.Count == 0) // אם לא נוצרו/נמחקו חופשות
+                {
+                    NoResult_Lable.Visible = true; // הודעת אין חופשות
+                }
             }
         }
 

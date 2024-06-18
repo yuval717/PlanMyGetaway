@@ -15,6 +15,24 @@ namespace Project_01
     {
 
         /// <summary>
+        /// MasterPage_UserName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label MasterPage_UserName;
+
+        /// <summary>
+        /// DisplayWay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DisplayWay;
+
+        /// <summary>
         /// AutomaticPathDisplay_Lable control.
         /// </summary>
         /// <remarks>
@@ -40,6 +58,15 @@ namespace Project_01
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label OrderName_Lable;
+
+        /// <summary>
+        /// SingleDayDisplay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SingleDayDisplay;
 
         /// <summary>
         /// NextDayInPath control.
@@ -159,6 +186,15 @@ namespace Project_01
         protected global::System.Web.UI.WebControls.Button RemoveAttraction;
 
         /// <summary>
+        /// RemoveAttractionConfirm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button RemoveAttractionConfirm;
+
+        /// <summary>
         /// Label1 control.
         /// </summary>
         /// <remarks>
@@ -193,5 +229,32 @@ namespace Project_01
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataList Attraction;
+
+        /// <summary>
+        /// AllDaysDispaly control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl AllDaysDispaly;
+
+        /// <summary>
+        /// AllAttractions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DataList AllAttractions;
+
+        /// <summary>
+        /// User_Edit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button User_Edit;
     }
 }

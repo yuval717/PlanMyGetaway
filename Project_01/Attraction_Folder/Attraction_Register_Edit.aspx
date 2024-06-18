@@ -3,15 +3,18 @@
     <link rel="stylesheet" href="Attraction_Register_Edit.css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
+    <%-- תצוגת שם משתמש --%>
+    <asp:Label ID="MasterPage_UserName" runat="server" Text="" Style="position:absolute; top:30px; left:15px; margin: 0 20px; text-decoration: none; color: #FFFFFF; font-size: 20px; font-weight: bold; transition: color 0.3s;"></asp:Label>
     <%-- כותרות --%>
     <asp:Label ID="AttractionRegister_Lable" CssClass="label-style-navy" runat="server" Text="הוספת אטרקציה" style="font-size: 60px; position:absolute; top: 12%; right: 39.8%;"></asp:Label>
     <asp:Label ID="AttractionRegisterInfo_Lable" CssClass="label-style-navy" runat="server" Text="פרטי אטרקציה" style=" font-size: 40px; position:absolute; top: 24%; right: 44.4%;"></asp:Label>
 
     <%-- רווח --%>
-    <div style="height:300px" ></div>
+    <div style="height:250px" ></div>
 
     <%-- שם אטרקציה --%>
+            <asp:Label ID="Attraction_Name_Lable" runat="server" Text="שם אטרקציה" CssClass="label-style-navy" Style="font-size:25px; padding:0px;"></asp:Label>
+            <br />
             <asp:TextBox ID="Attraction_Name"  CssClass="Textbox-style-navy" placeholder="שם האטרקציה" runat="server" ></asp:TextBox>
             <br />
     <%-- סוג אטרציה --%>
@@ -19,15 +22,23 @@
             <asp:DropDownList ID="Attraction_Type" runat="server" CssClass="Textbox-style-navy" AutoPostBack=true OnSelectedIndexChanged="Attraction_Type_SelectedIndexChanged" style=" height: 50px; width: 36.35%;" ></asp:DropDownList>
             <br />
     <%-- גיל מינימלי --%>
+            <asp:Label ID="Attraction_MinAge_Lable" runat="server" Text="גיל מינימלי של משתתף" CssClass="label-style-navy" Style="font-size:25px; padding:0px;"></asp:Label>
+            <br />
             <asp:TextBox ID="Attraction_MinAge" CssClass="Textbox-style-navy" placeholder="גיל מינימלי של משתתף" runat="server" ></asp:TextBox>
             <br />
     <%-- גיל מקסימלי --%>
+            <asp:Label ID="Attraction_MaxAge_Label" runat="server" Text="גיל מקסימלי של משתתף" CssClass="label-style-navy" Style="font-size:25px; padding:0px;"></asp:Label>
+            <br />
             <asp:TextBox ID="Attraction_MaxAge" CssClass="Textbox-style-navy" placeholder="גיל מקסימלי של משתתף" runat="server" ></asp:TextBox>
             <br />
     <%-- כתובת --%>
+            <asp:Label ID="Attraction_Address_Lable" runat="server" Text="כתובת" CssClass="label-style-navy" Style="font-size:25px; padding:0px;"></asp:Label>
+            <br />
             <asp:TextBox ID="Attraction_Address" CssClass="Textbox-style-navy" placeholder="כתובת" runat="server" ></asp:TextBox>
             <br />
     <%-- מידע על האטרקציה --%>
+            <asp:Label ID="Attraction_Text_Lable" runat="server" Text="מידע על האטרקציה" CssClass="label-style-navy" Style="font-size:25px; padding:0px;"></asp:Label>
+            <br />
             <asp:TextBox ID="Attraction_Text" CssClass="Textbox-style-navy" placeholder="מידע על האטרקציה" runat="server" ></asp:TextBox>
             <br />
     <%-- שעת פתיחה --%>
@@ -39,19 +50,29 @@
             <asp:TextBox ID="Attraction_ClosingHour" CssClass="Textbox-style-navy" TextMode="Time" runat="server" ></asp:TextBox>
             <br />
     <%-- מחיר --%>
+    <asp:Label ID="Attraction_Price_Lable" runat="server" Text="מחיר" CssClass="label-style-navy" Style="font-size:25px; padding:0px;"></asp:Label>
+            <br />
             <asp:TextBox ID="Attraction_Price" CssClass="Textbox-style-navy" placeholder="מחיר" runat="server" ></asp:TextBox>
             <br />
     <%-- משך --%>
+    <asp:Label ID="Attraction_Duration_Lable" runat="server" Text="משך" CssClass="label-style-navy" Style="font-size:25px; padding:0px;"></asp:Label>
+            <br />
             <asp:TextBox ID="Attraction_Duration" CssClass="Textbox-style-navy" placeholder="משך זמן מומלץ לבילוי באטרקציה - בדקות" runat="server" ></asp:TextBox>
             <br />
     <%-- טלפון --%>
+            <asp:Label ID="Attraction_PhonNumber_Label" runat="server" Text="מספר טלפון" CssClass="label-style-navy" Style="font-size:25px; padding:0px;"></asp:Label>
+            <br />
             <asp:TextBox ID="Attraction_PhonNumber" CssClass="Textbox-style-navy" TextMode="Phone" placeholder="מספר טלפון" runat="server" ></asp:TextBox>
             <br />
     <%--  אימייל--%>
+    <asp:Label ID="Attraction_Gmail_Label" runat="server" Text="אימייל" CssClass="label-style-navy" Style="font-size:25px; padding:0px;"></asp:Label>
+            <br />
             <asp:TextBox ID="Attraction_Gmail" CssClass="Textbox-style-navy" TextMode="Email" placeholder="אימייל" runat="server" ></asp:TextBox>
             <br />
     <%-- במידה ומסוג חופשה טיול בטבע --%>
     <%-- מס קילומטרים --%>
+            <asp:Label ID="Attraction_KilometersNumber_Label" runat="server" Text="מספר קילומטרים" visible="false" CssClass="label-style-navy" Style="font-size:25px; padding:0px;"></asp:Label>
+            <br />
             <asp:TextBox ID="Attraction_KilometersNumber" CssClass="Textbox-style-navy" placeholder="מספר קילומטרים" runat="server" visible="false" ></asp:TextBox>
             <br />
     <%-- קושי אטרקציה --%>

@@ -24,6 +24,7 @@ namespace Project_01
         {
             if (!Page.IsPostBack)
             {
+                MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
                 if (((User)Session["User"]).User_Type != "אדמין")//משתמש רשום
                 {
                     //מאסטר פייג
@@ -35,17 +36,6 @@ namespace Project_01
                     master.MasterPageNewOrder.CommandName = "/Attraction_Folder/Attractions_Display";
                     master.MasterPageAbout.CommandName = "/About";
                     master.MasterPageLogo.CommandName = "/Homepage";
-                }
-                else//אדמין
-                {
-                    //מאסטר פייג
-                    Site master = (Site)this.Master;
-                    master.MasterPageSignUpOut.Text = "התנתק";
-                    master.MasterPageOrders.Visible = false;
-                    master.MasterPageSignUpOut.CommandName = "/Homepage"; //התנתקות
-                    master.MasterPageNewOrder.CommandName = "/Attraction_Folder/AttractionDisplay_Admin";
-                    master.MasterPageAbout.CommandName = "/About";
-                    master.MasterPageLogo.CommandName = "/admin";
                 }
 
                 //אכלוס נתונים מסשן - נתוני סינון אטרקציה
@@ -71,6 +61,12 @@ namespace Project_01
 
                 FilterMenu.DataSource = t;// בר החופשה
                 FilterMenu.DataBind();
+
+                ArrayList AttractionTypeArr = Connect.FillArrayListForDropDownList("SELECT AttractionType_ID, AttractionType_Type FROM AttractionType WHERE IsValid = " + true, "AttractionType_Type", "AttractionType_ID");
+                for (int i = 0; i < AttractionTypeArr.Count; i++)
+                {
+                    AttractionType.Items.Add((ListItem)AttractionTypeArr[i]);
+                }
 
                 DataSet ds;
                 Session["Attraction_Search"] = null;
@@ -122,16 +118,39 @@ namespace Project_01
                     ds.Tables["Attraction"].Clear();
                 }
 
+                if (Session["filterdAttractionsForAttractoinPage"] != null) // אם חזר מתצוגת דף אטרקציה עם דאטאסט מסונן
+                {
+                    ArrayList filteredAttractions = (ArrayList)Session["filterdAttractionsForAttractoinPage"];
+                    (((TextBox)(((DataList)FilterMenu).Items[0].FindControl("Duration")))).Text = filteredAttractions[1].ToString();
+                    (((TextBox)(((DataList)FilterMenu).Items[0].FindControl("Price")))).Text = filteredAttractions[2].ToString();
+                    Min_Age.Text = filteredAttractions[3].ToString();
+                    Max_Age.Text = filteredAttractions[4].ToString();
+                    CheckBoxList sourceCheckBoxList = (CheckBoxList)filteredAttractions[5];
+                    // Iterate over the items in the source CheckBoxList
+                    for (int i = 0; i < sourceCheckBoxList.Items.Count; i++)
+                    {
+                        // Check if the current item is selected
+                        if (sourceCheckBoxList.Items[i].Selected)
+                        {
+                            // Select the corresponding item in the AttractionType CheckBoxList
+                            AttractionType.Items[i].Selected = true;
+                        }
+                    }
+
+                    DataTable attractionTable = (DataTable)filteredAttractions[0]; // הוספת הטבלה המסוננת לדאטאסט
+                    attractionTable.TableName = "Attraction";
+
+                    AttractaionDisplay.DataSource = attractionTable;
+
+                    Session["filterdAttractionsForAttractoinPage"] = null;// איפוס הסשן - יתמלא שוב לאותו דבר אם המשתמש לוחץ על עוד אטרקציה באותו סינון
+                }
+                else //אם  לא חזר מתצוגת דף אטרקציה עם דאטאסט מסונן
+                {
+                    AttractaionDisplay.DataSource = ds.Tables["Attraction"];
+                }
 
                 //תצוגת האטרקציות
-                AttractaionDisplay.DataSource = ds.Tables["Attraction"];
                 AttractaionDisplay.DataBind();
-
-                ArrayList AttractionTypeArr = Connect.FillArrayListForDropDownList("SELECT AttractionType_ID, AttractionType_Type FROM AttractionType WHERE IsValid = " +true, "AttractionType_Type", "AttractionType_ID");
-                for (int i = 0; i < AttractionTypeArr.Count; i++)
-                {
-                    AttractionType.Items.Add((ListItem)AttractionTypeArr[i]);
-                }
 
                 //שינוי צבע הכפתור - "הכל" לנבחר
             }
@@ -235,6 +254,20 @@ namespace Project_01
             //Move to another page to show the product
             if (e.CommandName == "DoShow")
             {
+                if (Attractions_Display.filterdTableForAttractoinPage != null) // אם התכונה לא ריקה - אם סונן - התכונה מתאפסת אם לוץ על כפתור אטרקציות בתפריט
+                {
+                    ArrayList arr = new ArrayList();
+                    arr.Add(Attractions_Display.filterdTableForAttractoinPage);//דאטאסט סינון
+                    arr.Add((((TextBox)(((DataList)FilterMenu).Items[0].FindControl("Duration")))).Text); // משך
+                    arr.Add(((TextBox)(((DataList)FilterMenu).Items[0].FindControl("Price"))).Text); //מחיר
+                    arr.Add(Min_Age.Text);//גיל מינימלי
+                    arr.Add(Max_Age.Text);//גיל מקסימלי
+                    arr.Add(AttractionType);//סוגי אטרקציות
+                    CheckBoxList c = AttractionType;
+                    arr.Add("");//שעת פתיחה
+                    arr.Add("");//שעת סגירה
+                    Session["filterdAttractionsForAttractoinPage"] = arr;
+                }
                 Session["AttractionID_ForAttractionPage"] = ((Label)e.Item.FindControl("Attraction_ID")).Text;
                 Session["from"] = "/Order_Folder/AttractionSearch_ManualOrder.aspx";
                 Response.Redirect("/Attraction_Folder/Attraction_Page.aspx");
@@ -242,7 +275,7 @@ namespace Project_01
 
             if (e.CommandName == "AddToPath")
             {
-                
+                Attractions_Display.filterdTableForAttractoinPage = null;// איפוס סינון דאטאסט כניסה לאחר דף ארקציה
                 //לתקן לקיחת id אטרקציה
                 Session["AttractionID_ForAddingToPath"] = ((DataSet)Session["Attraction_Search"]).Tables["Attraction"].Rows[e.Item.ItemIndex]["Attraction_ID"].ToString();
                 Response.Redirect("Manual_Order.aspx");
@@ -258,6 +291,7 @@ namespace Project_01
             //Move to another page to show the product
             if (e.CommandName == "All")
             {
+                Attractions_Display.filterdTableForAttractoinPage = null;
                 Min_Age.Text = "";
                 Max_Age.Text = "";
                 ((TextBox)e.Item.FindControl("Price")).Text = "";
@@ -368,7 +402,7 @@ namespace Project_01
                     try
                     {
                         AttractaionDisplay.DataSource = ((DataSet)Session["Attraction_Search"]).Tables["Attraction"].Select(s).CopyToDataTable();
-
+                        Attractions_Display.filterdTableForAttractoinPage = (DataTable)AttractaionDisplay.DataSource; // שמירת מצב הסינון הנוכחי של האטרקציות
                     }
                     catch (Exception)
                     {
@@ -409,6 +443,7 @@ namespace Project_01
             AttractionType.Items[0].Selected = false;
             AttractionFilter.Style["display"] = "none";
             Age.Style["display"] = "none";
+            Attractions_Display.filterdTableForAttractoinPage = null;
 
             try // הצגת משתמש
             {

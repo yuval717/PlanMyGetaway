@@ -4,6 +4,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <%-- תצוגת שם משתמש --%>
+    <asp:Label ID="MasterPage_UserName" runat="server" Text="" Style="position:absolute; top:30px; left:15px; margin: 0 20px; text-decoration: none; color: #FFFFFF; font-size: 20px; font-weight: bold; transition: color 0.3s;"></asp:Label>
     <%-- כותרת בעל עסק --%>
     <asp:Label ID="Attraction_Owner_Lable" runat="server" Text="בעל עסק" CssClass="label-style-navy" style="font-size: 60px; position:absolute; top: 11%; right: 44.8%;"></asp:Label>
     <br />
@@ -13,6 +15,8 @@
     <%-- רווח --%>
     <div style="height:180px"></div>
 
+    <%-- הודעת לא נוצרו חופשות --%>
+    <asp:Label ID="NoResult_Lable" runat="server" CssClass="label-style-White-Title" Text="לא נוצרו חופשות" Visible="false" Style=" color:red; font-size:25px; position: absolute; top: 50.2%; right: 45.8%;/* ככל שהמספר גדול יותר זז שמאלה*/"></asp:Label>
     <%-- דאטאליסט אטרקציות משתמש+ נתונים ואפשריות --%>
 <asp:Panel ID="Panel1" runat="server" ScrollBars="Vertical" Height="1030px" Style="overflow-y: auto;">
 <asp:DataList ID="Attractions" runat="server" RepeatDirection="Vertical" CellSpacing="3" OnItemCommand="Attractions_ItemCommand" OnItemDataBound="Attractions_ItemDataBound" CssClass="attractions">

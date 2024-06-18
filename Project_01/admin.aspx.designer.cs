@@ -15,6 +15,15 @@ namespace Project_01
     {
 
         /// <summary>
+        /// MasterPage_UserName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label MasterPage_UserName;
+
+        /// <summary>
         /// AdminPage_Lable control.
         /// </summary>
         /// <remarks>
@@ -328,5 +337,14 @@ namespace Project_01
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button VacationEditAdd_Button;
+
+        /// <summary>
+        /// Result_Att control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Result_Att;
     }
 }

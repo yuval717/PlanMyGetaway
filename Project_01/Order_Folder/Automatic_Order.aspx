@@ -4,6 +4,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <%-- תצוגת שם משתמש --%>
+    <asp:Label ID="MasterPage_UserName" runat="server" Text="" Style="position:absolute; top:30px; left:15px; margin: 0 20px; text-decoration: none; color: #FFFFFF; font-size: 20px; font-weight: bold; transition: color 0.3s;"></asp:Label>
     <%-- בחירת יצירת מסלול --%>
     <div id="OrderChoice_Div" runat="server">
     <%--בלוק כחול מתחת לתפריט--%>
@@ -55,11 +57,26 @@
 
     <%-- בלוק רווח --%>
     <div style="height: 20px;"></div>
+
+    <%-- כותרת סוגי אטרקציות --%>
+    <asp:Label ID="AttractionType_Lable" runat="server" Text="סוגי אטרקציות לבחירה" CssClass="label-style-navy" style="font-size: 20px"></asp:Label>
+
+
+    <div class="center-container">
+        <asp:Panel ID="Panel1" runat="server" ScrollBars="Vertical" Height="250px" Style="overflow-y: auto;" >
+            <%-- צקבוקסליסט סוגי אטרקציות --%>
+            <asp:CheckBoxList ID="AttractionTypePreference" runat="server" AutoPostBack="true" CssClass="checkbox-list" RepeatColumns="5" RepeatLayout="Flow" RepeatDirection="Horizontal"></asp:CheckBoxList>
+   </asp:Panel>
+            </div>
+
+    <%-- בלוק רווח --%>
+    <div style="height: 25px;"></div>
     <%-- כותרת פרטי ימי חופשה --%>
     <asp:Label ID="Label1" runat="server" Text="פרטי ימי החופשה" CssClass="label-style-navy" style="font-size: 20px"></asp:Label>
 
     <%-- כפתורי פרטי חופשה - בתוך דאטאליסט --%>
     <div class="container">
+        <asp:Panel ID="Panel2" runat="server" ScrollBars="Vertical" Height="370px" Style="overflow-y: auto;" >
     <asp:DataList ID="DayPreferences" runat="server" RepeatDirection="Horizontal" RepeatColumns="3" CellSpacing="30" OnItemDataBound="DayPreferences_ItemDataBound">
         <ItemTemplate>
             <div class="item">
@@ -103,23 +120,12 @@
             </div>
         </ItemTemplate>
     </asp:DataList>
+            </asp:Panel>
 </div>
 
      <br />
     <asp:Label ID="Result_Day" runat="server" Text="" CssClass="label-style-navy" Style="font-size:20px; color:red;"></asp:Label>
     <br />
-
-    <%-- בלוק רווח --%>
-    <div style="height: 20px;"></div>
-
-    <%-- כותרת סוגי אטרקציות --%>
-    <asp:Label ID="AttractionType_Lable" runat="server" Text="סוגי אטרקציות לבחירה" CssClass="label-style-navy" style="font-size: 20px"></asp:Label>
-
-
-    <div class="center-container">
-            <%-- צקבוקסליסט סוגי אטרקציות --%>
-            <asp:CheckBoxList ID="AttractionTypePreference" runat="server" AutoPostBack="true" CssClass="checkbox-list" RepeatColumns="5" RepeatLayout="Flow" RepeatDirection="Horizontal"></asp:CheckBoxList>
-       </div>
 
     <%-- בלוק רווח --%>
     <div style="height: 100px;"></div>

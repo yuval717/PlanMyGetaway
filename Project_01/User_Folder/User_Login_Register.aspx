@@ -95,7 +95,7 @@
             <asp:TextBox ID="User_LastName" runat="server" placeholder="שם משפחה"></asp:TextBox>
             <div class="form-group">
                 <asp:DropDownList ID="User_Gender" runat="server" CssClass="dropdown-class">
-                <asp:ListItem>זכר </asp:ListItem>
+                <asp:ListItem>זכר</asp:ListItem>
                 <asp:ListItem>נקבה</asp:ListItem>
                 <asp:ListItem>אחר</asp:ListItem>
                 </asp:DropDownList>
@@ -107,7 +107,7 @@
             <asp:TextBox ID="User_PhoneNumber" runat="server" placeholder="מספר טלפון"></asp:TextBox>
             <div class="form-group">
                 <asp:DropDownList ID="UserType" runat="server" CssClass="dropdown-class">
-                <asp:ListItem>משתמש </asp:ListItem>
+                <asp:ListItem>משתמש</asp:ListItem>
                 <asp:ListItem>בעל עסק</asp:ListItem>
                 </asp:DropDownList>
             </div>

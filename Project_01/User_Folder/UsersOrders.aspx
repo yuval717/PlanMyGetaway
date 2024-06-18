@@ -4,14 +4,19 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <%-- תצוגת שם משתמש --%>
+    <asp:Label ID="MasterPage_UserName" runat="server" Text="" Style="position:absolute; top:30px; left:15px; margin: 0 20px; text-decoration: none; color: #FFFFFF; font-size: 20px; font-weight: bold; transition: color 0.3s;"></asp:Label>
     <div style="height:30px"></div>
     <asp:Label ID="AdminPage_Lable" runat="server" Text="החופשות שלי" CssClass="label-style-navy" Style="font-size:60px" ></asp:Label>
     <div style="height:60px"></div>
 
+    <%-- הודעת לא נוצרו חופשות --%>
+    <asp:Label ID="NoResult_Lable" runat="server" CssClass="label-style-White-Title" Text="לא נוצרו חופשות" Visible="false" Style=" color:red; font-size:25px; position: absolute; top: 50.2%; right: 45.8%;/* ככל שהמספר גדול יותר זז שמאלה*/"></asp:Label>
+
     <asp:Panel ID="Panel2" CssClass="container" runat="server" ScrollBars="Vertical" Height="576px" Style="overflow-y: auto;">
     <%-- דאטא ליסט חופשות - החופשות שלי --%>
     <div class="container">
-            <asp:DataList ID="DataList2" runat="server" RepeatDirection="Horizontal" RepeatColumns="4" CellSpacing="3" OnItemDataBound="DataList2_ItemDataBound" OnItemCommand="DataList2_ItemCommand">
+            <asp:DataList ID="DataList2" runat="server" RepeatDirection="Horizontal" RepeatColumns="4" CellSpacing="30" OnItemDataBound="DataList2_ItemDataBound" OnItemCommand="DataList2_ItemCommand">
                 <ItemTemplate>
                      <div class="item_Order">
                         <table class="table_Order">
@@ -35,6 +40,11 @@
                             <tr>
                                 <td class="Image_Row">
                                     <asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~\pictures\OrderBuild.png" Width="80px" Height="80px" Style="padding:0px;" CommandName="DoShow" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="DaysNum_Row">
+                                    <asp:Label ID="Datesituation" runat="server" Text='<%# Bind ("Order_StartDate") %>'  />
                                 </td>
                             </tr>
                         </table>

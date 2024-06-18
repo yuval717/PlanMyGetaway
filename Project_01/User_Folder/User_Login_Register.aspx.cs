@@ -127,7 +127,7 @@ namespace Project_01
             }
             if (NoTextError && ValidatePassword(User_Password.Text) == "שגיאה")
             {
-                Result_LogIn.Text = "הכנס שם סיסמה תקינה";
+                Result_LogIn.Text = "הכנס סיסמה תקינה";
                 NoTextError = false;
             }
             
@@ -160,7 +160,16 @@ namespace Project_01
 
                 }
                 else
-                    Result_LogIn.Text = " פרטי המשתמש שגויים ";
+                {
+                    if (Connect.Connect_ExecuteScalar("SELECT * FROM Users WHERE Users.User_Name = '"
+                + User_Name.Text + "'" + "AND Users.User_Password= '" + User_Password.Text + "'") !=null)
+                    {
+                        Result_LogIn.Text = "המשתמש חסום";
+                    }
+                    else
+                        Result_LogIn.Text = "פרטי המשתמש שגויים";
+                }
+                    
             }
 
         }

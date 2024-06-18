@@ -23,7 +23,8 @@ namespace Project_01
         {
             if (!IsPostBack) // בפעם הראשונה שנכנס לעמוד
             {
-                    if(((User)Session["User"]).User_Type != "אדמין")//משתמש רשום
+                MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
+                if (((User)Session["User"]).User_Type != "אדמין")//משתמש רשום
                     {
                         //מאסטר פייג
                         Site master = (Site)this.Master;
@@ -88,7 +89,14 @@ namespace Project_01
                 DayDate_Lable.Text = DayDate; // עדכון תאריך יום לתצוגה
             }
 
+            //השמת נתונים בתצוגת רשימה
+            DataView view = new DataView(ds.Tables["Day_Attraction"]); //nullעמיד ב 
+            view.Sort = "Day_ID ASC";  // Sort by "Day_ID" column in ascending order
+            AllAttractions.DataSource = view.ToTable();
+            AllAttractions.DataBind();
+
             DisplayFunc();// עדכון תצוגת המסלול
+            DayDate_Lable.Visible = true;
         }
 
         // עדכון תצוגת המסלול
@@ -240,6 +248,59 @@ namespace Project_01
                 DayDate_Lable.Text = DayDate; // עדכון תאריך יום בתצוגה
                 DisplayFunc(); // עדכון תצוגה
             }
+        }
+
+        //תצוגת כל האטרקציות - רשימה
+        protected void AllAttractions_ItemDataBound(object sender, DataListItemEventArgs e)
+        {
+            // Check if the Repeater item is an item or alternating item (not a header/footer)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                foreach (DataRow row in ((DataSet)Session["Days"]).Tables["Attraction"].Rows)
+                {
+                    if ((int)row["Attraction_ID"] == Convert.ToInt32(((Label)e.Item.FindControl("Attraction_ID")).Text))
+                    {
+                        ((Label)e.Item.FindControl("Attraction_Name")).Text = row["Attraction_Name"].ToString();
+                        ((Label)e.Item.FindControl("AttractionStartHour")).Text = (((Label)e.Item.FindControl("AttractionStartHour")).Text).Substring(10);
+                        ((Label)e.Item.FindControl("AttractionEndHour")).Text = (((Label)e.Item.FindControl("AttractionEndHour")).Text).Substring(10);
+                    }
+                }
+
+                bool DidNotChange = true;
+                foreach (DataRow row in ds.Tables["Days"].Rows)
+                {
+                    if (DidNotChange && (int)row["Day_ID"] == Convert.ToInt32((((Label)e.Item.FindControl("Date")).Text)))
+                    {
+                        ((Label)e.Item.FindControl("Date")).Text = (row["Day_Date"].ToString()).Substring(0, 10);
+                        DidNotChange = false;
+                    }
+                }
+            }
+        }
+
+        protected void DisplayWay_Click(object sender, EventArgs e)
+        {
+            if (DisplayWay.Text != "כל הימים")//תצוגת כל הימים
+            {
+                DisplayFunc();// עדכון תצוגת המסלול
+                DayDate_Lable.Visible = true;
+                AllDaysDispaly.Style["Display"] = "None";
+                SingleDayDisplay.Style["Display"] = "Block";
+                DisplayWay.Text = "כל הימים";
+            }
+            else
+            {
+                DayDate_Lable.Visible = false;
+                AllDaysDispaly.Style["Display"] = "Block";
+                SingleDayDisplay.Style["Display"] = "None";
+                DisplayWay.Text = "יום יחיד";
+            }
+        }
+
+        protected void User_Edit_Click(object sender, EventArgs e)
+        {
+            Connect.Connect_ExecuteNonQuery("UPDATE Orders SET NotValid = " + true + " WHERE Order_ID = " + Order_ID);
+            Response.Redirect("/User_Folder/UsersOrders.aspx"); // העברה לדף התחברות
         }
     }
 }

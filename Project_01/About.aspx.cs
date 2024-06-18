@@ -26,17 +26,19 @@ namespace Project_01
                 }
                 else if (((User)Session["User"]).User_Type == "בעל עסק")//בעל עסק
                 {
+                    MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
                     //מאסטר פייג
                     Site master = (Site)this.Master;
                     master.MasterPageSignUpOut.Text = "התנתק";
                     master.MasterPageOrders.Visible = false;
-                    master.MasterPageSignUpOut.CommandName = "/Attraction_Folder/Attraction_Owner"; //התנתקות
+                    master.MasterPageSignUpOut.CommandName = "/HomePage"; //התנתקות
                     master.MasterPageNewOrder.CommandName = "/Attraction_Folder/Attractions_Display";
                     master.MasterPageAbout.CommandName = "/About";
                     master.MasterPageLogo.CommandName = "/Attraction_Folder/Attraction_Owner";
                 }
                 else if (((User)Session["User"]).User_Type == "אדמין")//אדמין
                 {
+                    MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
                     //מאסטר פייג
                     Site master = (Site)this.Master;
                     master.MasterPageSignUpOut.Text = "התנתק";
@@ -48,6 +50,7 @@ namespace Project_01
                 }
                 else//משתמש רשום
                 {
+                    MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
                     //מאסטר פייג
                     Site master = (Site)this.Master;
                     master.MasterPageSignUpOut.Text = "התנתק";

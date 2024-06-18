@@ -24,7 +24,7 @@ namespace Project_01
 
             if (!Page.IsPostBack)
             {
-
+                MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
                 if (((User)Session["User"]).User_Type != "אדמין")//משתמש רשום
                 {
                     //מאסטר פייג
@@ -53,7 +53,7 @@ namespace Project_01
                 //*** ההזמנות האחרונות של משתמש מחובר - ממויין מחדש לישן
                 if (Session["UserOrders_OrderDis"] == null)
                 {
-                    ds = Connect.Connect_DataSet("SELECT  * FROM Orders WHERE Order_UserName = '"
+                       ds = Connect.Connect_DataSet("SELECT  * FROM Orders WHERE  NotValid = " + false + " AND Order_UserName = '"
                         + User_Name + "'  ORDER BY Order_AddDate DESC", "Orders");
                     Session["UserOrders_OrderDis"] = ds;
                 }
@@ -61,6 +61,11 @@ namespace Project_01
                     ds = (DataSet)Session["UserOrders_OrderDis"];
                 DataList2.DataSource = ds;
                 DataList2.DataBind();
+                NoResult_Lable.Visible = false; // איפוס לתצוגה
+                if (((DataSet)DataList2.DataSource).Tables["Orders"].Rows.Count == 0) // אם לא נוצרו/נמחקו חופשות
+                {
+                    NoResult_Lable.Visible = true; // הודעת אין חופשות
+                }
             }
         }
 
@@ -69,6 +74,14 @@ namespace Project_01
         {
             Label days = (Label)e.Item.FindControl("Label2");
             days.Text += " ימים";
+
+             
+            if ( DateTime.Parse((((Label)e.Item.FindControl("Datesituation")).Text).Substring(0, 10)) < DateTime.Now)
+            {
+                ((Label)e.Item.FindControl("Datesituation")).Text = "התקיימה";
+            }
+            else
+                ((Label)e.Item.FindControl("Datesituation")).Text = "עתידה להתקיים";
         }
 
 

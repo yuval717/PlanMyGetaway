@@ -15,6 +15,15 @@ namespace Project_01
     {
 
         /// <summary>
+        /// MasterPage_UserName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label MasterPage_UserName;
+
+        /// <summary>
         /// AttractionRegister_Lable control.
         /// </summary>
         /// <remarks>
@@ -31,6 +40,15 @@ namespace Project_01
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label AttractionRegisterInfo_Lable;
+
+        /// <summary>
+        /// Attraction_Name_Lable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Attraction_Name_Lable;
 
         /// <summary>
         /// Attraction_Name control.
@@ -60,6 +78,15 @@ namespace Project_01
         protected global::System.Web.UI.WebControls.DropDownList Attraction_Type;
 
         /// <summary>
+        /// Attraction_MinAge_Lable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Attraction_MinAge_Lable;
+
+        /// <summary>
         /// Attraction_MinAge control.
         /// </summary>
         /// <remarks>
@@ -67,6 +94,15 @@ namespace Project_01
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Attraction_MinAge;
+
+        /// <summary>
+        /// Attraction_MaxAge_Label control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Attraction_MaxAge_Label;
 
         /// <summary>
         /// Attraction_MaxAge control.
@@ -78,6 +114,15 @@ namespace Project_01
         protected global::System.Web.UI.WebControls.TextBox Attraction_MaxAge;
 
         /// <summary>
+        /// Attraction_Address_Lable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Attraction_Address_Lable;
+
+        /// <summary>
         /// Attraction_Address control.
         /// </summary>
         /// <remarks>
@@ -85,6 +130,15 @@ namespace Project_01
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Attraction_Address;
+
+        /// <summary>
+        /// Attraction_Text_Lable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Attraction_Text_Lable;
 
         /// <summary>
         /// Attraction_Text control.
@@ -132,6 +186,15 @@ namespace Project_01
         protected global::System.Web.UI.WebControls.TextBox Attraction_ClosingHour;
 
         /// <summary>
+        /// Attraction_Price_Lable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Attraction_Price_Lable;
+
+        /// <summary>
         /// Attraction_Price control.
         /// </summary>
         /// <remarks>
@@ -139,6 +202,15 @@ namespace Project_01
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Attraction_Price;
+
+        /// <summary>
+        /// Attraction_Duration_Lable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Attraction_Duration_Lable;
 
         /// <summary>
         /// Attraction_Duration control.
@@ -150,6 +222,15 @@ namespace Project_01
         protected global::System.Web.UI.WebControls.TextBox Attraction_Duration;
 
         /// <summary>
+        /// Attraction_PhonNumber_Label control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Attraction_PhonNumber_Label;
+
+        /// <summary>
         /// Attraction_PhonNumber control.
         /// </summary>
         /// <remarks>
@@ -159,6 +240,15 @@ namespace Project_01
         protected global::System.Web.UI.WebControls.TextBox Attraction_PhonNumber;
 
         /// <summary>
+        /// Attraction_Gmail_Label control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Attraction_Gmail_Label;
+
+        /// <summary>
         /// Attraction_Gmail control.
         /// </summary>
         /// <remarks>
@@ -166,6 +256,15 @@ namespace Project_01
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Attraction_Gmail;
+
+        /// <summary>
+        /// Attraction_KilometersNumber_Label control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Attraction_KilometersNumber_Label;
 
         /// <summary>
         /// Attraction_KilometersNumber control.

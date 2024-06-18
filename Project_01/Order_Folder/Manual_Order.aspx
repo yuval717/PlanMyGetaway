@@ -4,12 +4,20 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <%-- תצוגת שם משתמש --%>
+    <asp:Label ID="MasterPage_UserName" runat="server" Text="" Style="position:absolute; top:30px; left:15px; margin: 0 20px; text-decoration: none; color: #FFFFFF; font-size: 20px; font-weight: bold; transition: color 0.3s;"></asp:Label>
+    <%-- כפתור שינוי תצוגות  --%>
+    <asp:Button ID="DisplayWay" runat="server" Text="כל הימים" CssClass="Next_Prev" style="position:absolute; top:190px; left:70px; " OnClick="DisplayWay_Click" />
+
     <%-- כותרת תצוגה --%>
     <asp:Label ID="AutomaticPathDisplay_Lable" runat="server" Text="תצוגת חופשה ידנית" CssClass="label-style-navy" style="font-size: 40px; position:absolute; top: 22%; right: 9%;"></asp:Label>
     <%-- תאריך יום המסלול --%>
-    <asp:Label ID="DayDate_Lable" runat="server" Text="" CssClass="label-style-navy" style="font-size: 30px; position:absolute; top: 30%; right: 13%;"></asp:Label>
+    <asp:Label ID="DayDate_Lable" runat="server" Text="" CssClass="label-style-navy" style="font-size: 30px; position:absolute; top: 30%; right: 13%;" Visible="true" ></asp:Label>
+    <div style="width:200px; position:absolute; top: 35%; right: 12%;" >   
     <%-- שם ההזמנה --%>
-    <asp:Label ID="OrderName_Lable" runat="server" Text="" CssClass="label-style-navy" style="font-size: 25px; position:absolute; top: 35%; right: 11%;"></asp:Label>
+    <asp:Label ID="OrderName_Lable" runat="server" Text="" CssClass="label-style-navy" style="font-size: 25px; "></asp:Label>
+    </div>
+    <div ID="SingleDayDisplay" runat="server" style="display:block"> 
     <%-- כפתור ניווט בימי המסלול --%>
     <asp:Button ID="NextDayInPath" runat="server" Text="יום הבא" CssClass="Next_Prev" style="position:absolute; top: 44%; right: 17%;" OnClick="NextDayInPath_Click"/>
     <asp:Button ID="PrevDayInPath" runat="server" Text="יום קודם" CssClass="Next_Prev" style="position:absolute; top: 44%; right: 10.2%;" OnClick="PrevDayInPath_Click"/>
@@ -39,6 +47,8 @@
     <asp:TextBox ID="ToHour_Remove" runat="server" TextMode="Time" CssClass="Textbox-style-black" style="position:absolute; top: 64%; right: 11.6%;" ></asp:TextBox>
     <%-- כפתור מחיקת אטרקציות לפי השעות --%>
     <asp:Button ID="RemoveAttraction" runat="server" Text="מחיקת אטרקציה"  CssClass="Next_Prev" style="width:200px; position:absolute; top: 64%; right: 16.3%;" OnClick="RemoveAttraction_Click" />
+    <%-- כפתור אישור מחיקה --%>
+    <asp:Button ID="RemoveAttractionConfirm" runat="server" Text="אישור מחיקה"  CssClass="Next_Prev" style="width:200px; position:absolute; top: 69%; right: 11%; background-color:#003366; color:white;" OnClick="RemoveAttractionConfirm_Click" visible="false"/>
     <%-- כיתוב מ/ל שעה מעל טקסטבוקס מחיקת אטרקציות --%>
     <asp:Label ID="Label1" runat="server" Text="מהשעה" style=" position: absolute; top: 64%; right: 7.3%; font-size: 10px;" ></asp:Label> <%--יותר קטן = שמאלה יותר קטן = מעלה--%>
     <asp:Label ID="Label2" runat="server" Text="לשעה" style=" position: absolute; top: 64%; right: 11.9%; font-size: 10px;" ></asp:Label>
@@ -80,7 +90,41 @@
         </ItemTemplate>
     </asp:DataList>
     </div>
+    </div>
 
+
+    <div ID="AllDaysDispaly" runat="server" style="display:none"> 
+    <%-- דאטאליסט - אטרקציות --%>
+    <div class="container" style="position: absolute; top: 22.3%; right: 34.3%">
+<asp:DataList ID="AllAttractions" runat="server" OnItemDataBound="AllAttractions_ItemDataBound" CssClass="datalist-container">
+    <ItemTemplate>
+        <div class="datalist-item">
+            <table class="datalist-table">
+                <tr>
+                    <td class="datalist-date">
+                        <asp:Label ID="Date" runat="server" Text='<%# Bind("Day_ID") %>'></asp:Label>
+                    </td>
+                    <td class="datalist-name">
+                        <asp:Label ID="Attraction_Name" runat="server" Text=''></asp:Label>
+                        <asp:Label ID="Attraction_ID" runat="server" Text='<%# Bind("Attraction_ID") %>' Visible="false"></asp:Label>
+                    </td>
+                    <td class="datalist-time">
+                        <asp:Label ID="AttractionStartHour" runat="server" Text='<%# Bind("StartHour") %>'></asp:Label>
+                        <asp:Label ID="AttractionDuration" runat="server" Text=" - "></asp:Label>
+                        <asp:Label ID="AttractionEndHour" runat="server" Text='<%# Bind("EndHour") %>'></asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </ItemTemplate>
+</asp:DataList>
+    </div>
+    </div>
+
+    <%-- רווח --%>
+    <div style="height:40px;"></div>
+    <%-- מחיקת חופשה --%>
+    <asp:Button ID="User_Edit" runat="server" Text="מחיקת חופשה" CssClass="Create-EditUser" OnClick="User_Edit_Click" Style="background-color:#f9f9f9; position:absolute; top:700px; right:100px;" />
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="FooterContent" runat="server">
 </asp:Content>

@@ -27,8 +27,9 @@ namespace Project_01
             DataSet ds = null; //יצירת  דאטאסט ריק לצרכים שונים
             if (!IsPostBack) // בפעם הראשונה שנכנס לעמוד
             {
-                    //מאסטר פייג
-                    Site master = (Site)this.Master;
+                MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
+                //מאסטר פייג
+                Site master = (Site)this.Master;
                     master.MasterPageSignUpOut.Text = "התנתק";
                     master.MasterPageOrders.Visible = true;
                     master.MasterPageOrders.CommandName = "/User_Folder/UsersOrders";

@@ -15,6 +15,15 @@ namespace Project_01
     {
 
         /// <summary>
+        /// MasterPage_UserName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label MasterPage_UserName;
+
+        /// <summary>
         /// UserEdit_Lable control.
         /// </summary>
         /// <remarks>
@@ -22,6 +31,15 @@ namespace Project_01
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label UserEdit_Lable;
+
+        /// <summary>
+        /// Password_Lable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Password_Lable;
 
         /// <summary>
         /// Password control.
@@ -33,6 +51,15 @@ namespace Project_01
         protected global::System.Web.UI.WebControls.TextBox Password;
 
         /// <summary>
+        /// User_FirstName_Lable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label User_FirstName_Lable;
+
+        /// <summary>
         /// User_FirstName control.
         /// </summary>
         /// <remarks>
@@ -40,6 +67,15 @@ namespace Project_01
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox User_FirstName;
+
+        /// <summary>
+        /// User_LastName_Lable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label User_LastName_Lable;
 
         /// <summary>
         /// User_LastName control.
@@ -51,6 +87,15 @@ namespace Project_01
         protected global::System.Web.UI.WebControls.TextBox User_LastName;
 
         /// <summary>
+        /// User_Gender_Lable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label User_Gender_Lable;
+
+        /// <summary>
         /// User_Gender control.
         /// </summary>
         /// <remarks>
@@ -60,6 +105,15 @@ namespace Project_01
         protected global::System.Web.UI.WebControls.DropDownList User_Gender;
 
         /// <summary>
+        /// User_Gmail_Lable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label User_Gmail_Lable;
+
+        /// <summary>
         /// User_Gmail control.
         /// </summary>
         /// <remarks>
@@ -67,6 +121,15 @@ namespace Project_01
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox User_Gmail;
+
+        /// <summary>
+        /// User_PhoneNumber_Label control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label User_PhoneNumber_Label;
 
         /// <summary>
         /// User_PhoneNumber control.

@@ -19,6 +19,7 @@ namespace Project_01
         {
             if (!Page.IsPostBack)
             {
+                MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
                 //מאסטר פייג
                 Site master = (Site)this.Master;
                 master.MasterPageSignUpOut.Text = "התנתק";
@@ -177,7 +178,7 @@ namespace Project_01
                     ((Label)e.Item.FindControl("User_IsBlocked")).Text = "חסום";
                     ((Button)e.Item.FindControl("Is_Blocked")).Text = "UNBLOCK";
                 }
-
+                DataTable t = ((DataSet)Session["Users"]).Tables["Users"];
                 bool IsAttractionOwner = (bool)(((DataSet)Session["Users"]).Tables["Users"].Rows[e.Item.ItemIndex]["User_IsAttractionOwner"]);
                 if (IsAttractionOwner)
                     ((Button)e.Item.FindControl("User_VacationsOrAttractions")).Text = "אטרקציות בבעלות המשתמש";
@@ -246,9 +247,10 @@ namespace Project_01
                     ((Label)e.Item.FindControl("User_IsBlocked")).Text = "חסום";
                     ((Button)e.Item.FindControl("Is_Blocked")).Text = "UNBLOCK";
                 }
-                string IsAttractionOwner = (((DataSet)Session["Users"]).Tables["Users"].Rows[e.Item.ItemIndex]["User_IsAttractionOwner"]).ToString();
+                bool IsAttractionOwner = (bool)(((DataSet)Session["Users"]).Tables["Users"].Rows[e.Item.ItemIndex]["User_IsAttractionOwner"]);
                 // לא עובד
-                if (IsAttractionOwner == "True")
+                string s = ((Label)e.Item.FindControl("User_Type")).Text;
+                if (s == "True")
                     ((Button)e.Item.FindControl("User_VacationsOrAttractions")).Text = "אטרקציות בבעלות המשתמש";
                 ((Label)e.Item.FindControl("User_LastEntrance")).Text = (((Label)e.Item.FindControl("User_LastEntrance")).Text).Substring(0,10);
                 
@@ -272,6 +274,7 @@ namespace Project_01
         //טיפול בדיב הוספת סוג אטרקציה
         protected void AttractionType_Add_Click(object sender, EventArgs e)
         {
+            Result_Att.Text = "";
             AddDivAttraction.Style["display"] = "block";
             RemoveDivAttraction.Style["display"] = "none";
             EditDivAttraction.Style["display"] = "none";
@@ -285,6 +288,7 @@ namespace Project_01
         //טיפול בדיב מחיקת סוג אטרקציה
         protected void AttractionType_Remove_Click(object sender, EventArgs e)
         {
+            Result_Att.Text = "";
             RemoveDivAttraction.Style["display"] = "block";
             AddDivAttraction.Style["display"] = "none";
             EditDivAttraction.Style["display"] = "none";
@@ -298,6 +302,7 @@ namespace Project_01
         //טיפול בדיב עריכת סוג אטרקציה
         protected void AttractionType_Edit_Click(object sender, EventArgs e)
         {
+            Result_Att.Text = "";
             EditDivAttraction.Style["display"] = "block";
             AddDivAttraction.Style["display"] = "none";
             RemoveDivAttraction.Style["display"] = "none";
@@ -319,20 +324,33 @@ namespace Project_01
         // עריכת סוג אטרקציה
         protected void AttractionType_Edit_Button_Click(object sender, EventArgs e)
         {
-             Connect.Connect_ExecuteNonQuery("Update AttractionType Set AttractionType_Type = '" + AttractionType_Edit_TextBox.Text + "' WHERE AttractionType_ID = " + AttractionType_Edit_DropDownList.SelectedValue );
-             Response.Redirect("Admin.aspx");
+            if (AttractionType_Edit_DropDownList.SelectedValue != null)
+            {
+                Connect.Connect_ExecuteNonQuery("Update AttractionType Set AttractionType_Type = '" + AttractionType_Edit_TextBox.Text + "' WHERE AttractionType_ID = " + AttractionType_Edit_DropDownList.SelectedValue);
+                Response.Redirect("Admin.aspx");
+            }
+            else
+                Result_Att.Text = "בחר סוג אטרקציה תקין לעריכה";
+
         }
 
         // מחיקת סוג אטרקציה
         protected void AttractionTypeRemove_Button_Click(object sender, EventArgs e)
         {
-            Connect.Connect_ExecuteNonQuery("Update AttractionType Set IsValid = "+ false +" WHERE AttractionType_ID = " + AttractionType_Remove_DropDownList.SelectedValue);
-            Response.Redirect("Admin.aspx");
+            if (AttractionType_Remove_DropDownList.SelectedValue != "")
+            {
+                Connect.Connect_ExecuteNonQuery("Update AttractionType Set IsValid = " + false + " WHERE AttractionType_ID = " + AttractionType_Remove_DropDownList.SelectedValue);
+                Response.Redirect("Admin.aspx");
+            }
+            else
+                Result_Att.Text = "בחר סוג אטרקציה תקין למחיקה";
+
         }
 
         //טיפול בדיב הוספת סוג חופשה
         protected void VacationType_Add_Click(object sender, EventArgs e)
         {
+            Result_Att.Text = "";
             AddDivVacation.Style["display"] = "block";
             RemoveDivVacation.Style["display"] = "none";
             EditDivVacation.Style["display"] = "none";
@@ -346,6 +364,7 @@ namespace Project_01
         //טיפול בדיב עריכת סוג חופשה
         protected void VacationType_Edit_Click(object sender, EventArgs e)
         {
+            Result_Att.Text = "";
             EditDivVacation.Style["display"] = "block";
             AddDivVacation.Style["display"] = "none";
             RemoveDivVacation.Style["display"] = "none";
@@ -359,6 +378,7 @@ namespace Project_01
         //טיפול בדיב הסרת סוג חופשה
         protected void VacationType_Remove_Click(object sender, EventArgs e)
         {
+            Result_Att.Text = "";
             RemoveDivVacation.Style["display"] = "block";
             AddDivVacation.Style["display"] = "none";
             EditDivVacation.Style["display"] = "none";
@@ -380,15 +400,26 @@ namespace Project_01
         //הסרת סוג חופשה
         protected void VacationTypeRemove_Button_Click(object sender, EventArgs e)
         {
-            Connect.Connect_ExecuteNonQuery("Update VacationType Set IsValid = " + false + " WHERE VacationType_ID = " + VacationType_ToRemove_DropDownList.SelectedValue);
-            Response.Redirect("Admin.aspx");
+            if (VacationType_ToRemove_DropDownList.SelectedValue != "")
+            {
+                Connect.Connect_ExecuteNonQuery("Update VacationType Set IsValid = " + false + " WHERE VacationType_ID = " + VacationType_ToRemove_DropDownList.SelectedValue);
+                Response.Redirect("Admin.aspx");
+            }
+            else
+                Result_Att.Text = "בחר סוג חופשה תקין למחיקה";
+
         }
 
         //עריכת סוג חופשה
         protected void VacationEditAdd_Button_Click(object sender, EventArgs e)
         {
-            Connect.Connect_ExecuteNonQuery("Update VacationType Set VacationType_Type = '" + VacationType_ToEdit.Text + "' WHERE VacationType_ID = " + VacationType_ToEdit_DropDownList.SelectedValue);
-            Response.Redirect("Admin.aspx");
+            if (VacationType_ToEdit_DropDownList.SelectedValue != "")
+            {
+                Connect.Connect_ExecuteNonQuery("Update VacationType Set VacationType_Type = '" + VacationType_ToEdit.Text + "' WHERE VacationType_ID = " + VacationType_ToEdit_DropDownList.SelectedValue);
+                Response.Redirect("Admin.aspx");
+            }
+            else
+                Result_Att.Text = "בחר סוג חופשה תקין לעריכה";
         }
     }
 }

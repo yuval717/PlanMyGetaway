@@ -4,6 +4,9 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <%-- תצוגת שם משתמש --%>
+    <asp:Label ID="MasterPage_UserName" runat="server" Text="" Style="position:absolute; top:30px; left:15px; margin: 0 20px; text-decoration: none; color: #FFFFFF; font-size: 20px; font-weight: bold; transition: color 0.3s;"></asp:Label>
+
     <%--בלוק כחול מתחת לתפריט--%>
     <div id="nav-block_UnderneathNavigation">
         <%-- כותרות-לבן-בתוך הבלוק --%>
@@ -130,6 +133,11 @@
                             <tr>
                                 <td class="Image_Row">
                                     <asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~\pictures\OrderBuild.png" Width="80px" Height="80px" Style="padding:0px;" CommandName="DoShow" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="DaysNum_Row">
+                                    <asp:Label ID="Datesituation" runat="server" Text='<%# Bind ("Order_StartDate") %>'  />
                                 </td>
                             </tr>
                         </table>

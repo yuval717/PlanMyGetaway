@@ -15,13 +15,14 @@ namespace Project_01
         {
             if (!Page.IsPostBack)
             {
+                MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
                 if (((User)Session["User"]).User_Type == "בעל עסק")//בעל עסק
                 {
                     //מאסטר פייג
                     Site master = (Site)this.Master;
                     master.MasterPageSignUpOut.Text = "התנתק";
                     master.MasterPageOrders.Visible = false;
-                    master.MasterPageSignUpOut.CommandName = "/Attraction_Folder/Attraction_Owner"; //התנתקות
+                    master.MasterPageSignUpOut.CommandName = "/Homepage"; //התנתקות
                     master.MasterPageNewOrder.CommandName = "/Attraction_Folder/Attractions_Display";
                     master.MasterPageAbout.CommandName = "/About";
                     master.MasterPageLogo.CommandName = "/Attraction_Folder/Attraction_Owner";

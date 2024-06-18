@@ -24,13 +24,15 @@ namespace Project_01
         {
             if (!Page.IsPostBack)
             {
+                MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
+                string l = ((User)Session["User"]).User_Type;
                 if (((User)Session["User"]).User_Type == "בעל עסק")//בעל עסק
                 {
                     //מאסטר פייג
                     Site master = (Site)this.Master;
                     master.MasterPageSignUpOut.Text = "התנתק";
                     master.MasterPageOrders.Visible = false;
-                    master.MasterPageSignUpOut.CommandName = "/Attraction_Folder/Attraction_Owner"; //התנתקות
+                    master.MasterPageSignUpOut.CommandName = "/Homepage"; //התנתקות
                     master.MasterPageNewOrder.CommandName = "/Attraction_Folder/Attractions_Display";
                     master.MasterPageAbout.CommandName = "/About";
                     master.MasterPageLogo.CommandName = "/Attraction_Folder/Attraction_Owner";
@@ -144,11 +146,12 @@ namespace Project_01
                     
 
                     //הצגת נתוני הרחבה - טבע
-                    if ((Attraction_KilometersNumber.Text != "" && Attraction_Difficulty.SelectedIndex != -1))
+                    if ( a.Attraction_Difficulty != null)
                     {
                         Attraction_Difficulty.Visible = true;
                         Attraction_Difficulty_Lable.Visible = true;
                         Attraction_KilometersNumber.Visible = true;
+                        Attraction_KilometersNumber_Label.Visible = true;
                     }
 
                     DataRow newRow = MainPhotoTable.NewRow();// יצירת שורה חדשה
@@ -432,12 +435,14 @@ namespace Project_01
                         Attraction_Difficulty.Visible = true;
                         Attraction_Difficulty_Lable.Visible = true;
                         Attraction_KilometersNumber.Visible = true;
+                        Attraction_KilometersNumber_Label.Visible = true;
                     }
                     else
                     {
                         Attraction_Difficulty.Visible = false;
                         Attraction_Difficulty_Lable.Visible = false;
                         Attraction_KilometersNumber.Visible = false;
+                        Attraction_KilometersNumber_Label.Visible = false;
 
                         Attraction_Difficulty.SelectedIndex = -1;
                         Attraction_KilometersNumber.Text = null;

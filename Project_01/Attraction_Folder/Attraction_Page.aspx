@@ -4,6 +4,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <%-- תצוגת שם משתמש --%>
+    <asp:Label ID="MasterPage_UserName" runat="server" Text="" Style="position:absolute; top:30px; left:15px; margin: 0 20px; text-decoration: none; color: #FFFFFF; font-size: 20px; font-weight: bold; transition: color 0.3s;"></asp:Label>
     <%-- כותרות --%>
             <asp:Label ID="Attraction_Page_Lable" runat="server" Text="דף אטרקציה" CssClass="label-style-navy" style="font-size:60px; position:relative;"></asp:Label>
             <asp:Label ID="Attraction_Name" runat="server" Text="" CssClass="label-style-navy" style="font-size:40px; position:relative;"></asp:Label>

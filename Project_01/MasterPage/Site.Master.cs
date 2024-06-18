@@ -11,11 +11,13 @@ namespace Project_01
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         protected void Menu_Click(object sender, EventArgs e) //sender is which element caused the event
-        { //Both ImageButton and LinkButton implement IButtonControl
+        {
+            Attractions_Display.filterdTableForAttractoinPage = null;
+            //Both ImageButton and LinkButton implement IButtonControl
             Response.Redirect(((IButtonControl)sender).CommandName + ".aspx");
         }
 
@@ -51,6 +53,7 @@ namespace Project_01
                 Session.Clear(); // מחיקת כל הסשנים
 
             }
+            Attractions_Display.filterdTableForAttractoinPage = null;
             Response.Redirect(((IButtonControl)sender).CommandName + ".aspx");
         }
     }

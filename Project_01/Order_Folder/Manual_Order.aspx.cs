@@ -20,10 +20,13 @@ namespace Project_01
         public static int Order_ID; // מקושר או ליצירת הזמנה או לתוצדת הזמנות
         public static string DayDate; // ימחק - ויוחלף ב לייבל נקודה טקסט
         public static ArrayList Days = new ArrayList();
+        public static string s; // שאילתת ימי החופשה
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack) // בפעם הראשונה שנכנס לעמוד
+            if (!Page.IsPostBack) // בפעם הראשונה שנכנס לעמוד
             {
+                MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
+                s = null;
                 Site master = (Site)this.Master; // מאסטר פייג
                 if (((User)Session["User"]).User_Type != "אדמין")//משתמש רשום
                 {
@@ -65,7 +68,7 @@ namespace Project_01
                 {
                     // מערך קוד הימים לפי דאטא סט ימים
 
-                    string s = "Day_ID = "; // מחרוזת קודי ימים
+                    s = "Day_ID = "; // מחרוזת קודי ימים
                     foreach (DataRow row in ds.Tables["Days"].Rows)
                     {
                         int Day = (int)row["Day_ID"];
@@ -97,20 +100,31 @@ namespace Project_01
                             DateTime.Parse(((ArrayList)Session["ManualAttractionSearch"])[1].ToString()).ToString("HH:mm:ss") + "', " + (Session["AttractionID_ForAddingToPath"]).ToString() + " )";
                     Connect.Connect_ExecuteNonQuery(str);
 
-                    //איפוס נתוני הסשנים - להוספה עתידית
-                    Session["AttractionID_ForAddingToPath"] = null;
-                    Session["ManualAttractionSearch_DateTOadd"] = null;
-
                     // עדכון דאטאסט מסלול אטרקציות
                     //החלפת טבלאות לטבלה מסוננת
                     ds.Tables.Remove("Day_Attraction");
-                    DataTable NewDay_Attraction = Connect.Connect_DataTable("SELECT * FROM Day_Attraction WHERE " + Days[DayPlaceInDayArr] + " ORDER BY StartHour ASC", "Day_Attraction");
+                    DataTable NewDay_Attraction = Connect.Connect_DataTable("SELECT * FROM Day_Attraction WHERE " + s + " ORDER BY StartHour ASC", "Day_Attraction");
                     ds.Tables.Add(NewDay_Attraction);
+
+                    DayDate = Session["ManualAttractionSearch_DateTOadd"].ToString();
+                    DayDate_Lable.Text = DayDate; // עדכון תאריך יום לתצוגה
+
+                    //איפוס נתוני הסשנים - להוספה עתידית
+                    Session["AttractionID_ForAddingToPath"] = null;
+                    Session["ManualAttractionSearch_DateTOadd"] = null;
                 }
                 Session["Days_Manual"] = ds;
             }
 
+            //השמת נתונים בתצוגת רשימה
+            DataView view = new DataView(ds.Tables["Day_Attraction"]); //nullעמיד ב 
+            view.Sort = "Day_ID ASC";  // Sort by "Day_ID" column in ascending order
+            AllAttractions.DataSource = view.ToTable();
+            AllAttractions.DataBind();
+
             DisplayFunc();// עדכון תצוגת המסלול
+                DayDate_Lable.Visible = true;
+            
         }
 
         // עדכון תצוגת המסלול
@@ -152,6 +166,7 @@ namespace Project_01
             //הסתרת כותרות שגיאה
             NoResult_Lable.Visible = false;
             NoAttraction_Lable.Visible = false;
+            RemoveAttractionConfirm.Visible = false;
             //מחיקת תוכן טקטסבוקסים
             FromHour_Remove.Text = "";
             ToHour_Remove.Text = "";
@@ -177,6 +192,7 @@ namespace Project_01
             //הסתרת כותרות שגיאה
             NoResult_Lable.Visible = false;
             NoAttraction_Lable.Visible = false;
+            RemoveAttractionConfirm.Visible = false;
             //מחיקת תוכן טקטסבוקסים
             FromHour_Remove.Text = "";
             ToHour_Remove.Text = "";
@@ -264,6 +280,7 @@ namespace Project_01
             //הסתרת כותרות
             NoAttraction_Lable.Visible = false;
             NoResult_Lable.Visible = false; // העלמת כותרת - בשעה זו משובצת כבר אטרקציה
+            RemoveAttractionConfirm.Visible = false;
 
             //וולידיישן
             bool NoTextError = true;//שגיאות וולידישן
@@ -314,6 +331,7 @@ namespace Project_01
             //הסתרת הודעות שגיאה
             NoResult_Lable.Visible = false;
             NoAttraction_Lable.Visible = false;
+            RemoveAttractionConfirm.Visible = false;
 
             //וולידיישן
             bool NoTextError = true;//שגיאות וולידישן
@@ -333,14 +351,7 @@ namespace Project_01
                 string s = "SELECT* FROM Day_Attraction WHERE Day_ID = " + Days[DayPlaceInDayArr].ToString() + " AND (StartHour = #" + FromHour_Remove.Text + "# AND EndHour = #" + ToHour_Remove.Text + "#)";
                 if (Connect.Connect_ExecuteScalar(s) != null)//  אם קיימת אטרציה בין השעות האלה - למחיקה
                 {
-                    Connect.Connect_ExecuteNonQuery("DELETE FROM Day_Attraction WHERE StartHour = #" + FromHour_Remove.Text + "# AND Day_ID = " + Days[DayPlaceInDayArr]); // מחיקת האטרקציה מהיום במסד
-
-                    //תצוגה
-                    //החלפת טבלאות לטבלה לאחר המחיקה
-                    ds.Tables.Remove("Day_Attraction");
-                    DataTable NewDay_Attraction = Connect.Connect_DataTable("SELECT * FROM Day_Attraction WHERE " + Days[DayPlaceInDayArr] + " ORDER BY StartHour ASC", "Day_Attraction");
-                    ds.Tables.Add(NewDay_Attraction);
-                    Response.Redirect("Manual_Order.aspx");// מעבר לאותו עמוד- לרענון התצוגה
+                    RemoveAttractionConfirm.Visible = true;
                 }
                 else
                 {
@@ -354,6 +365,84 @@ namespace Project_01
                 }
             }
                 
+        }
+
+        //אישור מחיקת אטרקציה
+        protected void RemoveAttractionConfirm_Click(object sender, EventArgs e)
+        {
+            //מיקום התאריך במערך בימים
+            int DayPlaceInDayArr = (int)((TimeSpan)(DateTime.ParseExact(DayDate, "yyyy-MM-dd", CultureInfo.InvariantCulture) - DateTime.ParseExact((OrderDs.Tables["Order"].Rows[0])["Order_StartDate"].ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture))).TotalDays;
+            Connect.Connect_ExecuteNonQuery("DELETE FROM Day_Attraction WHERE StartHour = #" + FromHour_Remove.Text + "# AND Day_ID = " + Days[DayPlaceInDayArr]); // מחיקת האטרקציה מהיום במסד
+
+            //תצוגה
+            //החלפת טבלאות לטבלה לאחר המחיקה
+            ds.Tables.Remove("Day_Attraction");
+            DataTable NewDay_Attraction = Connect.Connect_DataTable("SELECT * FROM Day_Attraction WHERE " + Days[DayPlaceInDayArr] + " ORDER BY StartHour ASC", "Day_Attraction");
+            ds.Tables.Add(NewDay_Attraction);
+            Response.Redirect("Manual_Order.aspx");// מעבר לאותו עמוד- לרענון התצוגה
+        }
+
+
+        //תצוגת כל האטרקציות - רשימה
+        protected void AllAttractions_ItemDataBound(object sender, DataListItemEventArgs e)
+        {
+            // Check if the Repeater item is an item or alternating item (not a header/footer)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                foreach (DataRow row in ((DataSet)Session["Days_Manual"]).Tables["Attraction"].Rows)
+                {
+                    if ((int)row["Attraction_ID"] == Convert.ToInt32(((Label)e.Item.FindControl("Attraction_ID")).Text))
+                    {
+                        ((Label)e.Item.FindControl("Attraction_Name")).Text = row["Attraction_Name"].ToString();
+                    }
+                }
+
+                bool DidNotChange = true;
+                foreach (DataRow row in ds.Tables["Days"].Rows)
+                {
+                    if (DidNotChange && (int)row["Day_ID"] == Convert.ToInt32((((Label)e.Item.FindControl("Date")).Text)))
+                    {
+                        ((Label)e.Item.FindControl("Date")).Text = (row["Day_Date"].ToString()).Substring(0,10);
+                        DidNotChange = false;
+                    }
+                }
+            }
+        }
+
+        protected void DisplayWay_Click(object sender, EventArgs e)
+        {
+            //הסתרת הודעות שגיאה
+            NoResult_Lable.Visible = false;
+            NoAttraction_Lable.Visible = false;
+            RemoveAttractionConfirm.Visible = false;
+
+            //מחיקת תוכן טקטסבוקסים
+            FromHour_Remove.Text = "";
+            ToHour_Remove.Text = "";
+            FromHour.Text = "";
+            ToHour.Text = "";
+
+            if (DisplayWay.Text != "כל הימים")//תצוגת כל הימים
+            {
+                DisplayFunc();// עדכון תצוגת המסלול
+                DayDate_Lable.Visible = true;
+                AllDaysDispaly.Style["Display"] = "None";
+                SingleDayDisplay.Style["Display"] = "Block";
+                DisplayWay.Text = "כל הימים";
+            }
+            else
+            {
+                DayDate_Lable.Visible = false;
+                AllDaysDispaly.Style["Display"] = "Block";
+                SingleDayDisplay.Style["Display"] = "None";
+                DisplayWay.Text = "יום יחיד";
+            }
+        }
+
+        protected void User_Edit_Click(object sender, EventArgs e)
+        {
+            Connect.Connect_ExecuteNonQuery("UPDATE Orders SET NotValid = " + true + " WHERE Order_ID = " + Order_ID);
+            Response.Redirect("/User_Folder/UsersOrders.aspx"); // העברה לדף התחברות
         }
     }
 }
