@@ -21,6 +21,7 @@ namespace Project_01
         public static string DayDate; // ימחק - ויוחלף ב לייבל נקודה טקסט
         public static ArrayList Days = new ArrayList();
         public static string s; // שאילתת ימי החופשה
+        public static bool AreChanges = false; // האם התבצעו שינויים בתצוגה - הוספה/מחיקה של אטרקציות
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack) // בפעם הראשונה שנכנס לעמוד
@@ -112,8 +113,14 @@ namespace Project_01
                     //איפוס נתוני הסשנים - להוספה עתידית
                     Session["AttractionID_ForAddingToPath"] = null;
                     Session["ManualAttractionSearch_DateTOadd"] = null;
+                    AreChanges = true;
                 }
                 Session["Days_Manual"] = ds;
+                if (AreChanges) // אם התבצעו שינויים - נוספו נמחקו אטרקציות 
+                {
+                    Response.Write("<script>alert('השינוי התבצע בהצלחה');</script>");
+                    AreChanges = false;
+                }
             }
 
             //השמת נתונים בתצוגת רשימה
@@ -379,6 +386,7 @@ namespace Project_01
             ds.Tables.Remove("Day_Attraction");
             DataTable NewDay_Attraction = Connect.Connect_DataTable("SELECT * FROM Day_Attraction WHERE " + Days[DayPlaceInDayArr] + " ORDER BY StartHour ASC", "Day_Attraction");
             ds.Tables.Add(NewDay_Attraction);
+            AreChanges = true;
             Response.Redirect("Manual_Order.aspx");// מעבר לאותו עמוד- לרענון התצוגה
         }
 

@@ -50,7 +50,7 @@ namespace Project_01
         //פעולת בדיקת קיימות משתמש - שכחתי סיסמה
         public static string UserCheckForgotPassword(string User_Name, string Gmail)
         {
-            return (string)Connect.Connect_ExecuteScalar("select user_name from users WHERE User_IsBlocked = " + false +" AND user_name = '" + User_Name + "' AND User_Gmail = '"+ Gmail+"'");
+            return (string)Connect.Connect_ExecuteScalar("select User_Password from users WHERE User_IsBlocked = " + false +" AND user_name = '" + User_Name + "' AND User_Gmail = '"+ Gmail+"'");
         }
 
         //פעולת התחברות למשתמש

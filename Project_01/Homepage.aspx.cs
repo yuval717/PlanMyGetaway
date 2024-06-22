@@ -60,7 +60,7 @@ namespace Project_01
                     {
                         string User_LastEntrance = ((User)Session["User"]).User_LastEntrance; //((User)Session["User"]).User_LastEntrance;
                         string k = "SELECT TOP 4 * FROM Attraction INNER JOIN AttractionType ON Attraction.Attraction_Type = AttractionType.AttractionType_ID " +
-                   "WHERE Attraction.Attraction_ID <> 67 AND Attraction.Attraction_AddDate BETWEEN DATE() AND #" + User_LastEntrance +
+                   "WHERE Attraction_Valid = "+true + " AND Attraction.Attraction_AddDate BETWEEN DATE() AND #" + User_LastEntrance +
                    "# ORDER BY Attraction.Attraction_AddDate DESC";
                         ds = Connect.Connect_DataSet(k, "LastCreatedAttractions");
 
@@ -184,7 +184,7 @@ namespace Project_01
                     {
                        
                         ds = Connect.Connect_DataSet("SELECT TOP 4 * FROM Attraction INNER JOIN AttractionType ON Attraction.Attraction_Type" +
-                            " = AttractionType.AttractionType_ID ORDER BY Attraction_AddDate DESC", "LastCreatedAttractions");
+                            " = AttractionType.AttractionType_ID WHERE Attraction_Valid = " + true + " ORDER BY Attraction_AddDate DESC", "LastCreatedAttractions");
 
                         Label3.Text = "אטרקציות";
                         Session["LastCreatedAttractions"] = ds;

@@ -16,8 +16,9 @@
     <div style="height:180px"></div>
 
     <%-- הודעת לא נוצרו חופשות --%>
-    <asp:Label ID="NoResult_Lable" runat="server" CssClass="label-style-White-Title" Text="לא נוצרו חופשות" Visible="false" Style=" color:red; font-size:25px; position: absolute; top: 50.2%; right: 45.8%;/* ככל שהמספר גדול יותר זז שמאלה*/"></asp:Label>
+    <asp:Label ID="NoResult_Lable" runat="server" CssClass="label-style-White-Title" Text="לא נוצרו חופשות" Visible="false" Style=" color:red; font-size:25px; position: absolute; top: 30.2%; right: 45.8%;/* ככל שהמספר גדול יותר זז שמאלה*/"></asp:Label>
     <%-- דאטאליסט אטרקציות משתמש+ נתונים ואפשריות --%>
+    <div id="AttractionsDiv" runat="server" style="display:block;">
 <asp:Panel ID="Panel1" runat="server" ScrollBars="Vertical" Height="1030px" Style="overflow-y: auto;">
 <asp:DataList ID="Attractions" runat="server" RepeatDirection="Vertical" CellSpacing="3" OnItemCommand="Attractions_ItemCommand" OnItemDataBound="Attractions_ItemDataBound" CssClass="attractions">
     <ItemTemplate>
@@ -86,6 +87,7 @@
     </ItemTemplate>
 </asp:DataList>
 </asp:Panel>
+        </div>
 
     <%-- רווח --%>
     <div style="height:100px;"></div>

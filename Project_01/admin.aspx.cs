@@ -167,7 +167,8 @@ namespace Project_01
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                string IsBlocked = ((DataSet)Session["Users"]).Tables["Users"].Rows[e.Item.ItemIndex]["User_IsBlocked"].ToString();
+                
+                string IsBlocked = ((Label)e.Item.FindControl("User_IsBlocked")).Text;
                 if (IsBlocked == "False")
                 {
                     ((Label)e.Item.FindControl("User_IsBlocked")).Text = "לא חסום";
@@ -178,9 +179,8 @@ namespace Project_01
                     ((Label)e.Item.FindControl("User_IsBlocked")).Text = "חסום";
                     ((Button)e.Item.FindControl("Is_Blocked")).Text = "UNBLOCK";
                 }
-                DataTable t = ((DataSet)Session["Users"]).Tables["Users"];
-                bool IsAttractionOwner = (bool)(((DataSet)Session["Users"]).Tables["Users"].Rows[e.Item.ItemIndex]["User_IsAttractionOwner"]);
-                if (IsAttractionOwner)
+                string IsAttractionOwner = ((Label)e.Item.FindControl("User_isAttractionOwner")).Text;
+                if (IsAttractionOwner == "True")
                     ((Button)e.Item.FindControl("User_VacationsOrAttractions")).Text = "אטרקציות בבעלות המשתמש";
                 ((Label)e.Item.FindControl("User_LastEntrance")).Text = (((Label)e.Item.FindControl("User_LastEntrance")).Text).Substring(0, 10);
             }
@@ -223,6 +223,7 @@ namespace Project_01
                 }
                 else
                 {
+                    string k = ((Label)e.Item.FindControl("User_Name")).Text;
                     Session["UserOfWatch"] = ((Label)e.Item.FindControl("User_Name")).Text;
                     Response.Redirect("Attraction_Folder/Attraction_Owner.aspx"); // 
                 }
@@ -236,7 +237,7 @@ namespace Project_01
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                string IsBlocked = ((DataTable)Session["Block"]).Rows[e.Item.ItemIndex]["User_IsBlocked"].ToString();
+                string IsBlocked = ((Label)e.Item.FindControl("User_IsBlocked")).Text;
                 if (IsBlocked == "False")
                 {
                     ((Label)e.Item.FindControl("User_IsBlocked")).Text = "לא חסום";
@@ -247,10 +248,8 @@ namespace Project_01
                     ((Label)e.Item.FindControl("User_IsBlocked")).Text = "חסום";
                     ((Button)e.Item.FindControl("Is_Blocked")).Text = "UNBLOCK";
                 }
-                bool IsAttractionOwner = (bool)(((DataSet)Session["Users"]).Tables["Users"].Rows[e.Item.ItemIndex]["User_IsAttractionOwner"]);
-                // לא עובד
-                string s = ((Label)e.Item.FindControl("User_Type")).Text;
-                if (s == "True")
+                string IsAttractionOwner = ((Label)e.Item.FindControl("User_isAttractionOwner")).Text;
+                if (IsAttractionOwner == "True")
                     ((Button)e.Item.FindControl("User_VacationsOrAttractions")).Text = "אטרקציות בבעלות המשתמש";
                 ((Label)e.Item.FindControl("User_LastEntrance")).Text = (((Label)e.Item.FindControl("User_LastEntrance")).Text).Substring(0,10);
                 

@@ -13,10 +13,10 @@ namespace Project_01
 {
     public partial class Attraction_Owner : System.Web.UI.Page
     {
-        DataSet ds = new DataSet();
+        DataSet ds ;
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            ds = new DataSet();
             if (!Page.IsPostBack)
             {
                 MasterPage_UserName.Text = ((User)Session["User"]).User_Name;
@@ -45,15 +45,18 @@ namespace Project_01
                     User_Edit.Visible = false;
                     AddAttraction.Visible = false;
                 }
-
                     //אם נכנס לעמוד כאדמין שצופה במשתמש או כמשתמש
                 string User_Name; 
                 if (Session["UserOfWatch"] != null)
+                {
                     User_Name = Session["UserOfWatch"].ToString();
+                    Session["UserOfWatch"] = null;
+                }
                 else
                     User_Name = ((User)Session["User"]).User_Name;
 
                 //דאטאסט 
+                Session["Attraction_AttOwner"] = null;
                 if (Session["Attraction_AttOwner"] == null)
                 {
                     //דאטאסט ימים אטרקציות של משתמש
@@ -69,6 +72,7 @@ namespace Project_01
                 if (((DataSet)Attractions.DataSource).Tables["Attraction"].Rows.Count == 0) // אם לא נוצרו/נמחקו חופשות
                 {
                     NoResult_Lable.Visible = true; // הודעת אין חופשות
+                    AttractionsDiv.Style["Display"] = "None";
                 }
             }
         }

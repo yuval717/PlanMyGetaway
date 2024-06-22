@@ -146,6 +146,7 @@
     <Compile Include="Attraction_Folder\Attraction_Owner.aspx.designer.cs">
       <DependentUpon>Attraction_Owner.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Services\EmailService.cs" />
     <Compile Include="Order_Folder\AttractionSearch_ManualOrder.aspx.cs">
       <DependentUpon>AttractionSearch_ManualOrder.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

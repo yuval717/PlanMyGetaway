@@ -39,6 +39,7 @@
                         <asp:Label ID="User_LastEntrance" runat="server" Text='<%# Bind("User_LastEntrance") %>'></asp:Label>
                     </td>
                     <td>
+                        <asp:Label ID="User_isAttractionOwner" runat="server" Text='<%# Bind("User_IsAttractionOwner") %>' Visible="false"></asp:Label>
                         <asp:Button ID="User_VacationsOrAttractions" runat="server" Text="חופשות המשתמש" CssClass="block-button" Style="background-color:#b3e0ff;" CommandName="Move"/>
                     </td>
                     <td>
@@ -83,7 +84,7 @@
                         <asp:Label ID="User_LastEntrance" runat="server" Text='<%# Bind("User_LastEntrance") %>'></asp:Label>
                     </td>
                     <td>
-                        <asp:Label ID="User_Type" runat="server" Text='<%# Bind("User_IsAttractionOwner") %>' Visible="false"></asp:Label>
+                        <asp:Label ID="User_isAttractionOwner" runat="server" Text='<%# Bind("User_IsAttractionOwner") %>' Visible="false"></asp:Label>
                         <asp:Button ID="User_VacationsOrAttractions" runat="server" Text="חופשות המשתמש" CssClass="block-button" Style="background-color:#b3e0ff;" CommandName="Move" />
                     </td>
                     <td>

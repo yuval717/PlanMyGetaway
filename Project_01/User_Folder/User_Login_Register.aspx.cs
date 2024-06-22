@@ -277,6 +277,9 @@ namespace Project_01
                         User_Gender.SelectedValue, UserType.SelectedValue);// שמירת פרטי משתמש נוכחי("מחובר") באתר
                     LogedUser = (User)Session["User"];
 
+                    //שליחת אימייל
+                    //EmailService.SendEmail("תודה " + Forgot_UserName.Text + "על התחברותך לאתר. חוייבת בסכום של 100 שקלים", "PlanMyGetAway - הרשמה לאתר", Forgot_Gmail.Text);
+
                     //העברה לדף בית מתאים
                     if (LogedUser.User_Type == "בעל עסק")
                     {
@@ -321,9 +324,11 @@ namespace Project_01
             //אם וולידיישן תקין מבצע את הפעולה
             if (NoTextError)
             {
-                if (UserService.UserCheckForgotPassword(Forgot_UserName.Text, Forgot_Gmail.Text) != null)
+                string Repassword = UserService.UserCheckForgotPassword(Forgot_UserName.Text, Forgot_Gmail.Text);
+                if (Repassword != null)
                 {
                     //שליחת אימייל
+                    //EmailService.SendEmail("שלום " + Forgot_UserName.Text + ", סיסמתך היא:" + Repassword, "PlanMyGetAway - שחזור סיסמה", Forgot_Gmail.Text);
 
                     //מעבר לכניסה
                     Login_div.Style["display"] = "block";
@@ -339,6 +344,7 @@ namespace Project_01
         {
             Login_div.Style["display"] = "none";
             ForgotPassword_Div.Style["display"] = "block";
+
         }
     }
 }

@@ -10,6 +10,8 @@ using System.Web.UI.WebControls;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Web.UI;
+using System.Text.RegularExpressions;
 
 namespace Project_01
 {
@@ -132,8 +134,36 @@ namespace Project_01
             // מחיקת תמונות נוספות מהמסד - אם יש
             foreach (DataRow row in RemovePhotoTable.Rows)
             {
-                Connect.Connect_ExecuteNonQuery("DELETE FROM Photos WHERE מזהה = " + row["מזהה"]); // מחיקת הרחבת נתוני אטרקציית טבע
+                Connect.Connect_ExecuteNonQuery("DELETE FROM Photos WHERE מזהה = " + row["מזהה"]); 
+                //יש בעיה
+                //if (row.RowState != DataRowState.Deleted)
+                //    File.Delete(Server.MapPath(row["filelocation"].ToString()));// מחיקה מהתקייה במחשב
             }
+
+            //שליחת אימייל לכלל המשתמשים ששיבצו את האטרקציה במסלולם
+            //DataTable DaysOfRemoveAttraction = Connect.Connect_DataTable("SELECT Day_ID FROM Day_Attraction WHERE Attraction_ID = " + Attraction_ID, "DaysOfRemoveAttraction");//קודי הימים שמכילים את האטרקציה
+            //string s = "Day_ID = "; // מחרוזת קודי ימים
+            //foreach (DataRow row in DaysOfRemoveAttraction.Rows)
+            //{
+            //    int Day = (int)row["Day_ID"];
+            //    s += Day + " OR Day_ID = ";// הוספה למחרוזת כל סוגי קודי הימים
+            //}
+            //s = s.Substring(0, s.Length - 13);// החסרת " OR Day_ID = "
+            //DataTable OrdersOfRemoveAttraction = Connect.Connect_DataTable("SELECT Order_ID FROM Days WHERE NotValid = " +false+ " AND "+ s, "OrdersOfRemoveAttraction");//קודי הזמנות שמכילים ימים שמכילךים אטרקציות
+            //s = "Order_ID = "; // מחרוזת קודי הזמנות
+            //foreach (DataRow row in OrdersOfRemoveAttraction.Rows)
+            //{
+            //    int Day = (int)row["Order_ID"];
+            //    s += Day + " OR Order_ID = ";// הוספה למחרוזת כל סוגי קודי ההזמנות
+            //}
+            //DataTable UsersOfRemoveAttraction = Connect.Connect_DataTable("SELECT User_Name, User_Gmail FROM Orders WHERE User_IsBlocked = " + false + " AND " + s, "UsersOfRemoveAttraction");//שמות המשתמשים 
+
+            //foreach (DataRow row in UsersOfRemoveAttraction.Rows) // ריצה על המשתמשים
+            //{
+            //    //שליחת אימייל
+            //    EmailService.SendEmail("שלום " + row["User_Name"].ToString() + " האטרקציה" + Connect.Connect_ExecuteScalar("SELECT Attraction_Name fROM Attraction WHERE Attraction_ID = "+ Attraction_ID).ToString() + "עדכנה את פרטיה ושובצה מאחת מחופשותיך", "PlanMyGetAway - עודכנה אטרקציה מסלולכם", row["User_Gmail"].ToString());
+            //}
+
         }
 
         //מחיקת אטרקציה
@@ -141,6 +171,32 @@ namespace Project_01
         {
             //הפיכה ללא ואליד
             Connect.Connect_ExecuteNonQuery("UPDATE Attraction SET Attraction_Valid = " + false + " WHERE Attraction_ID = "+ Attraction_ID);
+
+
+            //שליחת אימייל לכלל המשתמשים ששיבצו את האטרקציה במסלולם
+            //DataTable DaysOfRemoveAttraction = Connect.Connect_DataTable("SELECT Day_ID FROM Day_Attraction WHERE Attraction_ID = " + Attraction_ID, "DaysOfRemoveAttraction");//קודי הימים שמכילים את האטרקציה
+            //string s = "Day_ID = "; // מחרוזת קודי ימים
+            //foreach (DataRow row in DaysOfRemoveAttraction.Rows)
+            //{
+            //    int Day = (int)row["Day_ID"];
+            //    s += Day + " OR Day_ID = ";// הוספה למחרוזת כל סוגי קודי הימים
+            //}
+            //s = s.Substring(0, s.Length - 13);// החסרת " OR Day_ID = "
+            //DataTable OrdersOfRemoveAttraction = Connect.Connect_DataTable("SELECT Order_ID FROM Days WHERE NotValid = " +false+ " AND "+ s, "OrdersOfRemoveAttraction");//קודי הזמנות שמכילים ימים שמכילךים אטרקציות
+            //s = "Order_ID = "; // מחרוזת קודי הזמנות
+            //foreach (DataRow row in OrdersOfRemoveAttraction.Rows)
+            //{
+            //    int Day = (int)row["Order_ID"];
+            //    s += Day + " OR Order_ID = ";// הוספה למחרוזת כל סוגי קודי ההזמנות
+            //}
+            //DataTable UsersOfRemoveAttraction = Connect.Connect_DataTable("SELECT User_Name, User_Gmail FROM Orders WHERE User_IsBlocked = " + false + " AND " + s, "UsersOfRemoveAttraction");//שמות המשתמשים 
+
+            //foreach (DataRow row in UsersOfRemoveAttraction.Rows) // ריצה על המשתמשים
+            //{
+            //    //שליחת אימייל
+            //    EmailService.SendEmail("שלום " + row["User_Name"].ToString() + "לצערנו האטרקציה" + Connect.Connect_ExecuteScalar("SELECT Attraction_Name fROM Attraction WHERE Attraction_ID = "+ Attraction_ID).ToString() + "הוסרה מהאתר ושובצה מאחת מחופשותיך, עמכם הסליחה", "PlanMyGetAway - הוסרה אטרקציה מסלולכם", row["User_Gmail"].ToString());
+            //}
+
 
             //הסרת האטרקציה מהמסלולים
             // Day_Attraction הסרת האטרקצית מטבלת 
@@ -161,8 +217,18 @@ namespace Project_01
             DataTable AllAttractionsPhotosInPhotosTable = Connect.Connect_DataTable("Select * from Photos WHERE Attraction_ID = " + Attraction_ID, "PhotosToRemove");
             foreach (DataRow row in AllAttractionsPhotosInPhotosTable.Rows)
             {
-                Connect.Connect_ExecuteNonQuery("DELETE FROM Photos WHERE Attraction_ID = " + row["Attraction_ID"]); // מחיקת הרחבת נתוני אטרקציית טבע
+                Connect.Connect_ExecuteNonQuery("DELETE FROM Photos WHERE Attraction_ID = " + row["Attraction_ID"]);
+                //יש בעיה
+                //if (row.RowState != DataRowState.Deleted)
+                //    File.Delete(Server.MapPath(row["filelocation"].ToString()));// מחיקה מהתקייה במחשב
             }
+
+
+            //עדכון המסלול 
+            // לאחר שהאטרקציה נמחקה סידור מחדש של המסלול האופטימלי של האטרקציות *כולן* - לפי קרבה לארטקציות אחרות
+            List<Attraction> attractions = GetAttractionsFromDataBase(); // שליפת כל האטרקציות ממסד הנתונים
+            attractions = FindEfficientPath(attractions); // סידור האטרקציות
+            UpdatePathToDataBase(attractions); // עדכון במסד
         }
 
         // יוצר עצם מסוג אטרקציה המכיל נתונים ממסד הנתונים - מקבל שאילת - מחזיר את העצם
@@ -288,7 +354,7 @@ namespace Project_01
             List<Attraction> attractions = new List<Attraction>();
             OleDbConnection Conn = new OleDbConnection();
             Conn.ConnectionString = Connect.GetConnectionString();
-            OleDbCommand command = new OleDbCommand("SELECT * FROM Attraction where Attraction_ID <> 67", Conn);
+            OleDbCommand command = new OleDbCommand("SELECT * FROM Attraction WHERE Attraction_Valid = "+ true, Conn);
             Conn.Open();
             OleDbDataReader reader = command.ExecuteReader();
             while (reader.Read())
